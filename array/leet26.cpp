@@ -14,16 +14,17 @@
 
 int removeDuplicates(vector<int> nums)
 {
-	if(nums.size() <= 1) 
-		return nums.size();
+	
+    if(nums.size() <= 1) 
+        return nums.size();
 
-	int j=0;
-	for(int i=1; i<nums.size(); ++i)
-	{
-		//重复元素跳过
-		if(nums[j] == nums[i])
-			continue;
-		A[++j] = A[i];
-	}
-	return j+1;
+    int j=0;
+    for(int i=1; i<nums.size(); ++i)
+    {
+        //重复元素跳过
+        if(nums[j] == nums[i])
+            continue;
+        A[++j] = A[i];
+    }
+    return j+1;
 }
