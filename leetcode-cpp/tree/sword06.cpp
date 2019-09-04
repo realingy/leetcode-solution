@@ -16,4 +16,3 @@ BinaryTreeNode * Construct(int *preorder, int * inorder, int length)
 
 
 
-
