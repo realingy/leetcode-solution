@@ -36,6 +36,7 @@ void strPermutation(char *str)
     helper(str, str);
 }
 
+#if 0
 int main(void)
 {
     char str[4] = "abc";
@@ -43,3 +44,4 @@ int main(void)
 
     return 0;
 }
+#endif

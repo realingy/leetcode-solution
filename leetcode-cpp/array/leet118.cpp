@@ -9,7 +9,8 @@
 //Pascal's Triangle
 //
 
-#include <vector>
+#if 0
+#include "header.h"
 
 vector<vector<int>> pascal(int row)
 {
@@ -30,4 +31,5 @@ vector<vector<int>> pascal(int row)
 
     return ret;
 }
+#endif
 

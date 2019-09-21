@@ -1,8 +1,8 @@
+#if 0
 //哈希表
-#include <iostream>
-#include <vector>
 #include <map>
-using namespace std;
+#include "header.h"
+
 
 vector<int> & unique(vector<int> &nums)
 {
@@ -88,3 +88,5 @@ int main()
     }
 #endif
 }
+
+#endif

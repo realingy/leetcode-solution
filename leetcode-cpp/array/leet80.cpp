@@ -11,6 +11,8 @@
 //input: 1->2->2->2->3->3->4->5
 //output: 1->2->2->3->3->4->5
 //return: 7
+#if 0
+#include "header.h"
 
 int removeDuplicates(vector<int> nums)
 {
@@ -37,3 +39,4 @@ int removeDuplicates(vector<int> nums)
 	}
 	return j+1;
 }
+#endif

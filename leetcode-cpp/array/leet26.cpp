@@ -12,9 +12,11 @@
 //output: 1->2->3->4->5
 //return: 5
 
+#if 0
+#include "header.h"
+
 int removeDuplicates(vector<int> nums)
 {
-	
     if(nums.size() <= 1) 
         return nums.size();
 
@@ -28,3 +30,4 @@ int removeDuplicates(vector<int> nums)
     }
     return j+1;
 }
+#endif

@@ -29,7 +29,3 @@ bool FindNumber(int *array, int row, int column, int target)
     return ret;
 }
 
-int main()
-{
-
-}
