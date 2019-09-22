@@ -18,5 +18,17 @@ public:
         }
         return res;
     }
+
+	vector<int> twoSum2(vector<int>& nums, int target) {
+		unordered_map<int, int> m;
+		for (int i = 0; i < nums.size(); ++i) {
+			if (m.count(target - nums[i])) {
+				return { i, m[target - nums[i]] };
+			}
+			m[nums[i]] = i;
+		}
+		return {};
+	}
+
 };
 
