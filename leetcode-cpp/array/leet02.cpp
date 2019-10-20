@@ -1,4 +1,4 @@
-#include "header.h"
+#include <iostream>
 
 struct ListNode
 {
@@ -29,3 +29,27 @@ public:
         return res->next;
     }
 };
+
+#if 0
+int main()
+{
+	Solution S;
+
+	//2. add two sum
+	ListNode *l1 = new ListNode(2);
+	l1->next = new ListNode(4);
+	l1->next->next = new ListNode(3);
+
+	ListNode *l2 = new ListNode(5);
+	l2->next = new ListNode(6);
+	l2->next->next = new ListNode(4);
+
+	ListNode *list = S.addTwoNumbers(l1, l2);
+	while (list) {
+		std::cout << list->val << " ";
+		list = list->next;
+	}
+
+	return 0;
+}
+#endif
