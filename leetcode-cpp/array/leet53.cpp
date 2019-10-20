@@ -1,6 +1,8 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include "switch.h"
+
 using namespace std;
 
 class Solution {
@@ -21,7 +23,7 @@ public:
 	//·ÖÖÎ·¨
 };
 
-#if 1
+#ifdef S53
 int main()
 {
 	Solution S;

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "switch.h"
 
 struct ListNode
 {
@@ -30,7 +31,7 @@ public:
     }
 };
 
-#if 0
+#ifdef S02
 int main()
 {
 	Solution S;
