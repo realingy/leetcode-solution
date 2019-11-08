@@ -6,6 +6,8 @@
  * @date 2019年05月17日 09时45分35秒
  */
 
+#include <iostream>
+
 //替换空格
 void ReplaceBlank(char string[], int len)
 {
@@ -34,9 +36,11 @@ void ReplaceBlank(char string[], int len)
     int indexOfNew = newLength;
 }
 
+#ifdef S004
 int main()
 {
 
     return 0;
 }
+#endif
 
