@@ -15,15 +15,17 @@ public:
 	{
 		// 先删除a,可以利用原来字符串的空间
 		int n = 0, numb = 0;
-		for (int i = 0; s[i] != '\0'; ++i)
-		// for (int i = 0; i < s.size(); ++i)
+		int len = s.size();
+		// for (int i = 0; s[i] != '\0'; ++i)
+		for (int i = 0; i < len; ++i)
 		{
 			if (s[i] != 'a') { 
 				s[n++] = s[i];
 			}
 			if (s[i] == 'b') { ++numb; }
 		}
-		s[n] = '\0';
+		for(int i = n; i < len; i++)
+			s[i] = '\0';
 
 		// 复制b，采用从后向前的处理顺序
 		int newLen = n + numb;
@@ -42,7 +44,7 @@ public:
 int main()
 {
 	Solution S;
-	string str = "abcdabcdabcd";
+	string str = "abcdabcdabcdab";
 	S.strReplaceCopy(str);
 	std::cout << "new string after replace and copy is:" << str << std::endl;
 
