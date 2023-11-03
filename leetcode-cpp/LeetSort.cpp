@@ -513,4 +513,243 @@ std::vector<int> LeetSort::sortArrayByParityII(std::vector<int>& nums) {
   return nums;
 }
 
+// leetcode976 最大周长
+int LeetSort::largestPerimeter(std::vector<int>& nums) {
+  // resolve 20231103
+  // 排序，只需要判断相邻的三个数能不能组成三角形就可以了
+  int n = (int)nums.size();
+  sort(nums.begin(), nums.end());
+  int i = n - 1;
+  while (i >= 2) {
+    if (nums[i] < nums[i - 1] + nums[i - 2])
+      return nums[i] + nums[i - 1] + nums[i - 2];
+    i--;
+  }
+  return 0;
+}
+
+// leetcode977 有序数组的平方
+std::vector<int> LeetSort::sortedSquares(std::vector<int>& nums) {
+  // resolve 20231103
+  // 双指针
+  int n = (int)nums.size();
+  std::vector<int> res;
+  res.resize(n);
+  int i = 0;
+  int j = n - 1;
+  int idx = n - 1;
+
+  while (i <= j) {
+    int n1 = nums[i];
+    int n2 = nums[j];
+    if (n1 * n1 > n2 * n2) {
+      res[idx--] = n1 * n1;
+      i++;
+    } else {
+      res[idx--] = n2 * n2;
+      j--;
+    }
+  }
+
+  return res;
+}
+
+// leetcode1005 K次取反后最大化的数组和
+int LeetSort::largestSumAfterKNegations(std::vector<int>& nums, int k) {
+  int res = 0;
+  int n = (int)nums.size();
+  sort(nums.begin(), nums.end());
+  while (k > 0) {
+    nums[0] *= -1;
+    sort(nums.begin(), nums.end());
+    k--;
+  }
+
+  for (int n : nums) {
+    res += n;
+  }
+
+  return res;
+}
+
+std::vector<std::vector<int>> allCellsDistOrder(int rows, int cols, int rCenter,
+                                                int cCenter) {
+  // error 20231103
+  // 错误解法，存在重复元素
+  std::unordered_map<int, int> map;
+  std::vector<int> distances;
+  std::vector<std::vector<int>> pts;
+  int index = 0;
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      int dis = std::abs(rCenter - i) + std::abs(cCenter - j);
+      map[index++] = dis;
+      distances.emplace_back(dis);
+      std::vector<int> pt = {i, j};
+      pts.emplace_back(pt);
+    }
+  }
+
+  std::vector<std::vector<int>> res;
+  sort(distances.begin(), distances.end());
+  for (int d : distances) {
+    for (std::pair<int, int> k : map) {
+      int dis = k.second;
+      if (d == dis) {
+        res.emplace_back(pts[k.first]);
+      }
+    }
+  }
+  return res;
+}
+
+// leetcode1051 高度检查器
+int LeetSort::heightChecker(std::vector<int>& heights) {
+  // resolve 20231103
+  // 简单题
+  int res = 0;
+  std::vector<int> org;
+  for (int h : heights) {
+    org.emplace_back(h);
+  }
+
+  sort(heights.begin(), heights.end());
+
+  int n = heights.size();
+  for (int i = 0; i < n; i++) {
+    if (heights[i] != org[i]) res++;
+  }
+
+  return res;
+}
+
+// leetcode1122 数组的相对排序
+std::vector<int> LeetSort::relativeSortArray(std::vector<int>& arr1,
+                                             std::vector<int>& arr2) {
+  // resolve 20231103
+  // 哈希表+排序
+  sort(arr1.begin(), arr1.end());
+  std::vector<int> res;
+  std::unordered_map<int, int> count;
+  for (int n : arr1) {
+    count[n]++;
+  }
+
+  for (int n : arr2) {
+    if (count[n]) {
+      int c = count[n];
+      for (int i = 0; i < c; i++) {
+        res.emplace_back(n);
+      }
+      count[n] = 0;
+    }
+  }
+
+  for (int n : arr1) {
+    if (count[n]) {
+      res.emplace_back(n);
+    }
+  }
+
+  return res;
+}
+
+// leetcode1200 最小绝对差
+std::vector<std::vector<int>> LeetSort::minimumAbsDifference(
+    std::vector<int>& arr) {
+  // resolve 20231103
+  // 排序
+  std::vector<std::vector<int>> res;
+  sort(arr.begin(), arr.end());
+  int n = (int)arr.size();
+  int diff_min = INT_MAX;
+  for (int i = 1; i < n; i++) {
+    if (arr[i] - arr[i - 1] < diff_min) {
+      diff_min = arr[i] - arr[i - 1];
+    }
+  }
+
+  for (int i = 1; i < n; i++) {
+    if (arr[i] - arr[i - 1] == diff_min) {
+      std::vector<int> cur;
+      cur.emplace_back(arr[i - 1]);
+      cur.emplace_back(arr[i]);
+      res.emplace_back(cur);
+    }
+  }
+
+  return res;
+}
+
+// leetcode1331 数组序号转换
+std::vector<int> LeetSort::arrayRankTransform(std::vector<int>& arr) {
+  // resolve 20231103
+  // 排序+哈希
+  std::vector<int> res;
+  if (!arr.size()) return res;
+
+  std::vector<int> org;
+  for (int n : arr) {
+    org.emplace_back(n);
+  }
+
+  sort(arr.begin(), arr.end());
+  std::unordered_map<int, int> index;
+  int idx = 1;
+  int cur = arr[0];
+  for (int n : arr) {
+    if (n > cur) {
+      idx++;
+      cur = n;
+    }
+    index[n] = idx;
+  }
+
+  for (std::pair<int, int> k : index) {
+    std::cout << k.first << " " << k.second << "\n";
+  }
+
+  for (int n : org) {
+    res.emplace_back(index[n]);
+  }
+
+  return res;
+}
+
+// leetcode1337 矩阵中战斗力最弱的 K 行
+std::vector<int> LeetSort::kWeakestRows(std::vector<std::vector<int>>& mat,
+                                        int k) {
+  // resolve 20231103
+  // 排序+哈希
+  std::vector<int> powers;
+  std::vector<int> sortpowers;
+  std::unordered_map<int, int> map;
+  int idx = 0;
+  for (std::vector<int> m : mat) {
+    int sum = 0;
+    for (int n : m) {
+      sum += n;
+    }
+    powers.emplace_back(sum);
+    sortpowers.emplace_back(sum);
+    map[idx++] = sum;
+  }
+
+  sort(sortpowers.begin(), sortpowers.end());
+
+  std::vector<int> res;
+  for (int i = 0; i < k; i++) {
+    int power = sortpowers[i];
+    for (int j = 0; j < mat.size(); j++) {
+      if (map[j] == power) {
+        res.emplace_back(j);
+        if (k == res.size()) return res;
+        map[j] = -1;
+      }
+    }
+  }
+
+  return res;
+}
+
 }  // namespace myleet
