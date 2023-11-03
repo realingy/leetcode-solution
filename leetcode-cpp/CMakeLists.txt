@@ -20,6 +20,8 @@ set(EXENAME Leetcode)
 add_executable(${EXENAME} 
     LeetString.cpp 
     LeetString.h 
+    LeetSort.cpp 
+    LeetSort.h 
     main.cpp
 )
 
