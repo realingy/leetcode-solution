@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace myleet {
+
 class LeetString {
  public:
   LeetString() {}

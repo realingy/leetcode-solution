@@ -449,12 +449,68 @@ std::vector<int> LeetSort::sortArrayByParity(std::vector<int>& nums) {
   return res;
 #else
   // resolve 20231103
-  // 创建辅助数组放奇数
+  // 双指针
   int n = (int)nums.size();
   int i = 0;
   int j = n - 1;
 
+  while (i < j) {
+    // 左边找奇数
+    while (i < j && !(nums[i] % 2)) {
+      i++;
+    }
+    // 右边找偶数
+    while (i < j && (nums[j] % 2)) {
+      j--;
+    }
+
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+    i++;
+    j--;
+  }
+
+  return nums;
 #endif
+}
+
+std::vector<int> LeetSort::sortArrayByParityII(std::vector<int>& nums) {
+  // resolve 20231103
+  // 双指针
+  int n = (int)nums.size();
+  int i = 0;
+
+  while (i < n) {
+    if ((i % 2) && !(nums[i] % 2)) {
+      // 找奇数
+      int j = i + 1;
+      while (j < n) {
+        if (nums[j] % 2) {
+          int temp = nums[i];
+          nums[i] = nums[j];
+          nums[j] = temp;
+          break;
+        }
+        j++;
+      }
+    } else if (!(i % 2) && (nums[i] % 2)) {
+      // 往后找偶数
+      int j = i + 1;
+      while (j < n) {
+        if (!(nums[j] % 2)) {
+          int temp = nums[i];
+          nums[i] = nums[j];
+          nums[j] = temp;
+          break;
+        }
+        j++;
+      }
+    }
+    i++;
+  }
+
+  return nums;
 }
 
 }  // namespace myleet

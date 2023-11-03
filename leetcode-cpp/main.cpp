@@ -176,9 +176,15 @@ void ProcessSort() {
     std::cout << "\n";
   }
 
-  if (1) {
+  if (0) {
     std::vector<int> nums = {1, 3, 5, 7, 9};
     int res = LeetSort::findLHS(nums);
     std::cout << "res: " << res << "\n";
+  }
+
+  if (1) {
+    std::vector<int> nums = {2, 3, 1, 4};
+    std::vector<int> res = LeetSort::sortArrayByParityII(nums);
+    std::cout << "res: " << res.size() << "\n";
   }
 }

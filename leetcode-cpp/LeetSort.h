@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace myleet {
+
 class LeetSort {
  public:
   LeetSort() {}
@@ -52,6 +53,8 @@ class LeetSort {
                                         std::vector<int>& bobSizes);
   // leetcode905 按奇偶数重新排列
   static std::vector<int> sortArrayByParity(std::vector<int>& nums);
+  // leetcode922 按奇偶数重新排列2
+  static std::vector<int> sortArrayByParityII(std::vector<int>& nums);
 };
 
 }  // namespace myleet
