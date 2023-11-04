@@ -22,6 +22,8 @@ add_executable(${EXENAME}
     LeetString.h 
     LeetSort.cpp 
     LeetSort.h 
+    LeetDP.cpp 
+    LeetDP.h 
     main.cpp
 )
 
