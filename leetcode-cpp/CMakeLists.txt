@@ -24,7 +24,10 @@ add_executable(${EXENAME}
     LeetSort.h 
     LeetDP.cpp 
     LeetDP.h 
+    LeetHash.cpp 
+    LeetHash.h 
     main.cpp
+    data.h
 )
 
 target_link_libraries (${EXENAME} ${OPENCV401_LIBRARIES})

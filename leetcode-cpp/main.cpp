@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+#include "LeetHash.h"
 #include "LeetSort.h"
 #include "LeetString.h"
 
@@ -8,13 +9,15 @@ using namespace myleet;
 
 void ProcessString();
 void ProcessSort();
+void ProcessHash();
 
 int main() {
   std::cout << "type: " << std::endl;
   std::cout << "index: " << std::endl;
 
   // ProcessString();
-  ProcessSort();
+  // ProcessSort();
+  ProcessHash();
 
   return 0;
 }
@@ -188,8 +191,23 @@ void ProcessSort() {
     std::cout << "res: " << res.size() << "\n";
   }
 
-  if (1) {
+  if (0) {
     std::vector<int> arr = {37, 12, 28, 9, 100, 56, 80, 5, 12};
     std::vector<int> res = LeetSort::arrayRankTransform(arr);
+  }
+}
+
+// LeetHash 哈希操作
+void ProcessHash() {
+  if (0) {
+    // leetcode448 找到所有数组中消失的数字
+    std::vector<int> arr = {4, 3, 2, 7, 8, 2, 3, 1};
+    std::vector<int> res = LeetHash::findDisappearedNumbers(arr);
+  }
+
+  if (1) {
+    std::vector<int> nums1 = {2, 4};
+    std::vector<int> nums2 = {1, 2, 3, 4};
+    std::vector<int> res = LeetHash::nextGreaterElement(nums1, nums2);
   }
 }

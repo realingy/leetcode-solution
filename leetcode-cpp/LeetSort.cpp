@@ -300,6 +300,7 @@ int LeetSort::arrayPairSum(std::vector<int>& nums) {
   return res;
 }
 
+// leetcode594 最长和谐子序列
 int LeetSort::findLHS(std::vector<int>& nums) {
   // resolve 20231103
   // 哈希表
@@ -391,7 +392,7 @@ std::vector<int> LeetSort::fairCandySwap(std::vector<int>& aliceSizes,
 
   return res;
 #else
-  // ans
+  // ans 20231103
   // 排序+双指针
   std::vector<int> res;
   long long count1 = 0;

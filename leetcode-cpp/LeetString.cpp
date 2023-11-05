@@ -198,7 +198,7 @@ std::string LeetString::reverseVowels(std::string s) {
 
 // leetcode409 最长回文长度
 int LeetString::longestPalindrome(std::string s) {
-  // 答案
+  // ans 20231031
   int count[128] = {0};
   int length = s.size();
   for (int i = 0; i < length; ++i) {
@@ -213,6 +213,7 @@ int LeetString::longestPalindrome(std::string s) {
     // std::cout << "xxx: " << c << std::endl;
     // }
     len += 2 * (c / 2);
+    // 没有单独字母的最长回文的长度肯定是复数,遇到第一个单独字母且回文长度为偶数把这个单独字母放进去，之后不再加单独字母
     if ((c % 2) && !(len % 2)) len++;
   }
 
@@ -344,7 +345,7 @@ std::string LeetString::licenseKeyFormatting(std::string s, int k) {
 // leetcode500 键盘行
 std::vector<std::string> LeetString::findWords(
     std::vector<std::string> &words) {
-  // 自己完成
+  // resolve 20231101
   std::string charType = "12210111011122000010020202";
   std::vector<std::string> ans;
 
@@ -738,6 +739,7 @@ std::string LeetString::shortestCompletingWord(
   return words[idx];
 }
 
+// leetcode771 宝石数量
 int LeetString::numJewelsInStones(std::string jewels, std::string stones) {
   // resolve 20231102
   int res = 0;
@@ -792,8 +794,11 @@ bool LeetString::rotateString(std::string s, std::string goal) {
   return (-1 != doublegoal.find(s));
 }
 
+// leetcode804 唯一摩斯密码
 int LeetString::uniqueMorseRepresentations(std::vector<std::string> &words) {
   // resolve 20231102
+  // 简单题
+  // 哈希表，每一个单词转换成摩斯码串，然后用哈希表记录出现次数
   int res = 0;
   std::vector<std::string> morse_label = {
       ".-",   "-...", "-.-.", "-..",  ".",   "..-.", "--.",  "....", "..",
