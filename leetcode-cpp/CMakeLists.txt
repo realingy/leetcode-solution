@@ -28,6 +28,8 @@ add_executable(${EXENAME}
     LeetHash.h 
     LeetBTree.cpp 
     LeetBTree.h 
+    LeetDFS.cpp 
+    LeetDFS.h 
     main.cpp
     data.h
 )
