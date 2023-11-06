@@ -5,6 +5,20 @@
 
 namespace myleet {
 
+int LeetDP::baseDP(std::vector<int> nums) {
+  // 动态规划基本思想: 相邻的数据不能连续选，最后得到最大的和(可以跳过多个)
+  int n = (int)nums.size();
+  std::vector<int> dp(n);
+
+  dp[0] = nums[0];
+  dp[1] = std::max(nums[0], nums[1]);
+  for (int i = 2; i < n; ++i) {
+    dp[i] = std::max(nums[i] + dp[i - 2], dp[i - 1]);
+  }
+
+  return dp[n - 1];
+}
+
 int LeetDP::climbStairs(int n) {
   // review 20231103
   // 动态规划，斐波那契
@@ -182,7 +196,7 @@ int LeetDP::tribonacci(int n) {
 // nums[1] = 1
 // 当 2 <= 2 * i <= n 时，nums[2 * i] = nums[i]
 // 当 2 <= 2 * i + 1 <= n 时，nums[2 * i + 1] = nums[i] + nums[i + 1]
-int getMaximumGenerated(int n) {
+int LeetDP::getMaximumGenerated(int n) {
   int res = INT_MIN;
   if (0 == n) return 0;
   if (1 == n) return 1;
@@ -204,6 +218,21 @@ int getMaximumGenerated(int n) {
   }
 
   return res;
+}
+
+// LCP07 传递信息
+int LeetDP::numWays(int n, std::vector<std::vector<int>>& relation, int k) {
+  // ans 20231105
+  // DP
+  std::vector<std::vector<int>> dp(k + 1, std::vector<int>(n));
+  dp[0][0] = 1;
+  for (int i = 0; i < k; i++) {
+    for (auto& edge : relation) {
+      int src = edge[0], dst = edge[1];
+      dp[i + 1][dst] += dp[i][src];
+    }
+  }
+  return dp[k][n - 1];
 }
 
 }  // namespace myleet

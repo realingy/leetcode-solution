@@ -26,6 +26,8 @@ add_executable(${EXENAME}
     LeetDP.h 
     LeetHash.cpp 
     LeetHash.h 
+    LeetBTree.cpp 
+    LeetBTree.h 
     main.cpp
     data.h
 )
