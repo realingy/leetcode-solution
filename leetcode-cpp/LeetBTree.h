@@ -40,6 +40,12 @@ class LeetBTree {
   std::vector<int> findMode(TreeNode* root);
   // leetcode530 二叉搜索树最小绝对差值
   int getMinimumDifference(TreeNode* root);
+  // leetcode543 二叉树的直径
+  int diameterOfBinaryTree(TreeNode* root);
+  // leetcode124 二叉树的最大路径和
+  int maxPathSum(TreeNode* root);
+  // leetcode687 最长同值路径
+  int longestUnivaluePath(TreeNode* root);
 };
 
 }  // namespace myleet

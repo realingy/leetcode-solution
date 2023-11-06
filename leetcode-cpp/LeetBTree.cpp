@@ -188,9 +188,84 @@ void dfs530(TreeNode* root, std::vector<int>& nums) {
 
 // leetcode530 二叉搜索树最小绝对差值
 int LeetBTree::getMinimumDifference(TreeNode* root) {
+  // resolve 20231106
+  // 中序遍历+全局记录最小差值
   std::vector<int> nums;
   dfs530(root, nums);
   return cut_min530;
+}
+
+int max543 = 0;
+int dfs543(TreeNode* root) {
+  if (!root->left && !root->right) {
+    return 0;
+  }
+
+  int left = !root->left ? 0 : 1 + dfs543(root->left);
+  int right = !root->right ? 0 : 1 + dfs543(root->right);
+
+  max543 = std::max(max543, left + right);
+  return std::max(left, right);
+}
+
+// leetcode543 二叉树的直径
+int LeetBTree::diameterOfBinaryTree(TreeNode* root) {
+  // resolve 20231106
+  // 回溯 dfs 全局记录最大值
+  if (!root) return 0;
+  dfs543(root);
+  return max543;
+}
+
+int max124 = INT_MIN;
+int dfs124(TreeNode* root) {
+  if (!root) {
+    return 0;
+  }
+
+  int left = std::max(0, dfs124(root->left));
+  int right = std::max(0, dfs124(root->right));
+
+  max124 = std::max(max124, left + right + root->val);
+  return std::max(left, right) + root->val;
+}
+
+// leetcode124 二叉树的最大路径和
+int LeetBTree::maxPathSum(TreeNode* root) {
+  // resolve 20231106
+  // 回溯 dfs 全局记录最大值
+  if (!root) return 0;
+  dfs124(root);
+  return max124;
+}
+
+int max687 = 0;
+int dfs687(TreeNode* root) {
+  if (!root->left && !root->right) {
+    return 0;
+  }
+
+  int left = !root->left ? 0 : 1 + dfs687(root->left);
+  int right = !root->right ? 0 : 1 + dfs687(root->right);
+
+  if (left > 0 && root->left->val != root->val) {
+    left = 0;
+  }
+  if (right > 0 && root->right->val != root->val) {
+    right = 0;
+  }
+
+  max687 = std::max(max687, left + right);
+  return std::max(left, right);
+}
+
+// leetcode687 最长同值路径
+int LeetBTree::longestUnivaluePath(TreeNode* root) {
+  // resolve 20231106
+  // 回溯 dfs 全局记录最大值并判断同值
+  if (!root) return 0;
+  dfs687(root);
+  return max687;
 }
 
 }  // namespace myleet
