@@ -991,4 +991,147 @@ std::string LeetString::toGoatLatin(std::string sentence) {
   return res;
 }
 
+// leetcode830 较大分组的位置
+std::vector<std::vector<int>> LeetString::largeGroupPositions(std::string s) {
+  // resolve 20231107
+  // 一次遍历
+  std::vector<std::vector<int>> res;
+  if (s.size() < 3) return res;
+  int i = 0;
+  int j = 1;
+  int len = (int)s.size();
+  while (i < len - 1 && j < len - 1) {
+    std::vector<int> cur(2);
+    while (s[i] == s[j]) {
+      j++;
+    }
+    cur[0] = i;
+    cur[1] = j - 1;
+    if (j - i >= 3) {
+      res.emplace_back(cur);
+    }
+    i = j;
+    j++;
+  }
+  return res;
+}
+
+// leetcode844 比较含退格的字符串
+bool LeetString::backspaceCompare(std::string s, std::string t) {
+#if 0
+  // resolve 20231107
+  // 栈+一次遍历
+  std::vector<char> stack1;
+  std::vector<char> stack2;
+  for (char ch : s) {
+    if ('#' == ch) {
+      if (!stack1.empty()) {
+        stack1.pop_back();
+      }
+    } else {
+      stack1.emplace_back(ch);
+    }
+  }
+
+  for (char ch : t) {
+    if ('#' == ch) {
+      if (!stack2.empty()) {
+        stack2.pop_back();
+      }
+    } else {
+      stack2.emplace_back(ch);
+    }
+  }
+
+  if (stack1.size() != stack2.size()) return false;
+
+  for (int i = 0; i < stack1.size(); i++) {
+    if (stack1[i] != stack2[i]) return false;
+  }
+
+  return true;
+#else
+  // resolve 20231107
+  // 从后向前一次遍历，不引入辅助空间，即空间复杂度O(1)
+  int i = s.size() - 1;
+  int j = t.size() - 1;
+
+  int back_count1 = 0;
+  int back_count2 = 0;
+  while (i >= 0 || j >= 0) {
+    while (i >= 0) {
+      if ('#' == s[i]) {
+        ++back_count1;
+        --i;
+      } else if (back_count1 > 0) {
+        --back_count1;
+        --i;
+      } else if (0 == back_count1) {
+        break;
+      }
+    }
+
+    while (j >= 0) {
+      if ('#' == t[j]) {
+        ++back_count2;
+        --j;
+      } else if (back_count2 > 0) {
+        --back_count2;
+        --j;
+      } else if (0 == back_count2) {
+        break;
+      }
+    }
+
+    if (i >= 0 && j >= 0) {
+      if (s[i] != t[j]) return false;
+    } else if (i >= 0 || j >= 0) {
+      return false;
+    }
+    --i;
+    --j;
+  }
+
+  return true;
+#endif
+}
+
+bool isLetter(char a) {
+  if (a >= 'a' && a <= 'z' || a >= 'A' && a <= 'Z') return true;
+  return false;
+}
+
+std::string reverseOnlyLetters(std::string s) {
+  // resolve 20231107
+  // 双指针
+  int i = 0;
+  int j = s.size() - 1;
+
+  while (i < j) {
+    while (!isalpha(s[i])) {
+      i++;
+      if (i >= j) {
+        return s;
+      }
+    }
+    while (!isalpha(s[j])) {
+      j--;
+      if (i >= j) {
+        return s;
+      }
+    }
+    char tmp = s[i];
+    s[i] = s[j];
+    s[j] = tmp;
+
+    if (i >= j) {
+      return s;
+    }
+    i++;
+    j--;
+  }
+
+  return s;
+}
+
 }  // namespace myleet

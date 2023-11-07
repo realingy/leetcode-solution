@@ -80,6 +80,10 @@ class LeetString {
   static std::vector<int> shortestToChar(std::string s, char c);
   // leetcode824 山羊拉丁文
   static std::string toGoatLatin(std::string sentence);
+  // leetcode830 较大分组的位置
+  static std::vector<std::vector<int>> largeGroupPositions(std::string s);
+  // leetcode844 比较含退格的字符串
+  bool backspaceCompare(std::string s, std::string t);
 };
 
 }  // namespace myleet

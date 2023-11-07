@@ -5,6 +5,8 @@
 #include <unordered_set>
 #include <vector>
 
+namespace myleet {
+
 class MyHashSet {
  private:
   std::vector<std::list<int>> data;
@@ -98,5 +100,7 @@ struct TreeNode {
   TreeNode *right;
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
+
+}  // namespace myleet
 
 #endif
