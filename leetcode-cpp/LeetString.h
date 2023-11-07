@@ -90,6 +90,16 @@ class LeetString {
   std::vector<int> diStringMatch(std::string s);
   // leetcode944 删列造序
   static int minDeletionSize(std::vector<std::string>& strs);
+  // leetcode1071 字符串的最大公因子
+  static std::string gcdOfStrings(std::string str1, std::string str2);
+  // leetcode1078 Bigram 分词
+  static std::vector<std::string> findOcurrences(std::string text,
+                                                 std::string first,
+                                                 std::string second);
+  // leetcode1108 IP 地址无效化
+  static std::string defangIPaddr(std::string address);
+  // leetcode1154 一年中的第几天
+  int dayOfYear(std::string date);
 };
 
 }  // namespace myleet

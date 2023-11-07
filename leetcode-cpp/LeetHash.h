@@ -54,6 +54,8 @@ class LeetHash {
   bool isAlienSorted(std::vector<std::string> &words, std::string order);
   // leetcode961 在长度 2N 的数组中找出重复 N 次的元素
   int repeatedNTimes(std::vector<int> &nums);
+  // leetcode1160 拼写单词
+  int countCharacters(std::vector<std::string> &words, std::string chars);
 };
 
 }  // namespace myleet

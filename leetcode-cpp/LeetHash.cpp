@@ -522,4 +522,55 @@ std::vector<std::string> commonChars(std::vector<std::string> &words) {
   return res;
 }
 
+// leetcode1160 拼写单词
+int LeetHash::countCharacters(std::vector<std::string> &words,
+                              std::string chars) {
+  // resolve 20231107
+  // 哈希表，字典chars中的字母不能重复使用
+  int count[26];
+  memset(count, 0, sizeof(count));
+  for (char ch : chars) {
+    count[ch - 'a']++;
+  }
+
+  int res = 0;
+  for (auto word : words) {
+    int temp[26];
+    memcpy(temp, count, sizeof(count));
+    bool match = true;
+    for (char ch : word) {
+      if (temp[ch - 'a'] == 0) {
+        match = false;
+        break;
+      }
+      temp[ch - 'a']--;
+    }
+    if (match) {
+      res += word.size();
+    }
+  }
+
+  return res;
+}
+
+int LeetHash::maxNumberOfBalloons(std::string text) {
+  int res = 0;
+  int count[26];
+  memset(count, 0, sizeof(count));
+  for (char ch : text) {
+    count[ch - 'a']++;
+  }
+
+  int counta = count[0];
+  int countb = count[1];
+  int countl = count[11] / 2;
+  int counto = count[14] / 2;
+  int countn = count[13];
+
+  return std::min(counta,
+                  std::min(countb, std::min(countl, std::min(counto, countn))));
+
+  return res;
+}
+
 }  // namespace myleet

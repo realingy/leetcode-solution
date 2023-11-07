@@ -1195,4 +1195,146 @@ int LeetString::minDeletionSize(std::vector<std::string> &strs) {
   return len - res;
 }
 
+bool gcdOfStringsCheck(std::string str1, std::string str2, std::string src) {
+  int len = src.size();
+  if (0 == str1.size() % len && 0 == str2.size() % len) {
+    std::string tmp1;
+    for (int j = 0; j < str1.size() / len; j++) {
+      tmp1 += src;
+    }
+    std::string tmp2;
+    for (int k = 0; k < str2.size() / len; k++) {
+      tmp2 += src;
+    }
+    if (str1 == tmp1 && str2 == tmp2) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// leetcode1071 字符串的最大公因子
+std::string LeetString::gcdOfStrings(std::string str1, std::string str2) {
+#if 0
+  // resolve 20231107
+  // 枚举，注意是从最长的开始枚举，一旦符合就返回，而不是从最短开始
+  std::string src;
+  if (str1.size() > str2.size())
+    src = str2;
+  else
+    src = str1;
+
+  if (gcdOfStringsCheck(str1, str2, src)) {
+    return src;
+  }
+
+  char head = src[0];
+  for (int i = src.size(); i >= 1; i--) {
+    std::string tmp;
+    if (head == src[i]) {
+      tmp = src.substr(0, i);
+      if (gcdOfStringsCheck(str1, str2, tmp)) {
+        return tmp;
+      }
+    }
+  }
+
+  return "";
+#else
+  // resolve 20231107
+  // 优化的枚举，注意str1+str2等于str2+str1，是两者有最大【公约字符串】的充要条件
+  // 然后开始枚举，注意是从最长的开始枚举，一旦符合就返回，而不是从最短开始
+  if (str1 + str2 != str2 + str1) return "";
+  std::string src;
+  if (str1.size() > str2.size())
+    src = str2;
+  else
+    src = str1;
+
+  if (gcdOfStringsCheck(str1, str2, src)) {
+    return src;
+  }
+
+  char head = src[0];
+  for (int i = src.size(); i >= 1; i--) {
+    std::string tmp;
+    if (head == src[i]) {
+      tmp = src.substr(0, i);
+      if (gcdOfStringsCheck(str1, str2, tmp)) {
+        return tmp;
+      }
+    }
+  }
+
+  return "";
+
+#endif
+}
+
+// leetcode1078 Bigram分词
+std::vector<std::string> LeetString::findOcurrences(std::string text,
+                                                    std::string first,
+                                                    std::string second) {
+  // resolve 20231107
+  // 遍历
+  std::vector<std::string> words;
+  int s = 0, e = 0, len = (int)text.size();
+  while (true) {
+    while (s < len && text[s] == ' ') {
+      s++;
+    }
+    if (s >= len) {
+      break;
+    }
+    e = s + 1;
+    while (e < len && text[e] != ' ') {
+      e++;
+    }
+    words.emplace_back(text.substr(s, e - s));
+    s = e + 1;
+  }
+
+  std::vector<std::string> res;
+  if (words.size() < 3) return res;
+
+  for (int i = 2; i < words.size(); i++) {
+    if (first == words[i - 2] && second == words[i - 1]) {
+      res.emplace_back(words[i]);
+    }
+  }
+
+  return res;
+}
+
+// leetcode1108 IP 地址无效化
+std::string LeetString::defangIPaddr(std::string address) {
+  std::string res = "";
+  for (char ch : address) {
+    ('.' == ch) ? res += "[.]" : res += ch;
+  }
+
+  return res;
+}
+
+// leetcode1154 一年中的第几天
+int LeetString::dayOfYear(std::string date) {
+  // ans 20231107
+  // "2019-01-09"
+  int year = stoi(date.substr(0, 4));
+  int month = stoi(date.substr(5, 2));
+  int day = stoi(date.substr(8, 2));
+
+  int amount[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
+    ++amount[1];
+  }
+
+  int ans = 0;
+  for (int i = 0; i < month - 1; ++i) {
+    ans += amount[i];
+  }
+  return ans + day;
+}
+
 }  // namespace myleet
