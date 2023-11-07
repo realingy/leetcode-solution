@@ -437,9 +437,11 @@ int LeetHash::numUniqueEmails(std::vector<std::string> &emails) {
     std::string local;
     for (char c : email) {
       if (c == '+' || c == '@') {
+        // "+"之后的地址名无效
         break;
       }
       if (c != '.') {
+        // "."无效等于空
         local += c;
       }
     }
@@ -469,11 +471,10 @@ bool LeetHash::isAlienSorted(std::vector<std::string> &words,
         return false;
       }
     }
-    // unresolve
-    if (!valid) {
-      if (words[i - 1].size() > words[i].size()) {
-        return false;
-      }
+    if (false == valid) {
+      // if (words[i - 1].size() > words[i].size()) {
+      return false;
+      // }
     }
   }
   return true;
@@ -488,6 +489,37 @@ int LeetHash::repeatedNTimes(std::vector<int> &nums) {
     if (count[n] > 1) return n;
     ++count[n];
   }
+}
+
+std::vector<std::string> commonChars(std::vector<std::string> &words) {
+  // resolve 20231107
+  // 双哈希，时间有点慢
+  std::vector<std::string> res;
+  std::unordered_map<int, int> count_min;
+  for (int i = 0; i <= 26; i++) {
+    count_min[i] = INT_MAX;
+  }
+
+  for (std::string word : words) {
+    std::unordered_map<int, int> count;
+    for (char ch : word) {
+      count[ch - 'a']++;
+    }
+    for (int i = 0; i <= 26; i++) {
+      count_min[i] = std::min(count[i], count_min[i]);
+    }
+  }
+
+  for (int i = 0; i <= 26; i++) {
+    std::string str;
+    while (count_min[i]) {
+      str = (i + 'a');
+      res.emplace_back(str);
+      count_min[i]--;
+    }
+  }
+
+  return res;
 }
 
 }  // namespace myleet

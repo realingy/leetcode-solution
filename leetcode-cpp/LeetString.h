@@ -83,7 +83,13 @@ class LeetString {
   // leetcode830 较大分组的位置
   static std::vector<std::vector<int>> largeGroupPositions(std::string s);
   // leetcode844 比较含退格的字符串
-  bool backspaceCompare(std::string s, std::string t);
+  static bool backspaceCompare(std::string s, std::string t);
+  // leetcode925 长按键入
+  static bool isLongPressedName(std::string name, std::string typed);
+  // leetcode942 增减字符串匹配
+  std::vector<int> diStringMatch(std::string s);
+  // leetcode944 删列造序
+  static int minDeletionSize(std::vector<std::string>& strs);
 };
 
 }  // namespace myleet

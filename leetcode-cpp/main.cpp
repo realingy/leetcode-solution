@@ -15,9 +15,9 @@ int main() {
   std::cout << "type: " << std::endl;
   std::cout << "index: " << std::endl;
 
-  // ProcessString();
+  ProcessString();
   // ProcessSort();
-  ProcessHash();
+  // ProcessHash();
 
   return 0;
 }
@@ -149,6 +149,13 @@ void ProcessString() {
   if (0) {
     std::string sentence = "I speak Goat Latin";
     std::string res = LeetString::toGoatLatin(sentence);
+    std::cout << "res: " << res << std::endl;
+  }
+
+  if (1) {
+    std::string name = "alex";
+    std::string typed = "aaleex";
+    bool res = LeetString::isLongPressedName(name, typed);
     std::cout << "res: " << res << std::endl;
   }
 

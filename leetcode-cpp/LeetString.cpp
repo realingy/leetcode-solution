@@ -26,7 +26,7 @@ int LeetString::lengthOfLongestSubstring(std::string s) {
   return res;
 }
 
-// leet20合理的括号
+// leet20 合理的括号
 bool LeetString::isValid(std::string s) {
   if (s.size() % 2) return false;
 
@@ -1132,6 +1132,67 @@ std::string reverseOnlyLetters(std::string s) {
   }
 
   return s;
+}
+
+// leetcode925 长按键入
+bool LeetString::isLongPressedName(std::string name, std::string typed) {
+  // ans 20231107
+  // 双指针分别一次遍历
+  int i = 0;
+  int j = 0;
+
+  while (j < typed.size()) {
+    if (name[i] == typed[j] && i < name.size()) {
+      j++;
+      i++;
+    } else if (j > 0 && typed[j] == typed[j - 1]) {
+      j++;
+    } else {
+      return false;
+    }
+  }
+
+  return i == name.size();
+}
+
+// leetcode942 增减字符串匹配
+std::vector<int> LeetString::diStringMatch(std::string s) {
+  // ans 20231107
+  // 贪心 升序I添加最小值，降序D添加最大值
+  std::vector<int> res;
+  int i = 0;
+  int j = (int)s.size();
+  for (char ch : s) {
+    if ('I' == ch) {
+      res.emplace_back(i++);
+    } else if ('D' == ch) {
+      res.emplace_back(j--);
+    }
+  }
+
+  res.emplace_back(i);
+
+  return res;
+}
+
+// leetcode944 删列造序
+int LeetString::minDeletionSize(std::vector<std::string> &strs) {
+  int res = 0;
+  int n = strs.size();
+  int len = strs[0].size();
+
+  for (int i = 0; i < len; i++) {
+    bool match = true;
+    for (int j = 1; j < n; j++) {
+      if (strs[j][i] - strs[j - 1][i] < 0) {
+        match = false;
+        break;
+      }
+    }
+    if (match) res++;
+  }
+
+  return len - res;
 }
 
 }  // namespace myleet
