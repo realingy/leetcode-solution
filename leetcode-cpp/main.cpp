@@ -223,9 +223,13 @@ void ProcessHash() {
 }
 
 void ProcessArray() {
-  if (1) {
+  if (0) {
     std::vector<int> arr = {2, 2, 2, 2};
     bool res = LeetArray::containsPattern(arr, 2, 3);
     std::cout << "res: " << res << "\n";
+  }
+
+  if (1) {
+    std::vector<int> res = LeetArray::sequentialDigits(10, 100000000);
   }
 }

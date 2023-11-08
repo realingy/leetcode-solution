@@ -1337,4 +1337,74 @@ int LeetString::dayOfYear(std::string date) {
   return ans + day;
 }
 
+// leetcode5 最长回文
+std::string LeetString::longestPalindrome5(std::string s) {
+  // resolve 20231108
+  // DP+枚举
+  // DP从短开始往长规划
+  int n = s.size();
+  if (n < 2) {
+    return s;
+  }
+
+  // dp[i][j] 表示 s[i..j] 是否是回文串
+  std::vector<std::vector<int>> dp(n, std::vector<int>(n));
+  // 初始化：所有长度为 1 的子串都是回文串
+  for (int i = 0; i < n; i++) {
+    dp[i][i] = true;
+  }
+
+  int len_max = 1;
+  int begin = 0;
+
+  // 先枚举子串长度
+  for (int len = 2; len <= n; len++) {
+    // 枚举左边界
+    for (int i = 0; i < n; i++) {
+      // 确定右边界，即 j - i + 1 = len
+      int j = len + i - 1;
+      // 如果右边界越界，就可以退出当前循环
+      if (j >= n) {
+        break;
+      }
+
+      if (s[i] != s[j]) {
+        dp[i][j] = false;
+      } else {
+        if (j - i < 3) {
+          dp[i][j] = true;
+        } else {
+          dp[i][j] = dp[i + 1][j - 1];
+        }
+      }
+
+      if (dp[i][j] && j - i + 1 > len_max) {
+        len_max = j - i + 1;
+        begin = i;
+      }
+    }
+  }
+
+  return s.substr(begin, len_max);
+}
+
+// leetcode6 N字形变换
+std::string LeetString::convert(std::string s, int numRows) {
+  // resolve 20231108
+  // 遍历
+  if (numRows < 2) return s;
+  std::vector<std::string> rows(numRows);
+  int i = 0, flag = -1;
+  // 引入flag按照Z型填充矩阵
+  for (char c : s) {
+    rows[i].push_back(c);
+    if (i == 0 || i == numRows - 1) flag = -flag;
+    i += flag;
+  }
+
+  std::string res;
+  for (const std::string &row : rows) res += row;
+  return res;
+}
+
 }  // namespace myleet

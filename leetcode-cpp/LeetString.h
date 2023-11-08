@@ -99,7 +99,11 @@ class LeetString {
   // leetcode1108 IP 地址无效化
   static std::string defangIPaddr(std::string address);
   // leetcode1154 一年中的第几天
-  int dayOfYear(std::string date);
+  static int dayOfYear(std::string date);
+  // leetcode5 最长回文
+  static std::string longestPalindrome5(std::string s);
+  // leetcode6 N字形变换
+  static std::string convert(std::string s, int numRows);
 };
 
 }  // namespace myleet
