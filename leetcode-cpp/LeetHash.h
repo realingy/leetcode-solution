@@ -56,6 +56,8 @@ class LeetHash {
   int repeatedNTimes(std::vector<int> &nums);
   // leetcode1160 拼写单词
   int countCharacters(std::vector<std::string> &words, std::string chars);
+  // leetcode1189 “气球” 的最大数量
+  int maxNumberOfBalloons(std::string text);
 };
 
 }  // namespace myleet

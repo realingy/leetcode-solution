@@ -32,6 +32,8 @@ add_executable(${EXENAME}
     LeetDFS.h 
     LeetStack.cpp 
     LeetStack.h 
+    LeetArray.cpp 
+    LeetArray.h 
     main.cpp
     data.h
 )

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+#include "LeetArray.h"
 #include "LeetHash.h"
 #include "LeetSort.h"
 #include "LeetString.h"
@@ -10,14 +11,16 @@ using namespace myleet;
 void ProcessString();
 void ProcessSort();
 void ProcessHash();
+void ProcessArray();
 
 int main() {
   std::cout << "type: " << std::endl;
   std::cout << "index: " << std::endl;
 
-  ProcessString();
+  // ProcessString();
   // ProcessSort();
   // ProcessHash();
+  ProcessArray();
 
   return 0;
 }
@@ -216,5 +219,13 @@ void ProcessHash() {
     std::vector<int> nums1 = {2, 4};
     std::vector<int> nums2 = {1, 2, 3, 4};
     std::vector<int> res = LeetHash::nextGreaterElement(nums1, nums2);
+  }
+}
+
+void ProcessArray() {
+  if (1) {
+    std::vector<int> arr = {2, 2, 2, 2};
+    bool res = LeetArray::containsPattern(arr, 2, 3);
+    std::cout << "res: " << res << "\n";
   }
 }

@@ -553,6 +553,7 @@ int LeetHash::countCharacters(std::vector<std::string> &words,
   return res;
 }
 
+// leetcode1189 “气球” 的最大数量
 int LeetHash::maxNumberOfBalloons(std::string text) {
   int res = 0;
   int count[26];
