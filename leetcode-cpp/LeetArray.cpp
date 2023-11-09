@@ -600,4 +600,60 @@ std::vector<std::vector<std::string>> LeetArray::groupAnagrams(
   return res;
 }
 
+// leetcode57 插入区间
+std::vector<std::vector<int>> LeetArray::insert(
+    std::vector<std::vector<int>>& intervals, std::vector<int>& newInterval) {
+  // resolve 20231109
+  // 遍历,三个while解决问题
+  if (intervals.size() == 0) {
+    return std::vector<std::vector<int>>{newInterval};
+  }
+
+  int left = newInterval[0];
+  int right = newInterval[1];
+  std::vector<std::vector<int>> res;
+  int n = (int)intervals.size();
+
+  // 1
+  int i = 0;
+  while (i < n && intervals[i][1] < left) {
+    res.emplace_back(intervals[i]);
+    ++i;
+  }
+
+  // 2
+  // 注意判断i的范围
+  int l = i < n ? std::min(intervals[i][0], left) : left;
+  while (i < n && intervals[i][0] <= right) {
+    ++i;
+  }
+  if (i > 0) {
+    res.emplace_back(std::vector<int>{l, std::max(intervals[i - 1][1], right)});
+  } else {
+    res.emplace_back(std::vector<int>{l, right});
+  }
+
+  // 3
+  while (i < n) {
+    int l = intervals[i][0];
+    int r = intervals[i][1];
+    res.emplace_back(std::vector<int>{l, r});
+    ++i;
+  }
+
+  return res;
+}
+
+// leetcode58 最后一个单词的长度
+int LeetArray::lengthOfLastWord(std::string s) {
+  // resolve 20231109
+  // 双指针，从后往前遍历
+  int n = (int)s.size();
+  int i = n - 1;
+  while (i >= 0 && ' ' == s[i]) --i;
+  int j = i;
+  while (j >= 0 && ' ' != s[j]) --j;
+  return i - j;
+}
+
 }  // namespace myleet

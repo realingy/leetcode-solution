@@ -57,8 +57,13 @@ class LeetArray {
   // leetcode42 接雨水
   static int trap(std::vector<int>& height);
   // leetcode49 字母异位词分组
-  std::vector<std::vector<std::string>> groupAnagrams(
+  static std::vector<std::vector<std::string>> groupAnagrams(
       std::vector<std::string>& strs);
+  // leetcode57 插入区间
+  static std::vector<std::vector<int>> insert(
+      std::vector<std::vector<int>>& intervals, std::vector<int>& newInterval);
+  // leetcode58 最后一个单词的长度
+  static int lengthOfLastWord(std::string s);
 };
 
 }  // namespace myleet

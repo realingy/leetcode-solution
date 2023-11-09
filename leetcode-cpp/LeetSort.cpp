@@ -753,4 +753,33 @@ std::vector<int> LeetSort::kWeakestRows(std::vector<std::vector<int>>& mat,
   return res;
 }
 
+// leetcode56 合并区间
+std::vector<std::vector<int>> LeetSort::merge(
+    std::vector<std::vector<int>>& intervals) {
+  // resolve 20231109
+  // 排序+遍历
+  // 排序后只需要比较res的最后一项和当前遍历到的项
+  // 注意合并的时候需要比较第二项边界值
+  if (intervals.size() == 0) {
+    return {};
+  }
+  std::vector<std::vector<int>> res;
+  std::sort(intervals.begin(), intervals.end());
+
+  int n = (int)intervals.size();
+  for (int i = 0; i < n; ++i) {
+    int first = intervals[i][0];
+    int second = intervals[i][1];
+    if (res.empty() || res.back()[1] < first) {
+      // 无需合并
+      res.emplace_back(std::vector<int>{first, second});
+    } else {
+      // 合并
+      res.back()[1] = std::max(res.back()[1], second);
+    }
+  }
+
+  return res;
+}
+
 }  // namespace myleet

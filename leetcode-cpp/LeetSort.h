@@ -74,6 +74,8 @@ class LeetSort {
   // leetcode1337 矩阵中战斗力最弱的 K 行
   static std::vector<int> LeetSort::kWeakestRows(
       std::vector<std::vector<int>>& mat, int k);
+  // leetcode56 合并区间
+  std::vector<std::vector<int>> merge(std::vector<std::vector<int>>& intervals);
 };
 
 }  // namespace myleet
