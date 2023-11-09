@@ -64,6 +64,12 @@ class LeetArray {
       std::vector<std::vector<int>>& intervals, std::vector<int>& newInterval);
   // leetcode58 最后一个单词的长度
   static int lengthOfLastWord(std::string s);
+  // leetcode209 长度最小的子数组
+  int minSubArrayLen(int target, std::vector<int>& nums);
+  // leetcode713 乘积小于K的子数组
+  int numSubarrayProductLessThanK(std::vector<int>& nums, int k);
+  // leetcode3 无重复字符的最长子串
+  int lengthOfLongestSubstring(std::string s);
 };
 
 }  // namespace myleet

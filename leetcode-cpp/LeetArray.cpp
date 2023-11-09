@@ -656,4 +656,107 @@ int LeetArray::lengthOfLastWord(std::string s) {
   return i - j;
 }
 
+// leetcode209 <==> leetcode713 <==> leetcode3
+// leetcode209 长度最小的子数组
+int LeetArray::minSubArrayLen(int target, std::vector<int>& nums) {
+#if 0
+  // ans 20231109
+  // 双指针+滑动窗口
+  // 时间复杂度O(n)，因为双指针i和j只在[0，n]区间变动一次
+  int n = (int)nums.size();
+  int res = n + 1;
+  int count = 0;
+  int i = 0;
+  int j = 0;
+  while (j < n) {
+    count += nums[j];
+    while (count - nums[i] >= target) {
+      count -= nums[i];
+      i++;
+    }
+
+    if (count >= target) res = std::min(res, j - i + 1);
+    ++j;
+  }
+
+  return res <= n ? res : 0;
+#else
+  int n = (int)nums.size();
+  int res = n + 1;
+  int count = 0;
+  int i = 0;
+  int j = 0;
+  while (j < n) {
+    count += nums[j];
+    while (count >= target) {
+      res = std::min(res, j - i + 1);
+      count -= nums[i];
+      ++i;
+    }
+    ++j;
+  }
+
+  return res <= n ? res : 0;
+#endif
+}
+
+// leetcode209 <==> leetcode713 <==> leetcode3
+// leetcode713 乘积小于K的子数组
+int LeetArray::numSubarrayProductLessThanK(std::vector<int>& nums, int k) {
+  // 双指针+滑动窗口
+  if (k <= 1) return 0;
+  int res = 0;
+  int prod = 1;
+  int i = 0;
+  int j = 0;
+  int n = (int)nums.size();
+  // 得到一个右端点，枚举以此右端点实现最长的乘积小于k的子数列的数目
+  while (j < n) {
+    prod *= nums[j];
+    while (prod >= k) {
+      prod /= nums[i];
+      i++;
+    }
+    res += j - i + 1;
+    ++j;
+  }
+
+  return res;
+}
+
+// leetcode3 无重复字符的最长子串
+int LeetArray::lengthOfLongestSubstring(std::string s) {
+#if 1
+  // 双指针+滑动窗口+借助于哈希表
+  int res = 0;
+  std::unordered_map<char, int> count;
+  int i = 0;
+  int j = 0;
+  int n = (int)s.size();
+  while (j < n) {
+    count[s[j]]++;
+    while (count[s[j]] > 1) {
+      count[s[i]]--;
+      i++;
+    }
+    res = std::max(res, j - i + 1);
+  }
+
+  return res;
+#else
+  int m[256] = {0};
+  int n = s.size();
+  int res = 0, left = 0;
+  for (int i = 0; i < n; i++) {
+    if (m[s[i]] == 0 || m[s[i]] < left) {
+      res = max(res, i - left + 1);
+    } else {
+      left = m[s[i]];
+    }
+    m[s[i]] = i + 1;
+  }
+  return res;
+#endif
+}
+
 }  // namespace myleet
