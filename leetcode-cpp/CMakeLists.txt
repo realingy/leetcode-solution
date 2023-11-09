@@ -34,6 +34,8 @@ add_executable(${EXENAME}
     LeetStack.h 
     LeetArray.cpp 
     LeetArray.h 
+    LeetList.cpp 
+    LeetList.h 
     main.cpp
     data.h
 )

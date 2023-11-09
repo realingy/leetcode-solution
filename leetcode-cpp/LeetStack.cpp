@@ -52,4 +52,45 @@ std::string LeetStack::removeDuplicates(std::string s) {
   return res;
 }
 
+// leetcode71 简化路径
+std::string LeetStack::simplifyPath(std::string path) {
+  // resolve 20231109
+  // stack,注意"."和空""不压栈
+  int n = (int)path.size();
+  int i = 0;
+  int j = 0;
+  std::vector<std::string> words;
+  while (i < n && j < n) {
+    while (i < n && '/' == path[i]) ++i;
+    j = i;
+    while (j < n && '/' != path[j]) ++j;
+    words.emplace_back(path.substr(i, j - i));
+    i = j;
+    ++i;
+  }
+
+  /*
+  for (std::string w : words) {
+    std::cout << w << "|";
+  }
+  std::cout << "\n";
+  */
+
+  std::vector<std::string> stack;
+  for (std::string w : words) {
+    if (".." == w) {
+      if (!stack.empty()) stack.pop_back();
+    } else if ("." != w && "" != w) {
+      stack.emplace_back(w);
+    }
+  }
+
+  std::string res = "/";
+  for (std::string w : stack) {
+    if ("/" != w) res += w + "/";
+  }
+  if (res.size() > 1) res.pop_back();
+  return res;
+}
+
 }  // namespace myleet

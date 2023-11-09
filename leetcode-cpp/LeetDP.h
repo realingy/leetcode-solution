@@ -46,6 +46,12 @@ class LeetDP {
   static int maxSubArray(std::vector<int>& nums);
   // leetcode55 跳跃游戏
   static bool canJump(std::vector<int>& nums);
+  // leetcode62 不同路径
+  static int uniquePaths(int m, int n);
+  // leetcode63 不同路径 II
+  static int uniquePathsWithObstacles(std::vector<std::vector<int>>& obs);
+  // leetcode64 最小路径和
+  static int minPathSum(std::vector<std::vector<int>>& grid);
 };
 
 }  // namespace myleet

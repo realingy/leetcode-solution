@@ -320,6 +320,114 @@ bool LeetDP::canJump(std::vector<int>& nums) {
 #endif
 }
 
-std::string LeetDP::getPermutation(int n, int k) { std::string res; }
+// std::string LeetDP::getPermutation(int n, int k) { std::string res; }
+
+// leetcode62 不同路径
+int LeetDP::uniquePaths(int m, int n) {
+  // resolve 20231109
+  // DP
+  if (1 == m || 1 == n) return 1;
+  int res = 0;
+  std::vector<std::vector<int>> dp(m, std::vector<int>(n));
+  dp[0][0] = 1;
+  for (int i = 0; i < m; i++) {
+    dp[i][0] = 1;
+  }
+  for (int j = 0; j < n; j++) {
+    dp[0][j] = 1;
+  }
+
+  for (int i = 1; i < m; i++) {
+    for (int j = 1; j < n; j++) {
+      dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+    }
+  }
+
+  return dp[m - 1][n - 1];
+}
+
+// leetcode63 不同路径 II
+int LeetDP::uniquePathsWithObstacles(std::vector<std::vector<int>>& obs) {
+  int m = (int)obs.size();
+  int n = (int)obs[0].size();
+  if (1 == m && 1 == n) {
+    return !obs[0][0] ? 1 : 0;
+  }
+
+  if (1 == m) {
+    for (int i = 0; i < n; i++) {
+      if (obs[0][i] > 0) return 0;
+    }
+    return 1;
+  }
+  if (1 == n) {
+    for (int i = 0; i < m; i++) {
+      if (obs[i][0] > 0) return 0;
+    }
+    return 1;
+  }
+
+  std::vector<std::vector<int>> dp(m, std::vector<int>(n));
+  dp[0][0] = !obs[0][0] ? 1 : 0;
+  for (int i = 1; i < m; i++) {
+    if (0 == dp[i - 1][0])
+      dp[i][0] = 0;
+    else
+      dp[i][0] = !obs[i][0] ? 1 : 0;
+  }
+  for (int j = 1; j < n; j++) {
+    if (!dp[0][j - 1])
+      dp[0][j] = 0;
+    else
+      dp[0][j] = !obs[0][j] ? 1 : 0;
+  }
+
+  for (int i = 1; i < m; i++) {
+    for (int j = 1; j < n; j++) {
+      dp[i][j] = !obs[i][j] ? (dp[i - 1][j] + dp[i][j - 1]) : 0;
+    }
+  }
+
+  return dp[m - 1][n - 1];
+}
+
+// leetcode64 最小路径和
+int LeetDP::minPathSum(std::vector<std::vector<int>>& grid) {
+  int m = (int)grid.size();
+  int n = (int)grid[0].size();
+  int res = 0;
+  if (1 == m && 1 == n) {
+    return grid[0][0];
+  } else if (1 == m) {
+    res = 0;
+    for (int i = 0; i < n; i++) {
+      res += grid[0][i];
+    }
+    return res;
+  } else if (1 == n) {
+    res = 0;
+    for (int i = 0; i < m; i++) {
+      res += grid[i][0];
+    }
+    return res;
+  }
+
+  std::vector<std::vector<int>> dp(m, std::vector<int>(n));
+  dp[0][0] = grid[0][0];
+  for (int i = 1; i < m; i++) {
+    dp[i][0] += dp[i - 1][0] + grid[i][0];
+  }
+  for (int i = 1; i < n; i++) {
+    dp[0][i] += dp[0][i - 1] + grid[0][i];
+  }
+
+  for (int i = 1; i < m; i++) {
+    for (int j = 1; j < n; j++) {
+      dp[i][j] = std::min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+    }
+  }
+
+  return dp[m - 1][n - 1];
+}
 
 }  // namespace myleet

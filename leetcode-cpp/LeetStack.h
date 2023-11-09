@@ -20,6 +20,8 @@ class LeetStack {
   std::string removeOuterParentheses(std::string s);
   // leetcode1047 删除字符串中的所有相邻重复项
   std::string removeDuplicates(std::string s);
+  // leetcode71 简化路径
+  std::string simplifyPath(std::string path);
 };
 
 }  // namespace myleet
