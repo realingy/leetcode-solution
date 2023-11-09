@@ -489,4 +489,115 @@ std::vector<int> LeetArray::bestCoordinate(
   return {local_x, local_y};
 }
 
+// leetcode167 两数之和II-输入有序数组
+std::vector<int> LeetArray::twoSum(std::vector<int>& numbers, int target) {
+  std::vector<int> res;
+  int i = 0;
+  int j = (int)numbers.size() - 1;
+  while (i < j) {
+    if (numbers[i] + numbers[j] == target) {
+      res.emplace_back(i);
+      res.emplace_back(j);
+      break;
+    } else if (numbers[i] + numbers[j] < target) {
+      i++;
+    } else if (numbers[i] + numbers[j] > target) {
+      j--;
+    }
+  }
+
+  return res;
+}
+
+// leetcode15 三数之和
+std::vector<std::vector<int>> LeetArray::threeSum(std::vector<int>& nums) {
+  std::vector<std::vector<int>> res;
+
+  std::sort(nums.begin(), nums.end());
+
+  int n = (int)nums.size();
+  for (int i = 0; i < n - 2; i++) {
+    if (i > 0 && nums[i] == nums[i - 1]) continue;
+    // 优化1，考虑最小三个数和大于0
+    if (nums[i] + nums[i + 1] + nums[i + 2] > 0) break;
+    // 优化2，考虑最小和最大两个数和小于0
+    if (nums[i] + nums[n - 2] + nums[n - 1] < 0) break;
+    int j = i + 1;
+    int k = n - 1;
+    while (j < k) {
+      int sum = nums[i] + nums[j] + nums[k];
+      if (0 == sum) {
+        res.emplace_back(std::vector<int>{nums[i], nums[j], nums[k]});
+        j++;
+        while (j < k && nums[j] == nums[j - 1]) {
+          j++;
+        }
+        k--;
+        while (j < k && nums[k] == nums[k + 1]) {
+          k--;
+        }
+      } else if (sum > 0) {
+        k--;
+      } else if (sum < 0) {
+        j++;
+      }
+    }
+  }
+
+  return res;
+}
+
+// leetcode11 盛最多水的容器
+int LeetArray::maxArea(std::vector<int>& height) {
+  // ans 20231108
+  // 双指针
+  int i = 0, j = height.size() - 1, res = 0;
+  while (i < j) {
+    res = height[i] < height[j] ? std::max(res, (j - i) * height[i++])
+                                : std::max(res, (j - i) * height[j--]);
+  }
+  return res;
+}
+
+// leetcode42 接雨水
+int LeetArray::trap(std::vector<int>& height) {
+  int n = (int)height.size();
+  std::vector<int> prev_max(n);
+  std::vector<int> post_max(n);
+  prev_max[0] = height[0];
+  for (int i = 1; i < n; i++) {
+    prev_max[i] = std::max(prev_max[i - 1], height[i]);
+  }
+  post_max[n - 1] = height[n - 1];
+  for (int i = n - 2; i >= 0; i--) {
+    post_max[i] = std::max(post_max[i + 1], height[i]);
+  }
+
+  int res = 0;
+  for (int i = 0; i < n; i++) {
+    int h = std::min(prev_max[i], post_max[i]);
+    res += h - height[i];
+  }
+
+  return res;
+}
+
+// leetcode49 字母异位词分组
+std::vector<std::vector<std::string>> LeetArray::groupAnagrams(
+    std::vector<std::string>& strs) {
+  // resolve 20231109
+  // 哈希+排序
+  std::unordered_map<std::string, std::vector<std::string>> mp;
+  for (std::string s : strs) {
+    std::string tmp = s;
+    std::sort(tmp.begin(), tmp.end());
+    mp[tmp].emplace_back(s);
+  }
+  std::vector<std::vector<std::string>> res;
+  for (auto it = mp.begin(); it != mp.end(); ++it) {
+    res.emplace_back(it->second);
+  }
+  return res;
+}
+
 }  // namespace myleet

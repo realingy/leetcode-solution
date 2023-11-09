@@ -1407,4 +1407,51 @@ std::string LeetString::convert(std::string s, int numRows) {
   return res;
 }
 
+// leetcode8 字符串转换整数(atoi)
+int LeetString::myAtoi(std::string str) {
+  // resolve 20191109
+  if (!str.size()) return 0;
+
+  int sign = 1, base = 0, i = 0, n = str.size();
+  while (i < n && str[i] == ' ') ++i;  //注意跳过空格
+  if (str[i] == '+' || str[i] == '-') {
+    sign = (str[i++] == '+') ? 1 : -1;
+  }
+  while (i < n && str[i] >= '0' && str[i] <= '9') {
+    // 注意超出int范围
+    if (base > INT_MAX / 10 || (base == INT_MAX / 10 && str[i] - '0' > 7)) {
+      return (sign == 1) ? INT_MAX : INT_MIN;
+    }
+    base = 10 * base + (str[i] - '0');
+    i++;
+  }
+
+  return base * sign;
+}
+
+// leetcode38 外观数列
+std::string countAndSay(int n) {
+  // resolve 20231108
+  // 遍历+枚举
+  if (1 == n) return "1";
+
+  std::string res = "1";
+  for (int i = 2; i < n; i++) {
+    std::string cur = "";
+    int s = 0;
+    int e = 0;
+    while (e < res.size()) {
+      while (e < res.size() && res[s] == res[e]) {
+        ++e;
+      }
+      cur += std::to_string(e - s);
+      cur += res[s];
+      s = e;
+    }
+    res = cur;
+  }
+
+  return res;
+}
+
 }  // namespace myleet

@@ -229,7 +229,13 @@ void ProcessArray() {
     std::cout << "res: " << res << "\n";
   }
 
-  if (1) {
+  if (0) {
     std::vector<int> res = LeetArray::sequentialDigits(10, 100000000);
+  }
+
+  if (1) {
+    std::vector<int> height = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+    int res = LeetArray::trap(height);
+    std::cout << "res: " << res << "\n";
   }
 }

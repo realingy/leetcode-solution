@@ -235,4 +235,63 @@ int LeetDP::numWays(int n, std::vector<std::vector<int>>& relation, int k) {
   return dp[k][n - 1];
 }
 
+// leetcode122 买卖股票的最佳时机II
+int LeetDP::maxProfit2(std::vector<int>& prices) {
+  // resolve 20231108
+  // 因为不限制交易次数，我们在第i天买入，如果发现i+1天比i高，那么就可以累加到利润里面
+  if (prices.size() < 2) return 0;
+
+  int res = 0;
+  for (int i = 1; i < prices.size(); ++i) {
+    if (prices[i] - prices[i - 1] > 0) {
+      res += prices[i] - prices[i - 1];
+    }
+  }
+
+  return res;
+}
+
+// leetcode50 Pow(x, n)
+double LeetDP::myPow(double x, int n) {
+  // ans 20231109
+  // 递归
+  if (n == 0) return 1;
+  if (n == 1) return x;
+  if (n == -1) return 1 / x;
+  double half = myPow(x, n / 2);
+  double rest = myPow(x, n % 2);
+  return rest * half * half;
+}
+
+int maxSubArray(std::vector<int>& nums) {
+  // resolve 20231109
+#if 0
+  // 动态规划+一次遍历，记录最大值
+  int pre = 0;
+  int res = nums[0];
+  for (const auto& x : nums) {
+    pre = std::max(pre + x, x);
+    res = std::max(res, pre);
+  }
+
+  return res;
+#else
+  // 另一种动态规划，前边的值大于0，则加到本元素上
+  int n = (int)nums.size();
+  std::vector<int> dp(n);
+  dp[0] = nums[0];
+  int res = nums[0];
+  for (int i = 1; i < n; ++i) {
+    if (dp[i - 1] > 0) {
+      dp[i] = dp[i - 1] + nums[i];
+    } else {
+      dp[i] = nums[i];
+    }
+    res = std::max(dp[i], res);
+  }
+
+  return res;
+#endif
+}
+
 }  // namespace myleet

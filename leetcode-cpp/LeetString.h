@@ -104,6 +104,8 @@ class LeetString {
   static std::string longestPalindrome5(std::string s);
   // leetcode6 N字形变换
   static std::string convert(std::string s, int numRows);
+  // leetcode8 字符串转换整数(atoi)
+  static int myAtoi(std::string str);
 };
 
 }  // namespace myleet

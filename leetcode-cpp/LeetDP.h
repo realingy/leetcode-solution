@@ -38,6 +38,10 @@ class LeetDP {
   static int getMaximumGenerated(int n);
   // LCP07 传递信息
   static int numWays(int n, std::vector<std::vector<int>>& relation, int k);
+  // leetcode122 买卖股票的最佳时机II
+  static int maxProfit2(std::vector<int>& prices);
+  // leetcode50 Pow(x, n)
+  static double myPow(double x, int n);
 };
 
 }  // namespace myleet

@@ -46,8 +46,19 @@ class LeetArray {
   // leetcode1291 顺次数
   static std::vector<int> sequentialDigits(int low, int high);
   // leetcode1620 网络信号最好的坐标
-  std::vector<int> bestCoordinate(std::vector<std::vector<int>>& towers,
-                                  int radius);
+  static std::vector<int> bestCoordinate(std::vector<std::vector<int>>& towers,
+                                         int radius);
+  // leetcode167 两数之和II-输入有序数组
+  static std::vector<int> twoSum(std::vector<int>& numbers, int target);
+  // leetcode15 三数之和
+  static std::vector<std::vector<int>> threeSum(std::vector<int>& nums);
+  // leetcode11 盛最多水的容器
+  static int maxArea(std::vector<int>& height);
+  // leetcode42 接雨水
+  static int trap(std::vector<int>& height);
+  // leetcode49 字母异位词分组
+  std::vector<std::vector<std::string>> groupAnagrams(
+      std::vector<std::string>& strs);
 };
 
 }  // namespace myleet
