@@ -22,6 +22,8 @@ class LeetList {
   ListNode* reverseList(ListNode* head);
   // leetcode92 反转链表II
   ListNode* reverseBetween(ListNode* head, int left, int right);
+  // leetcode25 K 个一组翻转链表
+  ListNode* reverseKGroup(ListNode* head, int k);
 };
 
 }  // namespace myleet
