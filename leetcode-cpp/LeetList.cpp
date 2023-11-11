@@ -31,4 +31,43 @@ ListNode* LeetList::rotateRight(ListNode* head, int k) {
   return ret;
 }
 
+// leetcode206 反转链表
+ListNode* LeetList::reverseList(ListNode* head) {
+  if (head == nullptr || nullptr == head.next) return head;
+  ListNode* pre;
+  ListNode* cur = head;
+  while (nullptr == cur) {
+    ListNode* next = cur->next;
+    cur->next = pre;
+    pre = cur;
+    cur = next;
+  }
+
+  return pre;
+}
+
+// leetcode92 反转链表 II
+ListNode* LeetList::reverseBetween(ListNode* head, int left, int right) {
+  // ans 20231111
+  // 进阶版，注意引用哨兵节点dummy
+  ListNode* dummy = new ListNode(-1);
+  dummy->next = head;
+  ListNode* p = dummy;
+  for (int i = 0; i < left - 1; i++) {
+    p = p->next;
+  }
+  ListNode* pre;
+  ListNode* cur = p->next;
+  for (int i = 0; i < right - left + 1; i++) {
+    ListNode* next = cur->next;
+    cur->next = pre;
+    pre = cur;
+    cur = next;
+  }
+  p->next->next = cur;
+  p->next = pre;
+
+  return dummy->next;
+}
+
 }  // namespace myleet
