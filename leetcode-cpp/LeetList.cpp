@@ -33,7 +33,7 @@ ListNode* LeetList::rotateRight(ListNode* head, int k) {
 
 // leetcode206 反转链表
 ListNode* LeetList::reverseList(ListNode* head) {
-  if (head == nullptr || nullptr == head.next) return head;
+  if (head == nullptr || nullptr == head->next) return head;
   ListNode* pre;
   ListNode* cur = head;
   while (nullptr == cur) {

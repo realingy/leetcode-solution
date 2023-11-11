@@ -70,6 +70,14 @@ class LeetArray {
   int numSubarrayProductLessThanK(std::vector<int>& nums, int k);
   // leetcode3 无重复字符的最长子串
   int lengthOfLongestSubstring(std::string s);
+  // leetcode74 搜索二维矩阵
+  bool searchMatrix(std::vector<std::vector<int>>& matrix, int target);
+  // leetcode75 颜色分类
+  void sortColors(std::vector<int>& nums);
+  // leetcode34 在排序数组中查找元素的第一个和最后一个位置
+  std::vector<int> searchRange(std::vector<int>& nums, int target);
+  // leetcode162 寻找峰值
+  int findPeakElement(std::vector<int>& nums);
 };
 
 }  // namespace myleet

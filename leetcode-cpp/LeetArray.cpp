@@ -759,4 +759,104 @@ int LeetArray::lengthOfLongestSubstring(std::string s) {
 #endif
 }
 
+// leetcode74 搜索二维矩阵
+bool LeetArray::searchMatrix(std::vector<std::vector<int>>& matrix,
+                             int target) {
+  // resolve 20231110
+  // 数组的二分查找
+  if (matrix.empty() || matrix[0].empty()) return 0;
+  int left = 0, right = (int)matrix.size() * (int)matrix[0].size() - 1;
+  int n = (int)matrix[0].size();
+  while (left <= right) {
+    int mid = left + ((right - left) >> 1);
+    if (matrix[mid / n][mid % n] > target) {
+      right = mid - 1;
+    } else if (matrix[mid / n][mid % n] < target) {
+      left = mid + 1;
+    } else {
+      return true;
+    }
+  }
+  return false;
+}
+
+// leetcode75 颜色分类
+void LeetArray::sortColors(std::vector<int>& nums) {
+#if 0
+  // resolve 20231110
+  // 一次遍历
+  int n = (int)nums.size();
+  int i0 = 0, i1 = 0, i2 = 0;
+  for (int i = 0; i < n; i++) {
+    if (0 == nums[i]) {
+      nums[i2++] = 2;
+      nums[i1++] = 1;
+      nums[i0++] = 0;
+    } else if (1 == nums[i]) {
+      nums[i2++] = 2;
+      nums[i1++] = 1;
+    } else if (2 == nums[i]) {
+      nums[i2++] = 2;
+    }
+  }
+#else
+  // resolve 20231110
+  // 三指针
+  int i = 0, j = 0, k = nums.size() - 1;
+  while (j <= k) {
+    if (nums[j] == 0)
+      std::swap(nums[i++], nums[j++]);
+    else if (nums[j] == 2)
+      std::swap(nums[j], nums[k--]);
+    else
+      j++;
+  }
+#endif
+}
+
+// nums是非递减的，返回最小满足nums[i]>=target的下标，如果不存在返回nums的长度
+int low_bound(std::vector<int>& nums, int target) {
+  // 闭区间[left, right]
+  int left = 0;
+  int right = nums.size() - 1;
+  while (left <= right) {
+    int mid = left + (right - left) / 2;
+    if (nums[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+  return left;
+}
+
+// leetcode34 在排序数组中查找元素的第一个和最后一个位置
+std::vector<int> LeetArray::searchRange(std::vector<int>& nums, int target) {
+  int left = low_bound(nums, target);
+  if (left == nums.size() || target != nums[left]) {
+    return {-1, -1};
+  }
+  int right = low_bound(nums, target + 1) - 1;
+  return {left, right};
+}
+
+// leetcode162 寻找峰值
+int LeetArray::findPeakElement(std::vector<int>& nums) {
+  // ans 20231111
+  // 闭区间[0,n-2]等效于开区间(0,n-1)
+  int n = nums.size();
+  int left = -1;
+  int right = n - 1;
+  while (left + 1 < right) {
+    int mid = left + (right - left) / 2;
+    if (nums[mid] > nums[mid + 1]) {
+      right = mid;
+    } else {
+      left = mid;
+    }
+  }
+
+  return right;
+}
+
 }  // namespace myleet

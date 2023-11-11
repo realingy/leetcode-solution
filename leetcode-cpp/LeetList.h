@@ -22,6 +22,7 @@ class LeetList {
   ListNode* reverseList(ListNode* head);
   // leetcode92 反转链表II
   ListNode* reverseBetween(ListNode* head, int left, int right);
+};
 
 }  // namespace myleet
 
