@@ -78,6 +78,14 @@ class LeetArray {
   std::vector<int> searchRange(std::vector<int>& nums, int target);
   // leetcode162 寻找峰值
   int findPeakElement(std::vector<int>& nums);
+  // leetcode153 寻找旋转数组的最小值
+  int findMin(std::vector<int>& nums);
+  // leetcode33 搜索旋转排序数组
+  int search(std::vector<int>& nums, int target);
+  // leetcode35 搜索插入位置
+  int searchInsert(std::vector<int>& nums, int target);
+  // leetcode278 第一个错误的版本
+  int firstBadVersion(int n);
 };
 
 }  // namespace myleet

@@ -859,4 +859,92 @@ int LeetArray::findPeakElement(std::vector<int>& nums) {
   return right;
 }
 
+// leetcode153 寻找旋转数组的最小值
+int LeetArray::findMin(std::vector<int>& nums) {
+  int left = 0;
+  int right = nums.size() - 1;
+  int mid = 0;
+  if (nums[left] > nums[right]) {
+    while (left < right - 1) {
+      mid = left + (right - left) / 2;
+      if (nums[left] < nums[mid])
+        left = mid;
+      else if (nums[right] > nums[mid])
+        right = mid;
+    }
+  }
+
+  return std::min(nums[left], nums[right]);
+}
+
+// 当前序号是蓝色的意思是在target的右边
+bool isBlue(int i, std::vector<int>& nums, int target) {
+  int end = nums[nums.size() - 1];
+  if (nums[i] > end) {
+    // nums[i]位于旋转有序数组的左半部分，target在nums[i]的左边的充要条件是nums[i]大于等于target且target在左半部分【target
+    // > end】
+    return (target > end) && (nums[i] >= target);
+  } else {
+    // nums[i]位于旋转有序数组的右半部分，target在nums[i]的左边的充要条件是nums[i]大于等于target或者target在左半部分【target
+    // > end】
+    return (target > end) || (nums[i] >= target);
+  }
+}
+
+// leetcode33 搜索旋转排序数组
+int LeetArray::search(std::vector<int>& nums, int target) {
+  int left = -1;
+  int right = nums.size();
+  int mid = 0;
+  while (left < right - 1) {
+    mid = left + (right - left) / 2;
+    if (!isBlue(mid, nums, target))
+      left = mid;
+    else
+      right = mid;
+  }
+
+  if (nums[right] != target || nums.size() == right) return -1;
+
+  return right;
+}
+
+// leetcode35 搜索插入位置
+int LeetArray::searchInsert(std::vector<int>& nums, int target) {
+  int left = -1;
+  int right = nums.size();
+  int mid = 0;
+  while (left < right - 1) {
+    mid = left + (right - left) / 2;
+    if (nums[mid] < target)
+      left = mid;
+    else
+      right = mid;
+  }
+  return right;
+}
+
+// leetcode会提供此函数
+bool isBadVersion(int idx) {
+  std::cout << "leetcode会提供此函数\n";
+  return true;
+}
+
+// leetcode278 第一个错误的版本
+int LeetArray::firstBadVersion(int n) {
+  int left = -1;
+  int right = n;
+  int mid = 0;
+
+  while (left < right - 1) {
+    mid = left + (right - left) / 2;
+    if (!isBadVersion(mid)) {
+      left = mid;
+    } else {
+      right = mid;
+    }
+  }
+  return right;
+}
+
 }  // namespace myleet
