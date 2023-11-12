@@ -17,10 +17,6 @@ class LeetHash {
 
  public:
   static int romanToInt(std::string s);
-  // leetcode141 环形链表
-  static bool hasCycle(ListNode *head);
-  // leetcode160 相交链表
-  static ListNode *getIntersectionNode(ListNode *headA, ListNode *headB);
   // leetcode169 多数元素
   static int majorityElement(std::vector<int> &nums);
   // leetcode383 赎金信

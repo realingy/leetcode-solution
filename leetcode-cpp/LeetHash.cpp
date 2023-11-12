@@ -37,57 +37,6 @@ int LeetHash::romanToInt(std::string s) {
   return ans;
 }
 
-// leetcode141 环形链表
-bool LeetHash::hasCycle(ListNode *head) {
-#if 0
-  // resolve 20231104
-  // 哈希set
-  std::unordered_set<ListNode *> processed;
-  while (head != nullptr) {
-    if (processed.count(head)) return true;
-    processed.insert(head);
-    head = head->next;
-  }
-
-  return false;
-#else
-  // resolve 20231104
-  // 双指针
-  if (head == nullptr || head->next == nullptr) {
-    return false;
-  }
-  ListNode *slow = head;
-  ListNode *fast = head->next;
-  while (slow != fast) {
-    if (fast == nullptr || fast->next == nullptr) {
-      return false;
-    }
-    slow = slow->next;
-    fast = fast->next->next;
-  }
-  return true;
-#endif
-}
-
-// leetcode160 相交链表
-ListNode *LeetHash::getIntersectionNode(ListNode *headA, ListNode *headB) {
-  // resolve 20231104
-  // 哈希set
-  std::unordered_set<ListNode *> process1;
-  ListNode *temp = headA;
-  while (nullptr == temp) {
-    process1.insert(temp);
-    temp = temp->next;
-  }
-  temp = headB;
-  while (nullptr == temp) {
-    if (process1.count(temp)) return temp;
-    temp = temp->next;
-  }
-
-  return nullptr;
-}
-
 // leetcode169 多数元素
 int LeetHash::majorityElement(std::vector<int> &nums) {
   // resolve 20231104
