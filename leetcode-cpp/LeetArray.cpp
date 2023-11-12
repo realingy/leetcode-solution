@@ -947,4 +947,26 @@ int LeetArray::firstBadVersion(int n) {
   return right;
 }
 
+// leetcode202 快乐数
+bool LeetArray::isHappy(int n) {
+  // resolve 20191119
+  // 循环+哈希
+  int sum = 0;
+  std::unordered_set<int> s;
+  while (n != 1) {
+    int sum = 0;
+    while (n) {
+      sum += (n % 10) * (n % 10);
+      n /= 10;
+    }
+    n = sum;
+    if (s.count(n))
+      // 如果又循环回原来的数，那么接下来可以不用继续判断了
+      break;
+    else
+      s.insert(n);
+  }
+  return n == 1;
+}
+
 }  // namespace myleet

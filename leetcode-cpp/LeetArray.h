@@ -86,6 +86,8 @@ class LeetArray {
   int searchInsert(std::vector<int>& nums, int target);
   // leetcode278 第一个错误的版本
   int firstBadVersion(int n);
+  // leetcode202 快乐数
+  bool isHappy(int n);
 };
 
 }  // namespace myleet

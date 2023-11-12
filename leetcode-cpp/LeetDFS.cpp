@@ -47,4 +47,34 @@ std::vector<int> LeetDFS::postorderTraversal(TreeNode* root) {
   return res;
 }
 
+std::string path17;
+std::vector<std::string> res17;
+std::string phone[10] = {"",    "",    "abc",  "def", "ghi",
+                         "jkl", "mno", "pqrs", "tuv", "wxyz"};
+void dfs17(const std::string& src, int i) {
+  if (i == src.size()) {
+    res17.emplace_back(path17);
+    return;
+  }
+
+  int idx = src[i] - '0';
+  std::string cur = phone[idx];
+  for (char ch : cur) {
+    path17 += ch;
+    dfs17(src, i + 1);
+    path17.pop_back();  // 回溯
+  }
+}
+
+std::vector<std::string> letterCombinations(std::string digits) {
+  res17 = std::vector<std::string>();
+  path17 = "";
+  int n = (int)digits.size();
+  if (!n) return {};
+
+  dfs17(digits, 0);
+
+  return res17;
+}
+
 }  // namespace myleet

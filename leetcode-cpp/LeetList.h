@@ -32,6 +32,8 @@ class LeetList {
   ListNode* detectCycle(ListNode* head);
   // leetcode160 相交链表
   static ListNode* getIntersectionNode(ListNode* headA, ListNode* headB);
+  // leetcode143 重排链表
+  void reorderList(ListNode* head);
 };
 
 }  // namespace myleet
