@@ -148,4 +148,91 @@ std::vector<std::vector<std::string>> LeetDFS::partition(std::string s) {
   return ans;
 }
 
+// leetcode77 组合
+std::vector<std::vector<int>> LeetDFS::combine(int n, int k) {
+  // resolve 20231113
+  // 回溯，在子集的基础上进行优化
+  // 时间复杂度O(k*Cnk),满足要求的叶子的个数乘以叶子到根的路径长度，空间复杂度为O(k)
+  std::vector<std::vector<int>> res;
+  std::vector<int> path;
+  std::function<void(int)> dfs = [&](int i) {
+    // 剪枝，这里就是在子集的基础上可以优化的地方
+    if (k - path.size() > i) return;
+
+    if (path.size() == k) {
+      res.emplace_back(std::vector<int>(path));
+    }
+
+    int j = i;
+    while (j > 0) {
+      path.emplace_back(j);
+      dfs(j - 1);
+      path.pop_back();
+      --j;
+    }
+  };
+
+  dfs(n);
+
+  return res;
+}
+
+// leetcode216 组合总和III
+std::vector<std::vector<int>> LeetDFS::combinationSum3(int k, int n) {
+  // resolve 20231113
+  // 回溯，在子集的基础上进行优化,同时再加一个约束条件就是path的和等于n
+  // 时间复杂度O(k*Cnk),满足要求的叶子的个数乘以叶子到根的路径长度
+  std::vector<std::vector<int>> res;
+  std::vector<int> path;
+  std::function<void(int)> dfs = [&](int i) {
+    // 剪枝，这里就是在子集的基础上可以优化的地方
+    if (k - path.size() > i) return;
+    if (k == path.size()) {
+      int sum = accumulate(path.begin(), path.end(), 0);
+      if (n == sum) {
+        res.emplace_back(path);
+      }
+    }
+
+    int j = i;
+    while (j > 0) {
+      path.emplace_back(j);
+      dfs(j - 1);
+      path.pop_back();
+      --j;
+    }
+  };
+
+  dfs(9);
+
+  return res;
+}
+
+std::vector<std::string> generateParenthesis(int n) {
+  std::vector<std::string> res;
+  std::string path(2 * n, 0);
+  // open代表需要左括号"("
+  std::function<void(int, int)> dfs = [&](int i, int open) {
+    if (i == 2 * n) {
+      res.emplace_back(path);
+    }
+
+    // 可以填右括号'('
+    if (open < n) {
+      path[i] = '(';
+      dfs(i + 1, open + 1);
+    }
+
+    // 可以填右括号')'
+    if (i - open < open) {
+      path[i] = ')';
+      dfs(i + 1, open);
+    }
+  };
+
+  dfs(0, 0);
+
+  return res;
+}
+
 }  // namespace myleet

@@ -28,6 +28,10 @@ class LeetDFS {
   std::vector<std::vector<int>> subsets(std::vector<int>& nums);
   // leetcode131 分割回文串
   std::vector<std::vector<std::string>> partition(std::string s);
+  // leetcode77 组合
+  std::vector<std::vector<int>> combine(int n, int k);
+  // leetcode216 组合总和III
+  std::vector<std::vector<int>> combinationSum3(int k, int n);
 };
 
 }  // namespace myleet
