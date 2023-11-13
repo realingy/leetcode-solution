@@ -5,8 +5,8 @@ set( CMAKE_CXX_FLAGS "-std=c++11" )
 set(CMAKE_CONFIGRATION_TYPES "Release" CACHE STRING "" FORCE)
 
 # opencv库查询
-set(OpenCV_DIR $ENV{OPENCV_DIR})
-find_package(OpenCV REQUIRED)
+# set(OpenCV_DIR $ENV{OPENCV_DIR})
+# find_package(OpenCV REQUIRED)
 
 # 包含目录
 include_directories(${OpenCV_DIR}/install/include)
