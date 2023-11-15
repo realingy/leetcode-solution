@@ -32,6 +32,8 @@ class LeetDFS {
   std::vector<std::vector<int>> combine(int n, int k);
   // leetcode216 组合总和III
   std::vector<std::vector<int>> combinationSum3(int k, int n);
+  // leetcode22 括号生成
+  std::vector<std::string> generateParenthesis(int n);
 };
 
 }  // namespace myleet

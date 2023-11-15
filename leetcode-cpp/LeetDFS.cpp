@@ -179,6 +179,7 @@ std::vector<std::vector<int>> LeetDFS::combine(int n, int k) {
 
 // leetcode216 组合总和III
 std::vector<std::vector<int>> LeetDFS::combinationSum3(int k, int n) {
+#if 0
   // resolve 20231113
   // 回溯，在子集的基础上进行优化,同时再加一个约束条件就是path的和等于n
   // 时间复杂度O(k*Cnk),满足要求的叶子的个数乘以叶子到根的路径长度
@@ -206,33 +207,156 @@ std::vector<std::vector<int>> LeetDFS::combinationSum3(int k, int n) {
   dfs(9);
 
   return res;
+#else
+  // ans 20231114
+  // 回溯，在子集的基础上进行优化,同时再加一个约束条件就是path的和等于n
+  std::vector<std::vector<int>> res;
+  std::vector<int> path;
+  std::function<void(int, int)> dfs = [&](int i, int t) {
+    // 剪枝，这里就是在子集的基础上可以优化的地方
+    int d = k - path.size();
+    if (d > i) return;
+    if (t < 0 || t > ((2 * i - d + 1) / 2)) return;
+
+    if (k == path.size()) {
+      int sum = accumulate(path.begin(), path.end(), 0);
+      if (n == sum) {
+        res.emplace_back(path);
+      }
+    }
+
+    int j = i;
+    while (j > d) {
+      path.emplace_back(j);
+      dfs(j - 1, t - j);
+      path.pop_back();
+      --j;
+    }
+  };
+
+  dfs(9, n);
+
+  return res;
+
+#endif
 }
 
-std::vector<std::string> generateParenthesis(int n) {
+// leetcode22 括号生成
+std::vector<std::string> LeetDFS::generateParenthesis(int n) {
   std::vector<std::string> res;
   std::string path(2 * n, 0);
-  // open代表需要左括号"("
-  std::function<void(int, int)> dfs = [&](int i, int open) {
+  // t表示左括号"("的个数
+  std::function<void(int, int)> dfs = [&](int i, int t) {
     if (i == 2 * n) {
       res.emplace_back(path);
     }
 
-    // 可以填右括号'('
-    if (open < n) {
+    // 一共可以填n个左括号，所以t小于n表示可以填左括号'('
+    if (t < n) {
       path[i] = '(';
-      dfs(i + 1, open + 1);
+      dfs(i + 1, t + 1);
     }
 
-    // 可以填右括号')'
-    if (i - open < open) {
+    // i-t表示右括号的个数，当右括号的个数小于左括号的个数，可以填右括号')'
+    if (i - t < t) {
       path[i] = ')';
-      dfs(i + 1, open);
+      dfs(i + 1, t);
     }
   };
 
   dfs(0, 0);
 
   return res;
+}
+
+std::vector<std::string> removeInvalidParentheses(std::string s) {
+  int left = 0;  /* 表示左括号最少删除的数量 */
+  int right = 0; /* 表示右括号最少删除的数量 */
+  for (auto& c : s) {
+    if (c == '(') {
+      left++;
+    } else if (c == ')') {
+      if (left <= 0) {
+        right++;
+      } else {
+        left--;
+      }
+    }
+  }
+
+  std::cout << "left: " << left << "right: " << right << std::endl;
+
+  std::vector<std::string> res;
+  std::string path;
+  int n = s.size();
+  std::cout << "s: " << s << ", n: " << n << std::endl;
+  std::unordered_set<std::string> set;
+  std::function<void(int, int, int)> dfs = [&](int i, int l, int r) {
+    // l表示左括号的个数，r表示右括号的个数
+    if (n == i) {
+      // std::cout << "l: " << l << ", r: " << r << std::endl;
+      if (l == r && !set.count(path) && left <= 0) {
+        res.emplace_back(std::string(path));
+        set.insert(std::string(path));
+      }
+      return;
+    }
+
+    if ('(' != s[i] && ')' != s[i]) {
+      path += s[i];
+      dfs(i + 1, l, r);
+    } else if ('(' == s[i]) {
+      std::cout << "i: " << i << ": "
+                << "l: " << l << ", r: " << r << ", right: " << right
+                << ", left: " << left << std::endl;
+      if (left <= 0) {
+        path += '(';
+        dfs(i + 1, l + 1, r);
+        path.pop_back();
+      } else {
+        {
+          path += '(';
+          dfs(i + 1, l + 1, r);
+          path.pop_back();
+        }
+        {
+          left--;
+          dfs(i + 1, l, r);
+        }
+      }
+    } else if (')' == s[i]) {
+      // std::cout << i << ": " << "l: " << l << ", r: " << r << ", right: " <<
+      // right << std::endl; 右括号少的情况下，可以选择选或者不选
+      if (l > r) {
+        if (right > 0) {
+          {
+            right--;
+            dfs(i + 1, l, r);
+          }
+          {
+            path += ')';
+            dfs(i + 1, l, r + 1);
+            path.pop_back();
+          }
+        } else {
+          // std::cout << i << "xxxxxx: " << std::endl;
+          {
+            path += ')';
+            dfs(i + 1, l, r + 1);
+            path.pop_back();
+          }
+        }
+      } else {
+        right--;
+        // 右括号多的情况下，必然跳过
+        dfs(i + 1, l, r);
+      }
+    }
+  };
+
+  dfs(0, 0, 0);
+
+  return res.empty() ? std::vector<std::string>{""} : res;
 }
 
 }  // namespace myleet
