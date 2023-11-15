@@ -270,6 +270,7 @@ std::vector<std::string> LeetDFS::generateParenthesis(int n) {
 }
 
 std::vector<std::string> removeInvalidParentheses(std::string s) {
+  // error 20231115
   int left = 0;  /* 表示左括号最少删除的数量 */
   int right = 0; /* 表示右括号最少删除的数量 */
   for (auto& c : s) {
@@ -357,6 +358,170 @@ std::vector<std::string> removeInvalidParentheses(std::string s) {
   dfs(0, 0, 0);
 
   return res.empty() ? std::vector<std::string>{""} : res;
+}
+
+// leetcode401 二进制手表
+std::vector<std::string> LeetDFS::readBinaryWatch(int t) {
+  // resolve 20231115
+  // 回溯 + 递归
+  std::vector<std::string> res;
+  std::function<void(int, int, int, int, int)> dfs = [&](int i, int h, int m,
+                                                         int ch, int cm) {
+    // 剪枝
+    if (h > 11 || m > 59 || ch > 4 || cm > 6) return;
+    if (i == t) {
+      res.emplace_back(std::to_string(h) + ":" + ((m < 10) ? "0" : "") +
+                       std::to_string(m));
+      return;
+    }
+
+    dfs(i + 1, h | (1 << ch), m, ch + 1, cm);  // 选择当前小时位
+    dfs(i, h, m, ch + 1, cm);                  // 不选择当前的小时位
+    if (4 == ch) {
+      dfs(i + 1, h, m | (1 << cm), ch, cm + 1);  // 选择当前分钟位
+      dfs(i, h, m, ch, cm + 1);                  // 不选择当前的分钟位
+    }
+  };
+
+  dfs(0, 0, 0, 0, 0);
+
+  return res;
+}
+
+// leetcode1863 找出所有子集的异或总和再求和
+int LeetDFS::subsetXORSum(std::vector<int>& nums) {
+  int res = 0;
+  int n = (int)nums.size();
+  std::function<void(int, int)> dfs = [&](int i, int path) {
+    if (i == n) {
+      res += path;
+    }
+
+    dfs(i + 1, path ^ nums[i]);  // 选择当前位
+    dfs(i + 1, path);            // 不选择当前位
+  };
+
+  dfs(0, 0);
+
+  return res;
+}
+
+// LCP51 烹饪料理
+int LeetDFS::perfectMenu(std::vector<int>& materials,
+                         std::vector<std::vector<int>>& cookbooks,
+                         std::vector<std::vector<int>>& attribute, int limit) {
+  int res = -1;
+  int n = (int)materials.size();
+  int m = (int)cookbooks.size();
+  std::function<void(int, int, int, std::vector<int>)> dfs =
+      [&](int i, int x, int y, std::vector<int> used) {
+        if (y >= limit) {
+          res = std::max(res, x);
+        }
+        if (i == m) {
+          return;
+        }
+        for (int j = 0; j < n; j++) {
+          if (materials[j] - used[j] < cookbooks[i][j]) return;
+        }
+
+        {
+          // 选择当前料理
+          bool match = true;
+          for (int j = 0; j < n; j++) {
+            // 保证可以选
+            if (materials[j] - used[j] < cookbooks[i][j]) {
+              match = false;
+              break;
+            }
+          }
+
+          if (true == match) {
+            for (int j = 0; j < n; j++) used[j] += cookbooks[i][j];
+            dfs(i + 1, x + attribute[i][0], y + attribute[i][1], used);
+            for (int j = 0; j < n; j++) used[j] -= cookbooks[i][j];
+          }
+        }
+        {
+          // 不选择当前料理
+          dfs(i + 1, x, y, used);
+        }
+      };
+
+  std::vector<int> used(n, 0);
+  dfs(0, 0, 0, used);
+
+  return res;
+}
+
+// leetcode46 <==> leetcode51
+// leetcode46 全排列
+std::vector<std::vector<int>> LeetDFS::permute(std::vector<int>& nums) {
+  // resolve 20231115
+  // 回溯问题
+  std::vector<std::vector<int>> res;
+  int n = (int)nums.size();
+  std::vector<int> path(n, 0);
+  std::vector<int> on_path(n, 0);
+  std::function<void(int)> dfs = [&](int i) {
+    if (n == i) {
+      res.emplace_back(std::vector<int>(path));
+      return;
+    }
+    // 全排列，遍历nums所有元素，遍历到的放到on_path中
+    for (int k = 0; k < n; k++) {
+      if (0 == on_path[k]) {
+        on_path[k] = 1;
+        path[i] = nums[k];
+        dfs(i + 1);
+        on_path[k] = 0;
+      }
+    }
+  };
+
+  dfs(0);
+
+  return res;
+}
+
+// leetcode46 <==> leetcode51
+// leetcode51 N皇后
+std::vector<std::vector<std::string>> LeetDFS::solveNQueens(int n) {
+  // ans 20231115
+  // 46的进阶，增加新的约束条件
+  std::vector<std::vector<std::string>> res;
+  std::vector<int> cols(n, 0);
+  std::vector<int> on_path(n, 0);
+  std::vector<int> left_top(2 * n - 1, 0);
+  std::vector<int> right_top(2 * n - 1, 0);
+
+  std::function<void(int)> dfs = [&](int row) {
+    if (n == row) {
+      std::vector<std::string> board(n);
+      for (int i = 0; i < n; ++i)
+        board[i] =
+            std::string(cols[i], '.') + 'Q' + std::string(n - 1 - cols[i], '.');
+      res.emplace_back(board);
+    }
+
+    for (int c = 0; c < n; c++) {
+      int rc = row - c + n - 1;
+      if (!on_path[c] && !left_top[row + c] && !right_top[rc]) {
+        cols[row] = c;
+        on_path[c] = 1;
+        left_top[row + c] = 1;
+        right_top[rc] = 1;
+        dfs(row + 1);
+        on_path[c] = 0;
+        left_top[row + c] = 0;
+        right_top[rc] = 0;
+      }
+    }
+  };
+
+  dfs(0);
+
+  return res;
 }
 
 }  // namespace myleet

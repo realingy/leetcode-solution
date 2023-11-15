@@ -17,23 +17,35 @@ class LeetDFS {
 
  public:
   // leetcode94 中序遍历二叉树：先遍历左子树，再处理根节点，最后处理右子树
-  std::vector<int> inorderTraversal(TreeNode* root);
+  static std::vector<int> inorderTraversal(TreeNode* root);
   // leetcode144 前序遍历二叉树：处理根节点，遍历左子树，最后处理右子树
-  std::vector<int> preorderTraversal(TreeNode* root);
+  static std::vector<int> preorderTraversal(TreeNode* root);
   // leetcode145 后序遍历二叉树：遍历左子树，处理右子树，最后处理根节点
-  std::vector<int> postorderTraversal(TreeNode* root);
+  static std::vector<int> postorderTraversal(TreeNode* root);
   // leetcode17 电话号码的字母组合
-  std::vector<std::string> letterCombinations(std::string digits);
+  static std::vector<std::string> letterCombinations(std::string digits);
   // leetcode78 子集
-  std::vector<std::vector<int>> subsets(std::vector<int>& nums);
+  static std::vector<std::vector<int>> subsets(std::vector<int>& nums);
   // leetcode131 分割回文串
-  std::vector<std::vector<std::string>> partition(std::string s);
+  static std::vector<std::vector<std::string>> partition(std::string s);
   // leetcode77 组合
-  std::vector<std::vector<int>> combine(int n, int k);
+  static std::vector<std::vector<int>> combine(int n, int k);
   // leetcode216 组合总和III
-  std::vector<std::vector<int>> combinationSum3(int k, int n);
+  static std::vector<std::vector<int>> combinationSum3(int k, int n);
   // leetcode22 括号生成
-  std::vector<std::string> generateParenthesis(int n);
+  static std::vector<std::string> generateParenthesis(int n);
+  // leetcode401 二进制手表
+  static std::vector<std::string> readBinaryWatch(int t);
+  // leetcode1863 找出所有子集的异或总和再求和
+  static int subsetXORSum(std::vector<int>& nums);
+  // LCP51 烹饪料理
+  static int perfectMenu(std::vector<int>& materials,
+                         std::vector<std::vector<int>>& cookbooks,
+                         std::vector<std::vector<int>>& attribute, int limit);
+  // leetcode46 全排列
+  static std::vector<std::vector<int>> permute(std::vector<int>& nums);
+  // leetcode51 N皇后
+  static std::vector<std::vector<std::string>> solveNQueens(int n);
 };
 
 }  // namespace myleet

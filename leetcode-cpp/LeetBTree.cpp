@@ -105,24 +105,30 @@ TreeNode* LeetBTree::invertTree(TreeNode* root) {
   return root;
 }
 
-std::vector<std::string> ans;
-void dfs257(TreeNode* cur, std::string path) {
-  path += std::to_string(cur->val);
-  //遇到叶子节点
-  if (cur->left == NULL && cur->right == NULL) {
-    ans.push_back(path);
-    return;
-  }
-  if (cur->left) dfs257(cur->left, path + "->");
-  if (cur->right) dfs257(cur->right, path + "->");
-}
-
 // leetcode257 二叉树的所有路径
 std::vector<std::string> LeetBTree::binaryTreePaths(TreeNode* root) {
   // resolve 20231106
   // dfs
-  std::string path = "";
-  dfs257(root, path);
+  std::vector<std::string> ans;
+  std::function<void(TreeNode*, std::string path)> dfs = [&](TreeNode* cur,
+                                                             std::string path) {
+    path += std::to_string(cur->val);
+    //遇到叶子节点
+    if (cur->left == NULL && cur->right == NULL) {
+      ans.push_back(std::string(path));
+      return;
+    }
+
+    if (cur->left) {
+      dfs(cur->left, path + "->");
+    }
+    if (cur->right) {
+      dfs(cur->right, path + "->");
+    }
+  };
+
+  dfs(root, "");
+
   return ans;
 }
 
