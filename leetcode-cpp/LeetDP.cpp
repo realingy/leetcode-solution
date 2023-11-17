@@ -430,4 +430,43 @@ int LeetDP::minPathSum(std::vector<std::vector<int>>& grid) {
   return dp[m - 1][n - 1];
 }
 
+// leetcode198 打家劫舍
+int LeetDP::rob(std::vector<int>& nums) {
+#if 0
+  // resolve 20231115
+  // DP
+  int n = nums.size();
+  if (n < 2) return nums[0];
+  if (n < 3) return std::max(nums[0], nums[1]);
+  std::vector<int> dp(n, 0);
+
+  dp[0] = nums[0];
+  dp[1] = std::max(nums[0], nums[1]);
+
+  for (int i = 2; i < n; i++) {
+    dp[i] = std::max(dp[i - 1], dp[i - 2] + nums[i]);
+  }
+
+  return dp[n - 1];
+#else
+  // ans 20231116
+  // 优化空间复杂度
+  int n = nums.size();
+  if (n < 2) return nums[0];
+  if (n < 3) return std::max(nums[0], nums[1]);
+
+  int a = nums[0];
+  int b = std::max(nums[0], nums[1]);
+
+  int res = 0;
+  for (int i = 2; i < n; i++) {
+    res = std::max(b, a + nums[i]);
+    a = b;
+    b = res;
+  }
+
+  return res;
+#endif
+}
+
 }  // namespace myleet

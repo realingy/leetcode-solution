@@ -524,4 +524,35 @@ std::vector<std::vector<std::string>> LeetDFS::solveNQueens(int n) {
   return res;
 }
 
+// leetcode494 目标和
+int LeetDFS::findTargetSumWays(std::vector<int>& nums, int target) {
+  // ans 20231116
+  // 正号的数的和为p，nums的总和为s，那么负号数的和就是(s-p)，
+  // 所以有 p - (s - p) = t
+  // p = (s+t)/2
+  // 问题就转换成找某一些数的和等于(s+t)/2的问题
+  int res = 0;
+  int n = nums.size();
+
+  target += accumulate(nums.begin(), nums.end(), 0);
+  if (target < 0 || (target % 2)) return 0;
+  target /= 2;  // 现在问题就变成了，在nums中找若干个数和等于更新后的target
+
+  // chache用于记忆化搜索
+  std::vector<std::vector<int>> cache(n, std::vector<int>(target + 1, -1));
+  std::function<int(int, int)> dfs = [&](int i, int t) {
+    if (i < 0) {
+      return int(0 == t);
+    }
+    int& cur = cache[i][t];
+    if (-1 != cur) return cur;
+    // 不能选
+    if (nums[i] > t) return (cur = dfs(i - 1, t));
+    // 可以选的情况下，有两种情况——选或者不选
+    return (cur = dfs(i - 1, t) + dfs(i - 1, t - nums[i]));
+  };
+
+  return dfs(n - 1, target);
+}
+
 }  // namespace myleet

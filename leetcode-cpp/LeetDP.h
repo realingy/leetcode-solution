@@ -52,6 +52,8 @@ class LeetDP {
   static int uniquePathsWithObstacles(std::vector<std::vector<int>>& obs);
   // leetcode64 最小路径和
   static int minPathSum(std::vector<std::vector<int>>& grid);
+  // leetcode198 打家劫舍
+  static int rob(std::vector<int>& nums);
 };
 
 }  // namespace myleet

@@ -46,6 +46,8 @@ class LeetDFS {
   static std::vector<std::vector<int>> permute(std::vector<int>& nums);
   // leetcode51 N皇后
   static std::vector<std::vector<std::string>> solveNQueens(int n);
+  // leetcode494 目标和
+  static int findTargetSumWays(std::vector<int>& nums, int target);
 };
 
 }  // namespace myleet
