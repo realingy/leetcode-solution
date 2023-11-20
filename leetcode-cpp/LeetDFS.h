@@ -48,6 +48,12 @@ class LeetDFS {
   static std::vector<std::vector<std::string>> solveNQueens(int n);
   // leetcode494 目标和
   static int findTargetSumWays(std::vector<int>& nums, int target);
+  // leetcode1143 最长公共子序列
+  int longestCommonSubsequence(std::string s, std::string t);
+  // leetcode1143 最长公共子序列
+  int minDistance(std::string word1, std::string word2);
+  // leetcode300 最长递增子序列
+  int lengthOfLIS(std::vector<int>& nums);
 };
 
 }  // namespace myleet

@@ -555,4 +555,84 @@ int LeetDFS::findTargetSumWays(std::vector<int>& nums, int target) {
   return dfs(n - 1, target);
 }
 
+// leetcode1143 最长公共子序列
+int LeetDFS::longestCommonSubsequence(std::string s, std::string t) {
+  // 当前操作，s[i]和t[j]选或者不选
+  // 子问题，s的前i和字母和t的前j和字母的LCS长度
+  // 下一个子问题，s的前i-1个字母和t的前j-1个字母的LCS长度
+  // s的前i-1个字母和t的前j个字母的LCS长度
+  // s的前i个字母和t的前j-1个字母的LCS长度
+  // dfs(i, j) = max(dfs(i-1, j), dfs(i, j-1), dfs(i-1, j-1) + 1), s[i] = t[j];
+  // dfs(i, j) = max(dfs(i-1, j), dfs(i, j-1), dfs(i-1, j-1)), s[i] != t[j]
+
+  // 简化以后
+  // dfs(i, j) = dfs(i-1, j-1) + 1, s[i] = t[j];
+  // dfs(i, j) = max(dfs(i-1, j), dfs(i, j-1)), s[i] != t[j]
+  int n = s.size();
+  int m = t.size();
+
+  // chache用于记忆化搜索
+  std::vector<std::vector<int>> cache(n, std::vector<int>(m, -1));
+  std::function<int(int, int)> dfs = [&](int i, int j) {
+    if (i < 0 || j < 0) return 0;
+
+    int& cur = cache[i][j];
+    if (-1 != cur) return cur;
+    if (s[i] == t[j])
+      return cur = dfs(i - 1, j - 1) + 1;
+    else
+      return cur = std::max(dfs(i - 1, j), dfs(i, j - 1));
+  };
+
+  return dfs(n - 1, m - 1);
+}
+
+// leetcode1143 最长公共子序列
+int LeetDFS::minDistance(std::string word1, std::string word2) {
+  int n = word1.size();
+  int m = word2.size();
+
+  std::vector<std::vector<int>> cache(n, std::vector<int>(m, -1));
+  std::function<int(int, int)> dfs = [&](int i, int j) {
+    if (i < 0) return j + 1;
+    if (j < 0) return i + 1;
+    int& cur = cache[i][j];
+    if (-1 != cur) return cur;
+
+    if (word1[i] == word2[j])
+      return cur = dfs(i - 1, j - 1) + 1;
+    else
+      return cur = std::min(std::min(dfs(i - 1, j), dfs(i, j - 1)),
+                            (dfs(i - 1, j - 1) + 1));
+  };
+
+  return dfs(n - 1, m - 1);
+}
+
+// leetcode300 最长递增子序列
+int LeetDFS::lengthOfLIS(std::vector<int>& nums) {
+  int n = nums.size();
+
+  std::vector<int> cache(n, 0);
+  std::function<int(int)> dfs = [&](int i) {
+    int& cur = cache[i];
+    if (0 != cur) return cur;
+    int j = 0;
+    while (j < i) {
+      if (nums[j] < nums[i]) {
+        cur = std::max(cur, dfs(j));
+      }
+      j++;
+    }
+    return ++cur;
+  };
+
+  int res = 0;
+  for (int i = 0; i < n; i++) {
+    res = std::max(res, dfs(i));
+  }
+
+  return res;
+}
+
 }  // namespace myleet
