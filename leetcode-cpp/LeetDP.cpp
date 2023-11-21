@@ -276,8 +276,9 @@ int LeetDP::maxSubArray(std::vector<int>& nums) {
   }
 
   return res;
-#else
-  // 另一种动态规划，前边的值大于0，则加到本元素上
+
+  /*
+  // 另一种动态规划，前边的值大于0，则加到本元素上， 原理一样
   int n = (int)nums.size();
   std::vector<int> dp(n);
   dp[0] = nums[0];
@@ -292,6 +293,20 @@ int LeetDP::maxSubArray(std::vector<int>& nums) {
   }
 
   return res;
+  */
+#else
+  // ans
+  // 20231121，将子数组的元素和转换成前缀和之差，记录最小前缀和，同时记录最大前缀和
+  int ans = INT_MIN;
+  int pre_sum_min = 0;
+  int pre_sum = 0;
+  for (int x : nums) {
+    pre_sum += x;                                // 当前的前缀和
+    ans = std::max(ans, pre_sum - pre_sum_min);  // 减去前缀和的最小值
+    pre_sum_min = std::min(pre_sum_min, pre_sum);  // 维护前缀和的最小值
+  }
+  return ans;
+
 #endif
 }
 

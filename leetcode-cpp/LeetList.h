@@ -38,6 +38,8 @@ class LeetList {
   static ListNode* removeElements(ListNode* head, int val);
   // leetcode234 回文链表
   static bool isPalindrome(ListNode* head);
+  // leetcode239 滑动窗口最大值
+  std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k);
 };
 
 }  // namespace myleet

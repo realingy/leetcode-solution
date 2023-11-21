@@ -273,7 +273,8 @@ bool LeetList::isPalindrome(ListNode* head) {
   return true;
 }
 
-std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k) {
+// leetcode239 滑动窗口最大值
+std::vector<int> LeetList::maxSlidingWindow(std::vector<int>& nums, int k) {
   std::vector<int> ans;
   std::deque<int> q;  // 双端队列
   for (int i = 0; i < nums.size(); i++) {

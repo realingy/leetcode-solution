@@ -709,4 +709,43 @@ int LeetDFS::minScoreTriangulation(std::vector<int>& v) {
 #endif
 }
 
+// leetcode1334 阈值距离内邻居最少的城市
+int LeetDFS::findTheCity(int n, std::vector<std::vector<int>>& edges,
+                         int distanceThreshold) {
+  std::vector<std::vector<int>> w(n, std::vector<int>(n, INT_MAX / 2));
+  for (int i = 0; i < edges.size(); i++) {
+    std::vector<int> cur = edges[i];
+    int x = cur[0], y = cur[1], wt = cur[2];
+    w[x][y] = w[y][x] = wt;
+  }
+
+  std::vector<std::vector<std::vector<int>>> cache(
+      n, std::vector<std::vector<int>>(n, std::vector<int>(n, -1)));
+  std::function<int(int, int, int)> dfs = [&](int k, int i, int j) {
+    if (k < 0) return w[i][j];
+
+    int& cur = cache[k][i][j];
+    if (-1 != cur) return cur;
+    return cur =
+               std::min(dfs(k - 1, i, j), dfs(k - 1, i, k) + dfs(k - 1, k, j));
+  };
+
+  int res = 0;
+  int cnt_min = INT_MAX;
+  for (int i = 0; i < n; i++) {
+    int cnt = 0;
+    for (int j = 0; j < n; j++) {
+      if (i != j && dfs(n - 1, i, j) <= distanceThreshold) {
+        cnt++;
+      }
+    }
+    if (cnt <= cnt_min) {
+      cnt_min = cnt;
+      res = i;
+    }
+  }
+
+  return res;
+}
+
 }  // namespace myleet

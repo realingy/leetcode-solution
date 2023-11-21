@@ -88,6 +88,14 @@ class LeetArray {
   int firstBadVersion(int n);
   // leetcode202 快乐数
   bool isHappy(int n);
+  // leetcode2937. 使三个字符串相等
+  int findMinimumOperations(std::string s1, std::string s2, std::string s3);
+  // leetcode2938 区分黑球与白球
+  long long minimumSteps(std::string s);
+  // leetcode2939 最大异或乘积
+  int maximumXorProduct(long long a, long long b, int n);
+  // leetcode2760 最长奇偶子数组
+  int longestAlternatingSubarray(std::vector<int>& nums, int threshold);
 };
 
 }  // namespace myleet

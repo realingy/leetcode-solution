@@ -969,4 +969,71 @@ bool LeetArray::isHappy(int n) {
   return n == 1;
 }
 
+// leetcode2937. 使三个字符串相等
+int LeetArray::findMinimumOperations(std::string s1, std::string s2,
+                                     std::string s3) {
+  // resolve 20231121
+  // 问题转换成求最大共同前缀的长度，如果为零则三个字符串的第一个字符不相等，返回-1
+  int n = std::min(std::min(s1.size(), s2.size()), s3.size());
+  int i = 0;
+  while (i < n && s1[i] == s2[i] && s1[i] == s3[i]) {
+    i++;
+  }
+
+  return !i ? -1 : s1.size() + s2.size() + s3.size() - 3 * i;
+}
+
+// leetcode2938 区分黑球与白球
+long long LeetArray::minimumSteps(std::string s) {
+  long long res = 0;
+  int cnt1 = 0;
+  for (char& ch : s) {
+    if ('1' == ch)
+      cnt1++;
+    else
+      res += cnt1;
+  }
+  return res;
+}
+
+// leetcode2939 最大异或乘积
+int LeetArray::maximumXorProduct(long long a, long long b, int n) {
+  long long mod = std::pow(10, 9) + 7;
+  long long res = a * b;
+  for (int i = 0; i < n; i++) {
+    long long aa = a ^ (1 << i);
+    long long bb = b ^ (1 << i);
+    if (aa * bb > a * b) {
+      a = aa;
+      b = bb;
+      res = aa * bb;
+    }
+  }
+
+  return res % mod;
+}
+
+// leetcode2760 最长奇偶子数组
+int LeetArray::longestAlternatingSubarray(std::vector<int>& nums,
+                                          int threshold) {
+  // resolve 20231121
+  // 滑动窗口
+  int n = nums.size();
+  int i = 0;
+  int res = 0;
+  while (i < n) {
+    if (nums[i] > threshold || 0 != nums[i] % 2) {
+      i++;
+      continue;
+    }
+    int j = i;
+    i++;
+    while (i < n && nums[i] % 2 != nums[i - 1] % 2 && nums[i] <= threshold) {
+      i++;
+    }
+    res = std::max(res, i - j);
+  }
+  return res;
+}
+
 }  // namespace myleet

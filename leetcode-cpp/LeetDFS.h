@@ -58,6 +58,9 @@ class LeetDFS {
   int longestPalindromeSubseq(std::string s);
   // leetcode1039 多边形三角剖分的最低得分
   int minScoreTriangulation(std::vector<int>& v);
+  // leetcode1334 阈值距离内邻居最少的城市
+  int findTheCity(int n, std::vector<std::vector<int>>& edges,
+                  int distanceThreshold);
 };
 
 }  // namespace myleet
