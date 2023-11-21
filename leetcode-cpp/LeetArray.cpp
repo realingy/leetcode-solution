@@ -1036,4 +1036,193 @@ int LeetArray::longestAlternatingSubarray(std::vector<int>& nums,
   return res;
 }
 
+// leetcode2932 找出强数对的最大异或值I
+int LeetArray::maximumStrongPairXor(std::vector<int>& nums) {
+  // resolve 20231121
+  // 排序，将强数对转换成 2*x >= y 的问题
+  std::sort(nums.begin(), nums.end());
+  int n = nums.size();
+  int i = 0;
+  int res = INT_MIN;
+  while (i < n) {
+    int j = i;
+    while (j >= 0) {
+      if (2 * nums[j] >= nums[i]) {
+        res = std::max(res, nums[j] ^ nums[i]);
+      } else {
+        break;
+      }
+      j--;
+    }
+    i++;
+  }
+  return res;
+}
+
+// leetcode2935 找出强数对的最大异或值II
+int LeetArray::maximumStrongPairXor2(std::vector<int>& nums) {
+  std::sort(nums.begin(), nums.end());
+  int n = nums.size();
+  int i = 0;
+  int res = INT_MIN;
+  while (i < n) {
+    int j = i;
+    while (j >= 0) {
+      if (2 * nums[j] >= nums[i]) {
+        res = std::max(res, nums[j] ^ nums[i]);
+      } else {
+        break;
+      }
+      j--;
+    }
+    i++;
+  }
+  return res;
+}
+
+// leetcode2934 最大化数组末位元素的最少操作次数
+int LeetArray::minOperations(std::vector<int>& nums1, std::vector<int>& nums2) {
+  // ans 20231121
+  // 逐个判断前n-1个元素，如果比最后一个数大就必须交换，交换后如果还不满足那就直接返回-1
+  int n = nums1.size();
+
+  std::function<int(int, int)> f = [&](int last1, int last2) {
+    int res = 0;
+    for (int i = 0; i < n - 1; i++) {
+      int x = nums1[i], y = nums2[i];
+      if (x > last1 || y > last2) {
+        if (x > last2 || y > last1) {
+          return n + 1;
+        }
+        res++;
+      }
+    }
+    return res;
+  };
+
+  // 第一种情况是直接逐个判断前n-1个元素，第二种情况是先交换最后元素，然后继续判断前n-1个元素
+  int r = std::min(f(nums1[n - 1], nums2[n - 1]),
+                   1 + f(nums2[n - 1], nums1[n - 1]));
+
+  return r > n ? -1 : r;
+}
+
+// leetcode2928 <==> leetcode2929 <==> leetcode2927
+// leetcode2928 给小朋友们分糖果 I
+int LeetArray::distributeCandies(int n, int limit) {
+  // ans 20231121
+  // O(1) 容斥原理
+  // f(n+2): 所有的方案
+  // 3 * f(n - (limit + 1) + 2)：至少有1个小朋友分到超过limit糖果的方案
+  // 3 * f(n - 2*(limit + 1) + 2)：至少有2个小朋友分到超过limit糖果的方案
+  // f(n - 3*(limit + 1) + 2)：3个小朋友分到超过limit糖果的方案
+  std::function<int(int)> f = [&](int n) {
+    return n > 1 ? n * (n - 1) / 2 : 0;
+  };
+
+  return f(n + 2) - 3 * f(n - (limit + 1) + 2) +
+         3 * f(n - 2 * (limit + 1) + 2) - f(n - 3 * (limit + 1) + 2);
+}
+
+// leetcode2928 <==> leetcode2929 <==> leetcode2927
+// leetcode2929 给小朋友们分糖果II
+long long LeetArray::distributeCandies2(int n, int limit) {
+#if 0
+  // error 20231121
+  // 超时
+  long long res = 0;
+  int a = 0;
+  while (a <= limit) {
+    int b = 0;
+    while (b <= limit) {
+      int c = n - a - b;
+      if (c <= limit && c >= 0) {
+        res++;
+      }
+      b++;
+    }
+    a++;
+  }
+  return res;
+#else
+  // ans 20231121
+  // O(1) 容斥原理
+  // f(n+2): 所有的方案
+  // 3 * f(n - (limit + 1) + 2)：至少有1个小朋友分到超过limit糖果的方案
+  // 3 * f(n - 2*(limit + 1) + 2)：至少有2个小朋友分到超过limit糖果的方案
+  // f(n - 3*(limit + 1) + 2)：3个小朋友分到超过limit糖果的方案
+  std::function<long long(long long)> f = [&](long long n) {
+    return n > 1 ? n * (n - 1) / 2 : 0;
+  };
+
+  return f(n + 2) - 3 * f(n - (limit + 1) + 2) +
+         3 * f(n - 2 * (limit + 1) + 2) - f(n - 3 * (limit + 1) + 2);
+#endif
+}
+
+// leetcode2928 <==> leetcode2929 <==> leetcode2927
+// leetcode2927 给小朋友们分糖果III
+long long LeetArray::distributeCandies3(int n, int limit) {
+  // VIP
+  return (long long)0;
+}
+
+// leetcode2930 重新排列后包含指定子字符串的字符串数目
+int LeetArray::stringCount(int n) {
+  // ans 20231121
+  // A
+  // n个字母的全排列26^n，去掉不能满足组成leet的排列
+  // B
+  // 1）不含l，25^n
+  // 2）不含t，25^n
+  // 3）不含e或者只有一个e，25^+n*25^(n-1)
+  // 直接去掉会重复计算至少满足两个条件的情况，需要先去除
+  // C
+  // 1) 不含l和t，24^n
+  // 2) 不含l且e的个数小于2，24^n + n*24^(n-1)
+  // 3) 不含t且e的个数小于2，24^n + n*24^(n-1)
+  // 直接去掉会重复计算满足三个条件的情况，需要先去除
+  // D
+  // 不含l和t且e的个数小于2，23^n+n*23^(n-1)
+  // 最终的结果等于 A - (B - (C - D)) ==> A - B + C - D
+
+  // 不含leet的字符串的个数为「至少满足一个条件」减去「至少满足两个条件」加上「满足三个条件」，容斥原理。
+  const long long mod = 1e9 + 7;
+  std::function<long long(long long, int)> p = [&](long long x, int i) {
+    long long res = 1;
+    for (; i; i /= 2) {
+      if (i % 2) {
+        res = res * x % mod;
+      }
+      x = x * x % mod;
+    }
+    return res;
+  };
+
+  return ((p(26, n) - p(25, n - 1) * (75 + n) + p(24, n - 1) * (72 + 2 * n) -
+           p(23, n - 1) * (23 + n)) %
+              mod +
+          mod) %
+         mod;
+}
+
+int findChampion(std::vector<std::vector<int>>& grid) {
+  // resolve 20231121
+  // 逐行比较，两行相减如果有其中一个差大于0，说明当前行是强的那个，记录强者的行号，然后继续遍历下一行
+  int n = grid.size();
+  int m = grid[0].size();
+  if (1 == n) return 0;
+  int res = 0;
+  for (int i = 1; i < n; ++i) {
+    for (int j = 0; j < m; ++j) {
+      if (grid[i][j] - grid[res][j] > 0) {
+        res = i;
+        break;
+      }
+    }
+  }
+
+  return res;
+}
+
 }  // namespace myleet

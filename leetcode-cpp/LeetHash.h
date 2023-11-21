@@ -35,25 +35,29 @@ class LeetHash {
   // leetcode697 数组的度
   static int findShortestSubArray(std::vector<int> &nums);
   // leetcode819 最常见的单词
-  std::string mostCommonWord(std::string paragraph,
-                             std::vector<std::string> &banned);
+  static std::string mostCommonWord(std::string paragraph,
+                                    std::vector<std::string> &banned);
   // leetcode859 亲密字符串
-  bool buddyStrings(std::string s, std::string goal);
+  static bool buddyStrings(std::string s, std::string goal);
   // leetcode884 两句话中的不常见单词
-  std::vector<std::string> uncommonFromSentences(std::string s1,
-                                                 std::string s2);
+  static std::vector<std::string> uncommonFromSentences(std::string s1,
+                                                        std::string s2);
   // leetcode914 卡牌分组
-  bool hasGroupsSizeX(std::vector<int> &deck);
+  static bool hasGroupsSizeX(std::vector<int> &deck);
   // leetcode929 独特的邮件地址
-  int numUniqueEmails(std::vector<std::string> &emails);
+  static int numUniqueEmails(std::vector<std::string> &emails);
   // leetcode953 验证外星语词典
-  bool isAlienSorted(std::vector<std::string> &words, std::string order);
+  static bool isAlienSorted(std::vector<std::string> &words, std::string order);
   // leetcode961 在长度 2N 的数组中找出重复 N 次的元素
-  int repeatedNTimes(std::vector<int> &nums);
+  static int repeatedNTimes(std::vector<int> &nums);
   // leetcode1160 拼写单词
-  int countCharacters(std::vector<std::string> &words, std::string chars);
+  static int countCharacters(std::vector<std::string> &words,
+                             std::string chars);
   // leetcode1189 “气球” 的最大数量
-  int maxNumberOfBalloons(std::string text);
+  static int maxNumberOfBalloons(std::string text);
+  // leetcode2933 高访问员工
+  static std::vector<std::string> findHighAccessEmployees(
+      std::vector<std::vector<std::string>> &access_times);
 };
 
 }  // namespace myleet

@@ -523,4 +523,33 @@ int LeetHash::maxNumberOfBalloons(std::string text) {
   return res;
 }
 
+// leetcode2933 高访问员工
+std::vector<std::string> LeetHash::findHighAccessEmployees(
+    std::vector<std::vector<std::string>> &access_times) {
+  // resolve 20231121
+  // 转换成分钟，然后排序查找
+  std::unordered_map<std::string, std::vector<int>> mp;
+  for (auto access_time : access_times) {
+    std::string time_str = access_time[1];
+    int minute = ((time_str[0] - '0') * 10 + (time_str[1] - '0')) * 60;
+    minute += (time_str[2] - '0') * 10 + (time_str[3] - '0');
+    mp[access_time[0]].emplace_back(minute);
+  }
+
+  std::vector<std::string> res;
+  for (std::pair<std::string, std::vector<int>> p : mp) {
+    std::vector<int> &t = p.second;
+    if (t.size() < 3) continue;
+    std::sort(t.begin(), t.end());
+    for (int i = 2; i < t.size(); i++) {
+      if (t[i] - t[i - 2] < 60) {
+        res.emplace_back(p.first);
+        break;
+      }
+    }
+  }
+
+  return res;
+}
+
 }  // namespace myleet

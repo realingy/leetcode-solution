@@ -274,4 +274,65 @@ int LeetBTree::longestUnivaluePath(TreeNode* root) {
   return max687;
 }
 
+// leetcode116 填充每个节点的下一个右侧节点指针
+// leetcode117 填充每个节点的下一个右侧节点指针II
+Node* LeetBTree::connect(Node* root) {
+  // ans 20231121
+  // 两题同解
+  // 递归遍历，然后把每层的最左侧的节点加到pre里面,depth等于pre的元素个数的时候说明现
+  // 在是本层的最左侧节点，把它添加到pre中（很巧妙），之后动态的改变pre的节点
+  std::vector<Node*> pre;
+  std::function<void(Node*, int)> dfs = [&](Node* node, int depth) {
+    // 边界
+    if (node == nullptr) return;
+    if (depth == pre.size()) {
+      // node是本层最左侧节点
+      pre.emplace_back(node);
+    } else {
+      // pre[depth]是node左边的节点
+      pre[depth]->next = node;
+      pre[depth] = node;
+    }
+    dfs(node->left, depth + 1);
+    dfs(node->right, depth + 1);
+  };
+
+  dfs(root, 0);
+  return root;
+}
+
+long long minSum(std::vector<int>& nums1, std::vector<int>& nums2) {
+  int cnt1 = 0;
+  int cnt2 = 0;
+  int sum1 = 0;
+  int sum2 = 0;
+  for (auto& n : nums1) {
+    if (0 == n) {
+      sum1++;
+      cnt1++;
+    } else {
+      sum1 += n;
+    }
+  }
+  for (auto& n : nums2) {
+    if (0 == n) {
+      sum2++;
+      cnt2++;
+    } else {
+      sum2 += n;
+    }
+  }
+
+  if (sum1 > sum2) {
+    return cnt2 > 0 ? sum1 : -1;
+  } else if (sum1 < sum2) {
+    return cnt1 > 0 ? sum2 : -1;
+  } else {
+    return sum1;
+  }
+
+  // return std::max(sum1, sum2);
+  // int diff = sum1 - sum2;
+}
+
 }  // namespace myleet

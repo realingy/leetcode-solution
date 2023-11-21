@@ -96,6 +96,20 @@ class LeetArray {
   int maximumXorProduct(long long a, long long b, int n);
   // leetcode2760 最长奇偶子数组
   int longestAlternatingSubarray(std::vector<int>& nums, int threshold);
+  // leetcode2932 找出强数对的最大异或值 I
+  static int maximumStrongPairXor(std::vector<int>& nums);
+  // leetcode2935 找出强数对的最大异或值II
+  static int maximumStrongPairXor2(std::vector<int>& nums);
+  // leetcode2934 最大化数组末位元素的最少操作次数
+  int minOperations(std::vector<int>& nums1, std::vector<int>& nums2);
+  // leetcode2928 给小朋友们分糖果 I
+  static int distributeCandies(int n, int limit);
+  // leetcode2929 给小朋友们分糖果II
+  static long long distributeCandies2(int n, int limit);
+  // leetcode2927 给小朋友们分糖果III
+  static long long distributeCandies3(int n, int limit);
+  // leetcode2930 重新排列后包含指定子字符串的字符串数目
+  static int stringCount(int n);
 };
 
 }  // namespace myleet
