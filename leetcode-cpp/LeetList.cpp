@@ -246,4 +246,53 @@ ListNode* LeetList::getIntersectionNode(ListNode* headA, ListNode* headB) {
   return nullptr;
 }
 
+// leetcode1143 最长公共子序列
+ListNode* LeetList::removeElements(ListNode* head, int val) {
+  // ans 20231120
+  if (!head) {
+    return head;
+  }
+  head->next = removeElements(head->next, val);
+  return head->val == val ? head->next : head;
+}
+
+// leetcode234 回文链表
+bool LeetList::isPalindrome(ListNode* head) {
+  // resolve 20231120
+  if (head) return true;
+  std::vector<int> arr;
+  while (head) {
+    arr.emplace_back(head->val);
+  }
+  int i = 0;
+  int j = arr.size() - 1;
+  while (i <= j) {
+    std::cout << arr[i] << ", " << arr[j] << std::endl;
+    if (arr[i++] != arr[j--]) return false;
+  }
+  return true;
+}
+
+std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k) {
+  std::vector<int> ans;
+  std::deque<int> q;  // 双端队列
+  for (int i = 0; i < nums.size(); i++) {
+    // 1. 入
+    while (!q.empty() && nums[q.back()] <= nums[i]) {
+      q.pop_back();  // 维护 q 的单调性
+    }
+    q.push_back(i);  // 入队
+    // 2. 出
+    if (i - q.front() >= k) {  // 队首已经离开窗口了
+      q.pop_front();
+    }
+    // 3. 记录答案
+    if (i >= k - 1) {
+      // 由于队首到队尾单调递减，所以窗口最大值就是队首
+      ans.push_back(nums[q.front()]);
+    }
+  }
+  return ans;
+}
+
 }  // namespace myleet

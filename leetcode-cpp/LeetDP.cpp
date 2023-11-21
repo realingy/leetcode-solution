@@ -451,7 +451,7 @@ int LeetDP::rob(std::vector<int>& nums) {
 #else
   // ans 20231116
   // 优化空间复杂度
-  int n = nums.size();
+  int n = (int)nums.size();
   if (n < 2) return nums[0];
   if (n < 3) return std::max(nums[0], nums[1]);
 

@@ -1,6 +1,7 @@
 #ifndef __DATA_H__
 #define __DATA_H__
 
+#include <deque>
 #include <functional>
 #include <list>
 #include <map>

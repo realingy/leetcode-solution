@@ -635,4 +635,78 @@ int LeetDFS::lengthOfLIS(std::vector<int>& nums) {
   return res;
 }
 
+// leetcode516 最长回文子序列
+int LeetDFS::longestPalindromeSubseq(std::string s) {
+// resolve 20231120
+#if 0
+  int n = s.size();
+  // cache用于记忆化搜索
+  std::vector<std::vector<int>> cache(n, std::vector<int>(n, -1));
+  std::function<int(int, int)> dfs = [&](int i, int j) {
+    if (i == j)
+      return 1;
+    else if (i > j)
+      return 0;
+
+    int& cur = cache[i][j];
+    if (-1 != cur) return cur;
+    if (s[i] == s[j])
+      return cur = dfs(i + 1, j - 1) + 2;
+    else
+      return cur = std::max(dfs(i, j - 1), dfs(i + 1, j));
+  };
+
+  return dfs(0, n - 1);
+#else
+  int n = s.size();
+  std::vector<std::vector<int>> cache(n, std::vector<int>(n, 0));
+  for (int i = n - 1; i >= 0; i--) {
+    cache[i][i] = 0;
+    for (int j = i + 1; j < n; j++) {
+      if (s[i] == s[j])
+        cache[i][j] = cache[i + 1][j - 1] + 2;
+      else
+        cache[i][j] = std::max(cache[i][j - 1], cache[i + 1][j]);
+    }
+  }
+
+  return cache[0][n - 1];
+
+#endif
+}
+
+// leetcode1039 多边形三角剖分的最低得分
+int LeetDFS::minScoreTriangulation(std::vector<int>& v) {
+#if 0
+  // ans 20231120
+  int n = (int)v.size();
+  std::vector<std::vector<int>> cache(n, std::vector<int>(n, -1));
+  std::function<int(int, int)> dfs = [&](int i, int j) {
+    // 构不成三角形
+    if (i == j - 1) return 0;
+    int& cur = cache[i][j];
+    if (-1 != cur) return cur;
+    cur = INT_MAX;
+    for (int k = i + 1; k < j; k++) {
+      cur = std::min(cur, dfs(i, k) + dfs(k, j) + v[i] * v[k] * v[j]);
+    }
+    return cur;
+  };
+  return dfs(0, n - 1);
+#else
+  int n = v.size();
+  std::vector<std::vector<int>> f(n, std::vector<int>(n, 0));
+  for (int i = n - 3; i >= 0; i--) {
+    for (int j = i + 2; j < n; j++) {
+      f[i][j] = INT_MAX;
+      for (int k = i + 1; k < j; k++) {
+        f[i][j] = std::min(f[i][j], f[i][k] + f[k][j] + v[i] * v[k] * v[j]);
+      }
+    }
+  }
+
+  return f[0][n - 1];
+#endif
+}
+
 }  // namespace myleet

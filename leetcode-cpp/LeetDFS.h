@@ -54,6 +54,10 @@ class LeetDFS {
   int minDistance(std::string word1, std::string word2);
   // leetcode300 最长递增子序列
   int lengthOfLIS(std::vector<int>& nums);
+  // leetcode516 最长回文子序列
+  int longestPalindromeSubseq(std::string s);
+  // leetcode1039 多边形三角剖分的最低得分
+  int minScoreTriangulation(std::vector<int>& v);
 };
 
 }  // namespace myleet
