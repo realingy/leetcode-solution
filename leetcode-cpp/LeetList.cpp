@@ -296,4 +296,38 @@ std::vector<int> LeetList::maxSlidingWindow(std::vector<int>& nums, int k) {
   return ans;
 }
 
+// leetcode83 删除排序链表中的重复元素
+ListNode* LeetList::deleteDuplicates(ListNode* head) {
+  // resolve 20231122
+  ListNode* l = head;
+  ListNode* r = head;
+  while (nullptr != l && nullptr != r) {
+    while (nullptr != l && nullptr != r && l->val == r->val) {
+      r = r->next;
+    }
+    l->next = r;
+    l = r;
+  }
+  return head;
+}
+
+// leetcode82 删除排序链表中的重复元素II
+ListNode* LeetList::deleteDuplicates2(ListNode* head) {
+  // resolve 20231122
+  ListNode* dummy = new ListNode(-1);
+  dummy->next = head;
+  ListNode* cur = dummy;
+  while (nullptr != cur->next && nullptr != cur->next->next) {
+    int v = cur->next->val;
+    if (v != cur->next->next->val) {
+      cur = cur->next;
+    } else {
+      while (nullptr != cur->next && v == cur->next->val) {
+        cur->next = cur->next->next;
+      }
+    }
+  }
+  return dummy->next;
+}
+
 }  // namespace myleet

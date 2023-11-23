@@ -110,6 +110,16 @@ class LeetArray {
   static long long distributeCandies3(int n, int limit);
   // leetcode2930 重新排列后包含指定子字符串的字符串数目
   static int stringCount(int n);
+  // leetcode2262 字符串的总引力
+  static long long appealSum(std::string s);
+  // leetcode828. 统计子串中的唯一字符
+  static int uniqueLetterString(std::string s);
+  // leetcode2522 将字符串分割成值不超过 K 的子字符串
+  static int minimumPartition(std::string s, int k);
+  // leetcode2521 数组乘积中的不同质因数数目
+  static int distinctPrimeFactors(std::vector<int>& nums);
+  // leetcode896 单调数列
+  static bool isMonotonic(std::vector<int>& nums);
 };
 
 }  // namespace myleet

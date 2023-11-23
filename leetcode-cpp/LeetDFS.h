@@ -61,6 +61,8 @@ class LeetDFS {
   // leetcode1334 阈值距离内邻居最少的城市
   int findTheCity(int n, std::vector<std::vector<int>>& edges,
                   int distanceThreshold);
+  // leetcode2919 使数组变美的最小增量运算数
+  long long minIncrementOperations(std::vector<int>& nums, int k);
 };
 
 }  // namespace myleet

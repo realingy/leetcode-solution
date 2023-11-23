@@ -748,4 +748,25 @@ int LeetDFS::findTheCity(int n, std::vector<std::vector<int>>& edges,
   return res;
 }
 
+// leetcode2919 使数组变美的最小增量运算数
+long long LeetDFS::minIncrementOperations(std::vector<int>& nums, int k) {
+  // ans 20231122
+  // 经典dfs，思想是当前值要不要增大到k，然后可以不增大的条件是右侧两个值已经有增大到k的值
+  int n = nums.size();
+  std::vector<std::vector<long long>> cache(n, std::vector<long long>(n, -1));
+  // j表示右侧没有做增大操作的元素个数
+  std::function<long long(int, int)> dfs = [&](int i, int j) -> long long {
+    if (i < 0) return 0;
+    long long& res = cache[i][j];
+    if (-1 != res) return res;
+    // 当前值增大到k
+    res = dfs(i - 1, 0) + std::max(k - nums[i], 0);
+    // 当右侧两个元素中有增大到k的值，则当前元素可以不增大，并判断增大和不增大两种情况的最小值
+    if (j < 2) res = std::min(res, dfs(i - 1, j + 1));
+    return res;
+  };
+
+  return dfs(n - 1, 0);
+}
+
 }  // namespace myleet

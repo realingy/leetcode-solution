@@ -39,7 +39,11 @@ class LeetList {
   // leetcode234 回文链表
   static bool isPalindrome(ListNode* head);
   // leetcode239 滑动窗口最大值
-  std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k);
+  static std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k);
+  // leetcode83 删除排序链表中的重复元素
+  static ListNode* deleteDuplicates(ListNode* head);
+  // leetcode82 删除排序链表中的重复元素II
+  static ListNode* deleteDuplicates2(ListNode* head);
 };
 
 }  // namespace myleet

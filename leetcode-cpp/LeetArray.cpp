@@ -1225,4 +1225,164 @@ int findChampion(std::vector<std::vector<int>>& grid) {
   return res;
 }
 
+// leetcode2262 字符串的总引力
+long long LeetArray::appealSum(std::string s) {
+  // ans 20231122
+  // 把s[i]添加到以s[i-1]结尾的子数组上
+  // 1)
+  // 假如s[i]之前没出现过，引力值会增加i（以s[i-1]结尾的子串有i个）,同时要加1，即s[i]单独成串
+  // pre += i + 1
+  // 2)
+  // 假如s[i]之前出现过，最后一个出现的位置为j，引力值只会增加i-j-1（以s[i-1]结尾的子串有i个,
+  // 但是前j+1个子串即便加上s[i]引力也不变）,同时要加1，即s[i]单独成串
+  // pre += i - (j + 1) + 1
+  // pre += i - j
+  // 使用一个哈希表记录j
+  // 3)
+  // 把所有的pre加起来就是结果
+  int n = s.length();
+  long res = 0L;
+  int pre = 0;
+  std::vector<int> last(26, -1);
+  for (int i = 0; i < n; i++) {
+    int cur = s[i] - 'a';
+    if (-1 == last[cur]) {
+      // 之前没遇到过
+      pre += i + 1;
+    } else {
+      // 之前遇到过
+      pre += i - last[cur];
+    }
+    res += pre;
+    last[cur] = i;
+  }
+
+  return res;
+}
+
+// leetcode828 统计子串中的唯一字符
+int LeetArray::uniqueLetterString(std::string s) {
+  // ans 20231122
+  //  mem1[i]: 以 s[i] 结尾且 s[i] 为唯一字符的子串个数
+  //  mem2[i]: 以 s[i] 开始且 s[i] 为唯一字符的子串个数
+  //  则以字符 s[i] 为唯一字符的子串个数为 mem1[i] * mem2[i]
+  //  举例说明：对于字符串 'cbabcd'
+  //  子串 'cba', 'ba', 'a' (3个) 是以 'a' 结尾的子串
+  //  子串 'a', 'ab', 'abc', 'abcd' (4个) 是以 'a' 开始的子串
+  //  那么以 'a' 为唯一字符的子串为:
+  // 'cba', 'cbab', 'cbabc', 'cbabcd'
+  // 'ba', 'bab', 'babc', 'babcd'
+  // 'a', 'ab', 'abc', 'abcd'
+  //  共计 3 * 4 = 12 个
+
+  int n = s.length();
+  std::vector<int> mem1(n, -1);
+  std::vector<int> mem2(n, -1);
+
+  // pre[s[i]] : 保存字符 s[i] 上一次出现的位置
+  // 我们假设字符 s[i] 上一次出现的位置为 pre
+  // （如果 字符 s[i] 在位置 i 是第一次出现，我们设 pre = -1）
+  // 那么在 闭区间[pre + 1, i] 内的所有以 s[i] 结尾的子串所包含的字符 s[i]
+  // 必唯一 共计 i - pre 个
+  // nxt[s[i]] : 保存字符 s[i] 下一次出现的位置
+  // 我们假设字符 s[i] 下一次出现的位置为 nxt
+  // （如果 字符 s[i] 在位置 i 是最后一次出现，我们设 nxt = n）
+  // 那么在 闭区间[i, nxt] 内的所有以 s[i] 开始的子串所包含的字符 s[i] 必唯一
+  // 共计 nxt - i 个
+  // 以字符 s[i] 为唯一字符的子串个数为(i - pre) * (nxt - i)
+
+  std::vector<int> pre(26, -1);  // 默认为 -1
+  std::vector<int> last(26, n);  // 默认为 n
+
+  for (int i = 0; i < n; i++) {
+    mem1[i] = i - pre[s[i] - 'A'];
+    pre[s[i] - 'A'] = i;
+  }
+
+  for (int i = n - 1; i >= 0; i--) {
+    mem2[i] = last[s[i] - 'A'] - i;
+    last[s[i] - 'A'] = i;
+  }
+
+  int res = 0;
+  for (int i = 0; i < n; i++) {
+    res += mem1[i] * mem2[i];
+  }
+  return res;
+}
+
+// leetcode2522 将字符串分割成值不超过 K 的子字符串
+int LeetArray::minimumPartition(std::string s, int k) {
+  int res = 1;
+  long x = 0;
+  for (char ch : s) {
+    int i = ch - '0';
+    if (i > k) return -1;
+    x = x * 10 + i;
+    if (x > k) {
+      res++;
+      x = i;
+    }
+  }
+  return res;
+}
+
+// leetcode2521 数组乘积中的不同质因数数目
+int LeetArray::distinctPrimeFactors(std::vector<int>& nums) {
+  // ans 20231122
+  // 哈希，找每个元素的质数因子，添加到哈希set，哈希set的长度就是答案
+  std::unordered_set<int> set;
+  for (int n : nums) {
+    int i = 2;
+    while (i * i <= n) {
+      if (0 == n % i) {
+        set.insert(i);
+        n /= i;
+        while (0 == n % i) {
+          n /= i;
+        }
+      }
+      i++;
+    }
+    if (n > 1) set.insert(n);
+  }
+  return set.size();
+}
+
+// leetcode896 单调数列
+bool LeetArray::isMonotonic(std::vector<int>& nums) {
+#if 0
+  // resolve 20231122
+  int n = nums.size();
+  if (n <= 2) return true;
+  for (int i = 1; i < n - 1; i++) {
+    int cur = nums[i];
+    int j = i - 1;
+    while (j >= 0 && nums[j] == cur) {
+      j--;
+    }
+    if (j < 0) continue;
+    int k = i + 1;
+    while (k < n && nums[k] == cur) {
+      k++;
+    }
+    if (k == n) return true;
+    long pre = nums[j];
+    long next = nums[k];
+    if ((cur - pre) * (cur - next) > 0) return false;
+  }
+  return true;
+#else
+  // resolve 20231122
+  bool inc = true;  // 递增
+  bool dec = true;  // 递减
+  for (int i = 1; i < nums.size(); ++i) {
+    if (nums[i] < nums[i - 1]) inc = false;
+    if (nums[i] > nums[i - 1]) dec = false;
+    if (!inc && !dec) return false;
+  }
+  return true;
+#endif
+}
+
 }  // namespace myleet
