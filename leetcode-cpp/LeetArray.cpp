@@ -1385,4 +1385,94 @@ bool LeetArray::isMonotonic(std::vector<int>& nums) {
 #endif
 }
 
+// leetcode2515 到目标字符串的最短距离
+int LeetArray::closetTarget(std::vector<std::string>& words, std::string target,
+                            int startIndex) {
+  int n = words.size();
+  int i = 0;
+  int res = INT_MAX;
+  while (i < n) {
+    if (target == words[i]) {
+      int dist = std::abs(i - startIndex);
+      int cur = std::min(dist, n - dist);
+      res = std::min(res, cur);
+    }
+  }
+  return res;
+}
+
+// leetcode643 子数组最大平均数I
+double LeetArray::findMaxAverage(std::vector<int>& nums, int k) {
+  int n = nums.size();
+  int sum = 0;
+  for (int i = 0; i < k; i++) {
+    sum += nums[i];
+  }
+  int res = sum;
+  for (int i = k; i < n; i++) {
+    sum += nums[i] - nums[i - k];
+    res = std::max(res, sum);
+  }
+  return res / (k * 1.0);
+}
+
+// leetcode1763 最长的美好子字符串
+std::string LeetArray::longestNiceSubstring(std::string s) {
+  if (s.size() < 2) return "";
+  int n = s.size();
+  int lower[26];
+  int upper[26];
+  memset(lower, 0, sizeof(lower));
+  memset(upper, 0, sizeof(upper));
+  for (char c : s) {
+    if (c >= 'a' && c <= 'z') lower[c - 'a']++;
+    if (c >= 'A' && c <= 'Z') upper[c - 'A']++;
+  }
+
+  for (int i = 0; i < n; i++) {
+    char c = s[i];
+    int idx;
+    if (c >= 'a' && c <= 'z') idx = c - 'a';
+    if (c >= 'A' && c <= 'Z') idx = c - 'A';
+    if (!lower[idx] || !upper[idx]) {
+      auto res1 = longestNiceSubstring(s.substr(0, i));
+      auto res2 = longestNiceSubstring(s.substr(i + 1, n - i));
+      return res1.size() < res2.size() ? res2 : res1;
+    }
+  }
+
+  return s;
+}
+
+// leetcode1876 长度为三且各字符不同的子字符串
+int LeetArray::countGoodSubstrings(std::string s) {
+  int n = s.size();
+  if (n < 3) return 0;
+  int cnt[26];
+  memset(cnt, 0, sizeof(cnt));
+
+  bool repeat = false;
+  for (int i = 0; i < 3; i++) {
+    int idx = s[i] - 'a';
+    if (cnt[idx] > 0) repeat = true;
+    cnt[idx]++;
+  }
+
+  int res = 0;
+  if (!repeat) res++;
+  for (int i = 1; i < n - 2; i++) {
+    int idx1 = s[i - 1] - 'a';
+    int idx2 = s[i] - 'a';
+    int idx3 = s[i + 1] - 'a';
+    int idx4 = s[i + 2] - 'a';
+
+    cnt[idx1]--;
+    cnt[idx4]++;
+    if (1 == cnt[idx4] && 1 == cnt[idx2] && 1 == cnt[idx3]) {
+      res++;
+    }
+  }
+  return res;
+}
+
 }  // namespace myleet
