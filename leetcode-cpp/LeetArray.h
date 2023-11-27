@@ -120,15 +120,23 @@ class LeetArray {
   static int distinctPrimeFactors(std::vector<int>& nums);
   // leetcode896 单调数列
   static bool isMonotonic(std::vector<int>& nums);
-  // leetcode2515 到目标字符串的最短距离
-  static int closetTarget(std::vector<std::string>& words, std::string target,
-                          int startIndex);
   // leetcode643 子数组最大平均数I
   double findMaxAverage(std::vector<int>& nums, int k);
   // leetcode1763 最长的美好子字符串
   std::string longestNiceSubstring(std::string s);
   // leetcode1876 长度为三且各字符不同的子字符串
   int countGoodSubstrings(std::string s);
+  // leetcode485 最大连续1的个数
+  int findMaxConsecutiveOnes(std::vector<int>& nums);
+  // leetcode2515 到目标字符串的最短距离
+  static int closetTarget(std::vector<std::string>& words, std::string target,
+                          int startIndex);
+  // leetcode2516 每种字符至少取K个
+  int takeCharacters(std::string s, int k);
+  // leetcode2517 礼盒的最大甜蜜度
+  int maximumTastiness(std::vector<int>& price, int k);
+  // leetcode2518 好分区的数目
+  int countPartitions(std::vector<int>& nums, int k);
 };
 
 }  // namespace myleet

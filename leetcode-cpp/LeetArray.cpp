@@ -1385,22 +1385,6 @@ bool LeetArray::isMonotonic(std::vector<int>& nums) {
 #endif
 }
 
-// leetcode2515 到目标字符串的最短距离
-int LeetArray::closetTarget(std::vector<std::string>& words, std::string target,
-                            int startIndex) {
-  int n = words.size();
-  int i = 0;
-  int res = INT_MAX;
-  while (i < n) {
-    if (target == words[i]) {
-      int dist = std::abs(i - startIndex);
-      int cur = std::min(dist, n - dist);
-      res = std::min(res, cur);
-    }
-  }
-  return res;
-}
-
 // leetcode643 子数组最大平均数I
 double LeetArray::findMaxAverage(std::vector<int>& nums, int k) {
   int n = nums.size();
@@ -1473,6 +1457,174 @@ int LeetArray::countGoodSubstrings(std::string s) {
     }
   }
   return res;
+}
+
+// leetcode485 最大连续 1 的个数
+int LeetArray::findMaxConsecutiveOnes(std::vector<int>& nums) {
+  // resolve 20231126
+  int n = nums.size();
+  int l = 0;
+  int r = 0;
+  int res = 0;
+  while (l < n && r < n) {
+    while (l < n && 1 != nums[l]) {
+      l++;
+    }
+    r = l;
+    while (r < n && 1 == nums[r]) {
+      r++;
+    }
+    res = std::max(res, r - l);
+    l = r;
+  }
+  return res;
+}
+
+/*
+int minimumDifference(std::vector<int>& nums, int k) {
+  std::sort(nums.begin(), nums.end());
+  int n = nums.size();
+  int res = INT_MAX;
+  for (int i = 0; i < n - k + 1; i++) {
+    res = std::min(res, nums[i + k - 1] - nums[i]);
+  }
+  return res;
+}
+*/
+
+// leetcode2515 <==> leetcode2516 <==> leetcode2517 <==> leetcode2518
+// leetcode2515 到目标字符串的最短距离
+int LeetArray::closetTarget(std::vector<std::string>& words, std::string target,
+                            int startIndex) {
+  // resolve 20231125
+  int n = words.size();
+  int i = 0;
+  int res = INT_MAX;
+  while (i < n) {
+    if (target == words[i]) {
+      int dist = std::abs(i - startIndex);
+      int cur = std::min(dist, n - dist);
+      res = std::min(res, cur);
+    }
+  }
+  return res;
+}
+
+// leetcode2515 <==> leetcode2516 <==> leetcode2517 <==> leetcode2518
+// leetcode2516 每种字符至少取K个
+int LeetArray::takeCharacters(std::string s, int k) {
+#if 0
+  // ans 20231125
+  int n = s.size();
+  if (n < 3 * k) return -1;
+
+  // 1、前缀为空，遍历后缀
+  int cnt[3] = {0, 0, 0};
+  int j = n;
+  while (cnt[0] < k || cnt[1] < k || cnt[2] < k) {
+    if (j == 0) return -1;
+    j--;
+    cnt[s[j] - 'a']++;
+  }
+
+  // 2、枚举前缀，优化后缀
+  int res = n - j;  // res 不大于n
+  for (int i = 0; i < n; i++) {
+    cnt[s[i] - 'a']++;
+    while (j < n && cnt[s[j] - 'a'] > k) {
+      cnt[s[j] - 'a']--;
+      j++;
+    }
+    res = std::min(res, i + 1 + n - j);
+    if (j == n) break;  // 剪枝，后缀无法再继续更新
+  }
+  return res;
+#else
+  // ans 20231125
+  // 二分
+  int n = s.size();
+  if (n < 3 * k) return -1;
+
+  std::function<bool(int)> f = [&](int idx) -> bool {
+    int cnt[3] = {0};
+    int i = 0;
+    while (i < idx) {
+      cnt[s[i] - 'a']++;
+      i++;
+    }
+    if (cnt[0] >= k && cnt[1] >= k && cnt[2] >= k) return true;
+    i = 1;
+    while (i <= idx) {
+      cnt[s[idx - i] - 'a']--;
+      cnt[s[n - i] - 'a']++;
+      if (cnt[0] >= k && cnt[1] >= k && cnt[2] >= k) return true;
+      i++;
+    }
+    return false;
+  };
+
+  int l = 0, r = n - 1;
+  while (l < r) {
+    int mid = l + (r - l) / 2;
+    if (f(mid))
+      r = mid;
+    else
+      l = mid + 1;
+  }
+
+  return l;
+#endif
+}
+
+// leetcode2515 <==> leetcode2516 <==> leetcode2517 <==> leetcode2518
+// leetcode2517 礼盒的最大甜蜜度
+int LeetArray::maximumTastiness(std::vector<int>& price, int k) {
+  // ans 20231125
+  // 二分
+  std::sort(price.begin(), price.end());
+  int n = price.size();
+
+  // 测试当前甜蜜度满不满足要求
+  std::function<bool(int)> f = [&](int d) -> bool {
+    int cnt = 1;
+    int cur = price[0];
+    for (auto p : price) {
+      if (p - cur >= d) {
+        cnt++;
+        cur = p;
+      }
+    }
+    return cnt >= k;
+  };
+
+  int l = 0, r = (price[n - 1] - price[0]) / (k - 1) + 1;
+  while (l < r - 1) {
+    int mid = l + (r - l) / 2;
+    if (f(mid))
+      l = mid;
+    else
+      r = mid;
+  }
+
+  return l;
+}
+
+// leetcode2515 <==> leetcode2516 <==> leetcode2517 <==> leetcode2518
+// leetcode2518 好分区的数目
+int LeetArray::countPartitions(std::vector<int>& nums, int k) {
+  // ans 20231127
+  // 将问题转换成找坏分区
+  if (accumulate(nums.begin(), nums.end(), 0L) < k * 2) return 0;
+  const int MOD = 1e9 + 7;
+  int ans = 1;
+  std::vector<int> f(k, 0);
+  f[0] = 1;
+  for (int x : nums) {
+    ans = ans * 2 % MOD;
+    for (int j = k - 1; j >= x; --j) f[j] = (f[j] + f[j - x]) % MOD;
+  }
+  for (int x : f) ans = (ans - x * 2 % MOD + MOD) % MOD;  // 保证答案非负
+  return ans;
 }
 
 }  // namespace myleet
