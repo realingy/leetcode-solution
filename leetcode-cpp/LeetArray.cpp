@@ -1313,6 +1313,8 @@ int LeetArray::uniqueLetterString(std::string s) {
 
 // leetcode2522 将字符串分割成值不超过 K 的子字符串
 int LeetArray::minimumPartition(std::string s, int k) {
+  // resolve 20231122
+  // 枚举每一位，然后保持当前值小于等于K
   int res = 1;
   long x = 0;
   for (char ch : s) {

@@ -87,6 +87,35 @@ class LeetArray:
           break
       return res
 
+    # leetcode2521 数组乘积中的不同质因数数目
+    def distinctPrimeFactors(self, nums: List[int]) -> int:
+        s = set()
+        for x in nums:
+            i = 2
+            while i * i <= x:
+                if 0 == x % i:
+                    s.add(i)
+                    while 0 == x % i:
+                        x //= i
+                i += 1
+            if x > 1: s.add(x)
+        return len(s)
+
+    # leetcode2522 将字符串分割成值不超过 K 的子字符串
+    def minimumPartition(self, s: str, k: int) -> int:
+        res = 1
+        x = 0
+        for ch in s:
+            i = ch - 'a'
+            if(i > k): return -1
+            x = x * 10 + i
+            if x > k: 
+                res += 1
+                x = i
+        return res
+
+
+
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)

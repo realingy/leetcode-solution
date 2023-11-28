@@ -15,7 +15,9 @@ class LeetBit {
 
  public:
   // leetcode2917 找出数组中的 K-or 值
-  int findKOr(std::vector<int>& nums, int k);
+  static int findKOr(std::vector<int>& nums, int k);
+  // leetcode2520 统计能整除数字的位数
+  static int countDigits(int num);
 };
 
 }  // namespace myleet
