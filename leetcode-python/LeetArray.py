@@ -114,6 +114,56 @@ class LeetArray:
                 x = i
         return res
 
+    # leetcode2486 追加字符以获得子序列
+    def appendCharacters(self, s: str, t: str) -> int:
+        i, n = 0, len(s)
+        for j, ch in enumerate(t):
+            while i < n and s[i] != ch:
+                i += 1
+            if i == n: return len(t) - j
+            i += 1
+        return 0
+
+    # leetcode2488 统计中位数为 K 的子数组
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        idx = nums.index(k)
+        n = len(nums)
+        cnt = defaultdict(int)
+        cnt[0] += 1
+        x = 0
+        for i in range (idx + 1, n):
+            x += 1 if nums[i] > k else -1
+            cnt[x] += 1
+        
+        x = 0
+        res = cnt[0] + cnt[1]
+        for i in range (idx - 1, -1, -1):
+            x += -1 if nums[i] > k else 1
+            res += cnt[x] + cnt[x+1]
+        return res
+    
+    # leetcode2337 移动片段得到字符串
+    def canChange(self, start: str, target: str) -> bool:
+        # 性质1 字母需要一一对应
+        if start.replace('_', '') != target.replace('_', ''):
+            return False
+        
+        # 保证完性质1，下面就可以一一对应
+        # 性质2 start[i] target[j]
+        # L: i >= j R: i <= j
+        j = 0
+        for i, ch in enumerate(start):
+            if ch == '_': continue
+            while j < len(target) and target[j] == '_': j += 1
+            if ch == 'L': 
+                if i < j: return False
+            else:
+                if i > j: return False
+            j += 1
+        return True
+
+
+
 
 
 s = 'abcddf'

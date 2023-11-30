@@ -11,6 +11,8 @@
 #include <unordered_set>
 #include <vector>
 
+using namespace std;
+
 namespace myleet {
 
 class MyHashSet {

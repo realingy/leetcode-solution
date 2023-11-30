@@ -44,6 +44,8 @@ class LeetList {
   static ListNode* deleteDuplicates(ListNode* head);
   // leetcode82 删除排序链表中的重复元素II
   static ListNode* deleteDuplicates2(ListNode* head);
+  // leetcode2487 从链表中移除节点
+  static ListNode* removeNodes(ListNode* head);
 };
 
 }  // namespace myleet

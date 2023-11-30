@@ -137,6 +137,12 @@ class LeetArray {
   int maximumTastiness(std::vector<int>& price, int k);
   // leetcode2518 好分区的数目
   int countPartitions(std::vector<int>& nums, int k);
+  // leetcode2486 追加字符以获得子序列
+  int appendCharacters(string s, string t);
+  // leetcode2488 统计中位数为 K 的子数组
+  static int countSubarrays(vector<int>& nums, int k);
+  // leetcode2337 移动片段得到字符串
+  static bool canChange(string start, string target);
 };
 
 }  // namespace myleet

@@ -1629,4 +1629,71 @@ int LeetArray::countPartitions(std::vector<int>& nums, int k) {
   return ans;
 }
 
+// leetcode2486 追加字符以获得子序列
+int LeetArray::appendCharacters(string s, string t) {
+  // resolve 20231130
+  // 因为i只有可能被从0到n加一次，所以时间复杂度是O(n)
+  int n = s.size();
+  int m = t.size();
+  int i = 0;
+  for (int j = 0; j < m; j++) {
+    char ch = t[j];
+    while (i < n && s[i] != ch) {
+      i++;
+    }
+    if (i == n) return m - j;
+    i++;
+  }
+  return 0;
+}
+
+// leetcode2488 统计中位数为 K 的子数组
+int LeetArray::countSubarrays(vector<int>& nums, int k) {
+  // ans 20231130
+  // model
+  int n = nums.size();
+  int idx = 0;
+  for (int i = 0; i < n; i++) {
+    if (k == nums[i]) {
+      idx = i;
+      break;
+    }
+  }
+  std::unordered_map<int, int> count;
+  count[0]++;
+  for (int i = idx + 1, x = 0; i < n; i++) {
+    x += nums[i] > k ? 1 : -1;
+    count[x]++;
+  }
+  int res = 0;
+  res += count[0] + count[1];
+  for (int i = idx - 1, x = 0; i >= 0; i--) {
+    x += nums[i] > k ? -1 : 1;
+    res += count[x] + count[x + 1];
+  }
+  return res;
+}
+
+// leetcode2337 移动片段得到字符串
+bool LeetArray::canChange(string start, string target) {
+  auto s = start, t = target;
+  s.erase(remove(s.begin(), s.end(), '_'), s.end());
+  t.erase(remove(t.begin(), t.end(), '_'), t.end());
+  if (s != t) return false;
+
+  int n = start.size();
+  int j = 0;
+  for (int i = 0; i < n; i++) {
+    if ('_' == start[i]) continue;
+    while ('_' == target[j]) j++;
+    if (start[i] == 'L') {
+      if (i < j) return false;
+    } else {
+      if (i > j) return false;
+    }
+    j++;
+  }
+  return true;
+}
+
 }  // namespace myleet

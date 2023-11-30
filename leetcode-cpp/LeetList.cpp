@@ -330,4 +330,19 @@ ListNode* LeetList::deleteDuplicates2(ListNode* head) {
   return dummy->next;
 }
 
+// leetcode2487 从链表中移除节点
+ListNode* LeetList::removeNodes(ListNode* head) {
+  // resolve 20231130
+  // 递归
+  if (!head) return head;
+  ListNode* res = removeNodes(head->next);
+  if (!res) return head;
+  if (res->val > head->val) {
+    return res;
+  }
+  head->next = res;
+  return head;
+  // 还有一种办法是将链表转换成数组，然后从后向前遍历
+}
+
 }  // namespace myleet
