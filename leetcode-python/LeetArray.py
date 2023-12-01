@@ -261,6 +261,20 @@ class LeetArray:
             cnt[s%m] += 1
         return ans
 
+    # leetcode2933 高访问员工
+    def findHighAccessEmployees(self, access_times: List[List[str]]) -> List[str]:
+        name2times = defaultdict(list)
+        for name, s in access_times:
+            t = int(s[:2]) * 60 + int(s[2:])
+            name2times[name].append(t)
+        ans = []
+        for name, a in name2times.items():
+            a.sort()
+            for i in range(2, len(a)):
+                if a[i] - a[i-2] < 60:
+                    ans.append(name)
+                    break
+        return ans
 
 s = 'abcddf'
 la = LeetArray()
