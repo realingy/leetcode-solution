@@ -321,6 +321,7 @@ int LeetArray::numberOfEmployeesWhoMetTarget(std::vector<int>& hours,
 
 // leetcode2843 统计对称整数的数目
 int LeetArray::countSymmetricIntegers(int low, int high) {
+#if 0
   // resolve 20231108
   // 暴力枚举
   int res = 0;
@@ -340,6 +341,21 @@ int LeetArray::countSymmetricIntegers(int low, int high) {
   }
 
   return res;
+#else
+  int res = 0;
+  for (int i = low; i <= high; i++) {
+    std::string s = std::to_string(i);
+    int n = (int)s.size();
+    if (0 != n % 2) continue;
+    int diff = 0;
+    for (int j = 0; j < n / 2; j++) {
+      diff += s[j] - s[j + n / 2];
+    }
+    if (!diff) res++;
+  }
+  return res;
+
+#endif
 }
 
 // leetcode845 数组中的最长山脉
@@ -1694,6 +1710,37 @@ bool LeetArray::canChange(string start, string target) {
     j++;
   }
   return true;
+}
+
+int findJudge(int n, vector<vector<int>>& trust) {
+#if 0
+  // resolve 20231201
+  // 出现在第一个位置就不是法官（是市民），出现在第二个位置，则统计信任此人的数量（假如不是市民）
+  std::vector<bool> citizen(n, false);
+  std::vector<int> cnt(n, 0);
+  for (auto t : trust) {
+    citizen[t[0] - 1] = true;
+    if (false == citizen[t[1] - 1]) cnt[t[1] - 1]++;
+  }
+
+  for (int i = 0; i < n; i++) {
+    if (false == citizen[i] && n - 1 == cnt[i]) return i + 1;
+  }
+  return -1;
+#else
+  // resolve 20231201
+  // 入度
+  std::vector<int> cnt(n, 0);
+  for (auto t : trust) {
+    cnt[t[0] - 1]--;  // 信任别人入度减一
+    cnt[t[1] - 1]++;  // 被信任入度加一
+  }
+  // 法官的入度为n-1
+  for (int i = 0; i < n; i++) {
+    if (n - 1 == cnt[i]) return i + 1;
+  }
+  return -1;
+#endif
 }
 
 }  // namespace myleet

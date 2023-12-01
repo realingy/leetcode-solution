@@ -161,9 +161,105 @@ class LeetArray:
                 if i > j: return False
             j += 1
         return True
+        
+    # leetcode2928 给小朋友们分糖果I
+    # leetcode2929 给小朋友们分糖果II
+    def distributeCandies(self, n: int, limit: int) -> int:
+        def f(i: int) -> int:
+            return i*(i-1) // 2 if i > 1 else 0
+        return f(n+2) - 3*f(n - (limit+1) + 2) + 3*f(n - 2*(limit+1) + 2) - f(n - 3*(limit+1) + 2)
+
+    # leetcode2930 重新排列后包含指定子字符串的字符串数目
+    def stringCount(self, n: int) -> int:
+        # dfs背包
+        mod = 10**9 + 7
+        def dfs(i: int, l: int, t: int, e: int) -> int:
+            if i == 0:
+                return 1 if l == t == e == 0 else 0
+            res = dfs(i-1, 0, max(t-1, 0), e) + dfs(i-1, l, max(t-1, 0), e) + dfs(i-1, l, t, max(e-1, 0))
+            res += dfs(i-1, l, t, e) * 23
+            return res % mod
+
+        return dfs(n, 1, 1, 2)
 
 
+        # 容斥原理
+        # mod = 10**9 + 7
+        # return ( pow(26, n, mod) 
+                # - pow(25, n-1, mod)*(75 + n)
+                # + pow(24, n-1, mod)*(72 + 2 * n)
+                # - pow(23, n-1, mod)*(23 + n) )% mod
 
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        # resolve 20231201
+        # 出现在第一个位置就不是法官（是市民），出现在第二个位置，则统计信任此人的数量（假如不是市民）
+        # citizen = [False] * n
+        # cnt = [0] * n
+        # for i in range(len(trust)):
+            # citizen[trust[i][0] - 1] = True
+            # if citizen[trust[i][1] - 1] == False:
+                # cnt[trust[i][1] - 1] += 1
+        # for i in range(n):
+            # if citizen[i] == False and cnt[i] == n - 1:
+                # return i + 1
+        # return -1
+
+        # resolve 20231201
+        # 入度
+        cnt = [0] * n
+        for _, t in enumerate(trust):
+            cnt[t[0]-1] -= 1
+            cnt[t[1]-1] += 1
+        for i in range(n):
+            if cnt[i] == n - 1:
+                return i + 1
+        return -1
+        
+    # leetcode2843 统计对称整数的数目
+    def countSymmetricIntegers(self, low: int, high: int) -> int:
+        res = 0
+        for i in range(low, high+1):
+            s = str(i)
+            n = len(s)
+            if n%2: continue
+            m = n // 2
+            # python库函数
+            # if sum(map(int, s[:m])) == sum(map(int, s[m:])):
+                # res += 1
+            diff = 0
+            for j in range(m):
+                diff += int(s[i]) - int(s[i+m])
+            if diff == 0:
+                res += 1
+        return res
+
+    # leetcode2844 生成特殊数字的最少操作
+    def minimumOperations(self, num: str) -> int:
+        n = len(num)
+        res = n
+        if '0' in num:
+            res -= 1
+        def f(tail: str) -> int:
+            i = num.rfind(tail[1])
+            if i < 0: return n
+            i = num.rfind(tail[0], 0, i)
+            if i < 0: return n
+            return n - i - 2
+        return min(res, f("00"), f("25"), f("50"), f("75"))
+
+    # leetcode2845 统计趣味子数组的数目
+    def countInterestingSubarrays(self, nums: List[int], m: int, k: int) -> int:
+        # 前缀和
+        n = len(nums)
+        pre = [0] * (n + 1)
+        for i, x in enumerate(nums):
+            pre[i+1] = pre[i] + (k == x%m) #根据策略计算拟合前缀和数组
+        ans = 0
+        cnt = Counter()
+        for s in pre:
+            ans += cnt[(s%m -k + m) % m]
+            cnt[s%m] += 1
+        return ans
 
 
 s = 'abcddf'
