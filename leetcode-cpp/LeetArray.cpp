@@ -1743,4 +1743,31 @@ int findJudge(int n, vector<vector<int>>& trust) {
 #endif
 }
 
+// leetcode2865 美丽塔I
+long long LeetArray::maximumSumOfHeights(vector<int>& a) {
+  long res = LONG_MIN;
+  int n = a.size();
+  for (int i = 0; i < n; i++) {
+    int x = a[i];
+    long s = x;
+
+    int min_cur = x;
+    int j = i - 1;
+    while (j >= 0) {
+      min_cur = std::min(a[j], min_cur);
+      s += min_cur;
+      j--;
+    }
+    min_cur = x;
+    j = i + 1;
+    while (j < n) {
+      min_cur = std::min(a[j], min_cur);
+      s += min_cur;
+      j++;
+    }
+    res = std::max(res, s);
+  }
+  return res;
+}
+
 }  // namespace myleet

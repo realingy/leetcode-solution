@@ -143,6 +143,8 @@ class LeetArray {
   static int countSubarrays(vector<int>& nums, int k);
   // leetcode2337 移动片段得到字符串
   static bool canChange(string start, string target);
+  // leetcode2865 美丽塔I
+  long long maximumSumOfHeights(vector<int>& a);
 };
 
 }  // namespace myleet

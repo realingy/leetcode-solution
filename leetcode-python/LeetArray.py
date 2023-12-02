@@ -276,6 +276,98 @@ class LeetArray:
                     break
         return ans
 
+    # leetcode2934 最大化数组末位元素的最少操作次数
+    def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
+        n = len(nums1)
+        def f(last1: int, last2: int) -> int:
+            res = 0
+            for i in range(n-1):
+                x = nums1[i]
+                y = nums2[i]
+                if x > last1 or y > last2:
+                    if x > last2 or y > last1:
+                        return n + 1 # 不满足条件
+                    res += 1
+            return res
+
+        res = min(f(nums1[-1], nums2[-1]), f(nums2[-1], nums1[-1]) + 1)
+        return res if res <= n else -1
+
+    # leetcode2932 找出强数对的最大异或值I
+    def maximumStrongPairXor(self, nums0: List[int]) -> int:
+        nums = sorted(nums0)
+        n = len(nums)
+        res = -inf
+        for i in range(n):
+            j = i
+            while j >= 0:
+                if 2 * nums[j] >= nums[i]:
+                    res = max(res, nums[j] ^ nums[i])
+                j -= 1
+        return res
+
+    # leetcode421 数组中两个数的最大异或值
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        high_bit = max(nums).bit_length() - 1
+        res, mask = 0, 0
+        for i in range(high_bit, -1, -1):
+            seen = set()
+            mask |= 1 << i
+            new_res = res | (1 << i)
+            for x in nums:
+                x &= mask
+                if new_res ^ x in seen:
+                    res = new_res
+                    break
+                seen.add(x)
+        return res
+
+    # leetcode2865 美丽塔I
+    def maximumSumOfHeights(self, a: List[int]) -> int:
+        res = 0
+        n = len(a)
+        for i, x in enumerate(a):
+            s = mn = x
+            for j in range(i-1, -1, -1):
+                mn = min(mn, a[j])
+                s += mn
+            mn = x
+            for j in range(i+1, n):
+                mn = min(mn, a[j])
+                s += mn
+            res = max(res, s)
+        return res
+
+    # leetcode2866 美丽塔II
+    def maximumSumOfHeights(self, a: List[int]) -> int:
+        # 单调栈
+        # 1、相同的数，只需要维护最左边的元素的下标
+        # 2、用单调栈维护
+        n = len(a)
+        suf = [0] * (n + 1)
+        st = [n]  # 哨兵
+        s = 0
+        for i in range(n - 1, -1, -1):
+            x = a[i]
+            while len(st) > 1 and x <= a[st[-1]]:
+                j = st.pop()
+                s -= a[j] * (st[-1] - j)  # 撤销之前加到 s 中的
+            s += x * (st[-1] - i)  # 从 i 到 st[-1]-1 都是 x
+            suf[i] = s
+            st.append(i)
+
+        ans = s
+        st = [-1]  # 哨兵
+        pre = 0
+        for i, x in enumerate(a):
+            while len(st) > 1 and x <= a[st[-1]]:
+                j = st.pop()
+                pre -= a[j] * (j - st[-1])  # 撤销之前加到 pre 中的
+            pre += x * (i - st[-1])  # 从 st[-1]+1 到 i 都是 x
+            ans = max(ans, pre + suf[i + 1])
+            st.append(i)
+        return ans
+
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)

@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "data.h"
+
 namespace myleet {
 
 class LeetBit {
@@ -18,6 +20,8 @@ class LeetBit {
   static int findKOr(std::vector<int>& nums, int k);
   // leetcode2520 统计能整除数字的位数
   static int countDigits(int num);
+  // 421. 数组中两个数的最大异或值
+  int findMaximumXOR(vector<int>& nums);
 };
 
 }  // namespace myleet
