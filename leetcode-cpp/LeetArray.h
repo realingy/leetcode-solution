@@ -1,6 +1,9 @@
 #ifndef __LEET_ARRAY_H__
 #define __LEET_ARRAY_H__
 
+#include <algorithm>
+#include <iostream>
+
 #include "data.h"
 
 namespace myleet {

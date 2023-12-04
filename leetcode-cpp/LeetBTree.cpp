@@ -1,8 +1,5 @@
 #include "LeetBTree.h"
 
-#include <algorithm>
-#include <iostream>
-
 namespace myleet {
 
 // leetcode100 相同的树

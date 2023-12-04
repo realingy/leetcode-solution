@@ -1,6 +1,8 @@
 #ifndef __LEET_BTREE_H__
 #define __LEET_BTREE_H__
 
+#include <algorithm>
+#include <iostream>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -20,6 +22,19 @@ class Node {
   Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
   Node(int _val, Node* _left, Node* _right, Node* _next)
       : val(_val), left(_left), right(_right), next(_next) {}
+};
+
+// 多叉树
+class MNode {
+ public:
+  int val;
+  vector<MNode*> children;
+  MNode() {}
+  MNode(int _val) { val = _val; }
+  MNode(int _val, vector<MNode*> _children) {
+    val = _val;
+    children = _children;
+  }
 };
 
 class LeetBTree {
@@ -60,6 +75,69 @@ class LeetBTree {
   int longestUnivaluePath(TreeNode* root);
   // leetcode116 填充每个节点的下一个右侧节点指针
   static Node* connect(Node* root);
+  // leetcode1038 从二叉搜索树到更大和树
+  static TreeNode* bstToGst(TreeNode* root) {
+    int s = 0;
+    std::function<void(TreeNode*)> dfs = [&](TreeNode* node) {
+      if (nullptr == node) return;
+      dfs(node->right);
+      s += node->val;
+      node->val = s;
+      dfs(node->left);
+    };
+    dfs(root);
+    return root;
+  }
+
+  // leetcode559 N叉树的最大深度
+  int maxDepth(MNode* root) {
+    std::function<int(MNode*)> dfs = [&](MNode* node) -> int {
+      if (nullptr == node) {
+        return 0;
+      }
+      int depth = 0;
+      for (MNode* c : node->children) {
+        depth = max(depth, dfs(c));
+      }
+      depth++;
+      return depth;
+    };
+    return dfs(root);
+  }
+
+  // leetcode563 二叉树的坡度
+  int findTilt(TreeNode* root) {
+    int res = 0;
+    std::function<int(TreeNode*)> dfs = [&](TreeNode* node) -> int {
+      if (nullptr == node) return 0;
+      int l = dfs(node->left);
+      int r = dfs(node->right);
+      res += abs(l - r);
+      return node->val + l + r;
+    };
+    dfs(root);
+    return res;
+  }
+
+  bool check(TreeNode* o, TreeNode* t) {
+    if (!o && !t) {
+      return true;
+    }
+    if ((o && !t) || (!o && t) || (o->val != t->val)) {
+      return false;
+    }
+    return check(o->left, t->left) && check(o->right, t->right);
+  }
+
+  // leetcode572 另一棵树的子树
+  bool isSubtree(TreeNode* s, TreeNode* t) {
+    std::function<bool(TreeNode*, TreeNode*)> dfs = [&](TreeNode* n1,
+                                                        TreeNode* n2) {
+      if (!n1) return false;
+      return check(n1, n2) || dfs(n1->left, n2) || dfs(n1->right, n2);
+    };
+    return dfs(s, t);
+  }
 };
 
 }  // namespace myleet

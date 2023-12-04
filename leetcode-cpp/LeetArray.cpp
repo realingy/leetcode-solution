@@ -1,8 +1,5 @@
 #include "LeetArray.h"
 
-#include <algorithm>
-#include <iostream>
-
 namespace myleet {
 
 // leetcode1534 统计好三元组
@@ -1786,19 +1783,6 @@ int LeetArray::maxSum(vector<int>& nums) {
     int max_d = f(x);
     res = max(res, max_val[max_d] + x);
     max_val[max_d] = max(max_val[max_d], x);
-  }
-  return res;
-}
-
-// leetcode2817 限制条件下元素之间的最小绝对差
-int minAbsoluteDifference(vector<int>& nums, int x) {
-  int res = INT_MAX, n = nums.size();
-  std::set<int> s = {INT_MIN / 2, INT_MAX};
-  for (int i = x; i < n; i++) {
-    s.insert(nums[i - x]);
-    int y = nums[i];
-    auto it = s.lower_bound(y);
-    res = min(res, min(*it - y, y - *prev(it)));
   }
   return res;
 }
