@@ -22,6 +22,20 @@ class LeetBit {
   static int countDigits(int num);
   // 421. 数组中两个数的最大异或值
   int findMaximumXOR(vector<int>& nums);
+
+  // leetcode1038 从二叉搜索树到更大和树
+  static TreeNode* bstToGst(TreeNode* root) {
+    int s = 0;
+    std::function<void(TreeNode*)> dfs = [&](TreeNode* node) {
+      if (nullptr == node) return;
+      dfs(node->right);
+      s += node->val;
+      node->val = s;
+      dfs(node->left);
+    };
+    dfs(root);
+    return root;
+  }
 };
 
 }  // namespace myleet

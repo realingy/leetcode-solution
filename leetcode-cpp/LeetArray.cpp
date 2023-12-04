@@ -1770,4 +1770,37 @@ long long LeetArray::maximumSumOfHeights(vector<int>& a) {
   return res;
 }
 
+// leetcode2815 数组中的最大数对和
+int LeetArray::maxSum(vector<int>& nums) {
+  int res = -1;
+  vector<int> max_val(10, INT_MIN);
+  std::function<int(int)> f = [&](int num) -> int {
+    int v = 0;
+    while (num > 0) {
+      v = max(num % 10, v);
+      num /= 10;
+    }
+    return v;
+  };
+  for (int x : nums) {
+    int max_d = f(x);
+    res = max(res, max_val[max_d] + x);
+    max_val[max_d] = max(max_val[max_d], x);
+  }
+  return res;
+}
+
+// leetcode2817 限制条件下元素之间的最小绝对差
+int minAbsoluteDifference(vector<int>& nums, int x) {
+  int res = INT_MAX, n = nums.size();
+  std::set<int> s = {INT_MIN / 2, INT_MAX};
+  for (int i = x; i < n; i++) {
+    s.insert(nums[i - x]);
+    int y = nums[i];
+    auto it = s.lower_bound(y);
+    res = min(res, min(*it - y, y - *prev(it)));
+  }
+  return res;
+}
+
 }  // namespace myleet

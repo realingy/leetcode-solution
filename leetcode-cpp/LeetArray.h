@@ -145,6 +145,85 @@ class LeetArray {
   static bool canChange(string start, string target);
   // leetcode2865 美丽塔I
   long long maximumSumOfHeights(vector<int>& a);
+  // leetcode2815 数组中的最大数对和
+  int maxSum(vector<int>& nums);
+
+  // leetcode2817 限制条件下元素之间的最小绝对差
+  int minAbsoluteDifference(vector<int>& nums, int x) {
+    int res = INT_MAX, n = nums.size();
+    std::set<int> s = {INT_MIN / 2, INT_MAX};
+    for (int i = x; i < n; i++) {
+      s.insert(nums[i - x]);
+      int y = nums[i];
+      auto it = s.lower_bound(y);
+      res = min(res, min(*it - y, y - *prev(it)));
+    }
+    return res;
+  }
+
+  // leetcode2817 限制条件下元素之间的最小绝对差
+  int minAbsoluteDifference2(vector<int>& nums, int x) {
+    // 和1的区别是，这次的下标距离需要小于等于x
+    // ans 20231203 滑动窗口
+  }
+
+  // leetcode2733 既不是最小值也不是最大值
+  int findNonMinOrMax(vector<int>& nums) {
+    if (nums.size() < 3) return -1;
+    sort(nums.begin(), nums.begin() + 3);
+    return nums[1];
+  }
+
+  // leetcode2784 检查数组是否是好的
+  bool isGood(vector<int>& nums) {
+    int n = nums.size() - 1;
+    std::vector<int> mp(n + 1, 0);
+    for (int x : nums) {
+      if (x > n) return false;                   // 不能大于n
+      if (mp[x - 1] > 0 && x < n) return false;  // 小于n的数不能多于1个
+      if (mp[x - 1] > 1 && x == n) return false;  // 等于n的数不能多于2个
+      mp[x - 1]++;
+    }
+    return true;
+  }
+
+  static bool checkXMatrix(vector<vector<int>>& grid) {
+    int n = grid.size();
+    if (grid[0].size() != n) return false;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (i == j || (i + j) == (n - 1)) {
+          if (!grid[i][j]) return false;
+        } else {
+          if (!grid[i][j]) return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // leetcode2475 数组中不等三元组的数目
+  static int unequalTriplets(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<int> st;
+    int n = nums.size();
+    int cur = INT_MIN;
+    for (int i = 0; i < n; i++) {
+      if (nums[i] != cur) {
+        st.emplace_back(i);
+        cur = nums[i];
+      }
+    }
+    if (st.size() < 3) return 0;
+    int res = 0;
+    for (int i = 1; i < st.size() - 1; i++) {
+      int a = st[i];
+      int b = st[i + 1] - st[i];
+      int c = n - a - b;
+      res += a * b * c;
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet

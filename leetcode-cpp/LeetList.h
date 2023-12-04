@@ -46,6 +46,10 @@ class LeetList {
   static ListNode* deleteDuplicates2(ListNode* head);
   // leetcode2487 从链表中移除节点
   static ListNode* removeNodes(ListNode* head);
+  // leetcode445 两数相加II
+  static ListNode* addTwoNumbers(ListNode* l1, ListNode* l2);
+  // leetcode2816 翻倍以链表形式表示的数字
+  static ListNode* doubleIt(ListNode* head);
 };
 
 }  // namespace myleet

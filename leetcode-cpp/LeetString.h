@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "data.h"
+
 namespace myleet {
 
 class LeetString {
@@ -106,6 +108,22 @@ class LeetString {
   static std::string convert(std::string s, int numRows);
   // leetcode8 字符串转换整数(atoi)
   static int myAtoi(std::string str);
+  // leetcode2255 统计是给定字符串前缀的字符串数目
+  int countPrefixes(vector<string>& words, string s) {
+    int n = words.size();
+    int res = 0;
+    for (string word : words) {
+      res += (0 == s.find(word));
+    }
+    return res;
+  }
+  // leetcode1374 生成每种字符都是奇数个的字符串
+  string generateTheString(int n) {
+    if (!(n % 2))
+      return 'a' + string(n - 1, 'b');
+    else
+      return string(n, 'a');
+  }
 };
 
 }  // namespace myleet

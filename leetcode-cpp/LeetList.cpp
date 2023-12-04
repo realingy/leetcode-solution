@@ -344,5 +344,52 @@ ListNode* LeetList::removeNodes(ListNode* head) {
   return head;
   // 还有一种办法是将链表转换成数组，然后从后向前遍历
 }
+// leetcode445 两数相加II
+ListNode* LeetList::addTwoNumbers(ListNode* l1, ListNode* l2) {
+  std::function<ListNode*(ListNode*)> reversList =
+      [&](ListNode* head) -> ListNode* {
+    if (nullptr == head || nullptr == head->next) return head;
+    ListNode* new_head = reversList(head->next);
+    head->next->next = head;
+    head->next = nullptr;
+    return new_head;
+  };
+  std::function<ListNode*(ListNode*, ListNode*, int)> addTwo =
+      [&](ListNode* l1, ListNode* l2, int carry) -> ListNode* {
+    if (l1 == nullptr && l2 == nullptr)
+      return carry ? new ListNode(carry) : nullptr;
+    if (l1 == nullptr) swap(l1, l2);
+    carry += l1->val + (l2 ? l2->val : 0);
+    l1->val = carry % 10;
+    l1->next = addTwo(l1->next, (l2 ? l2->next : nullptr), carry / 10);
+    return l1;
+  };
+
+  l1 = reversList(l1);
+  l2 = reversList(l2);
+  ListNode* l3 = addTwo(l1, l2, 0);
+  return reversList(l3);
+}
+
+// leetcode2816 翻倍以链表形式表示的数字
+ListNode* LeetList::doubleIt(ListNode* head) {
+  // resolve 20231203
+  if (head->val > 4) {
+    auto dummy = new ListNode(0);
+    dummy->next = head;
+    head = dummy;
+  }
+
+  ListNode* cur = head;
+  while (cur != nullptr) {
+    cur->val = cur->val * 2 % 10;
+    if (cur->next != nullptr && cur->next->val > 4) {
+      cur->val++;
+    }
+    cur = cur->next;
+  }
+  return head;
+  // 另一种解法是参考445的办法，自己加自己
+}
 
 }  // namespace myleet

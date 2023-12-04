@@ -368,9 +368,54 @@ class LeetArray:
             st.append(i)
         return ans
 
+    # leetcode2815 数组中的最大数对和
+    def maxSum(self, nums: List[int]) -> int:
+        res = -1
+        max_val = [-inf] * 10
+        for x in nums:
+            max_d = max(map(int, str(x)))
+            if max_val[max_d] != inf:
+                res = max(res, max_val[max_d] + x)
+            max_val[max_d] = max(max_val[max_d] ,x)
+        return res
+
+    # leetcode2817 限制条件下元素之间的最小绝对差
+    def minAbsoluteDifference(self, nums: List[int], x: int) -> int:
+        res = inf
+        sl = SortedList((-inf, inf))
+        for x, y in zip(nums, nums[x:]):
+            sl.add(x)
+            j = sl.bisect_left(y)
+            res = min(res, sl[y] - y, y - sl[j-1])
+        return res
+    
+    # leetcode2733 既不是最小值也不是最大值
+    def findNonMinOrMax(self, nums: List[int]) -> int:
+        return sorted(nums[:3])[1] if len(nums) > 2 else -1
+
+    # leetcode2784 检查数组是否是好的
+    def isGood(self, nums: List[int]) -> bool:
+        n = len(nums) - 1
+        mp = [0] * n
+        for x in nums:
+            if x > n: return False
+            if x == n and mp[x-1] > 1: return False
+            if x < n and mp[x-1] > 0: return False
+            mp[x-1] += 1
+        return True
+    
+    # 2319. 判断矩阵是否是一个 X 矩阵
+    def checkXMatrix(self, grid: List[List[int]]) -> bool:
+        n = len(grid)
+        for i in range(n):
+            for j in range(n):
+                if i == j or i + j == n - 1:
+                    if grid[i][j] == 0: return False
+                else:
+                    if grid[i][j] != 0: return False
+        return True
+
+
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)
-
-
-    
