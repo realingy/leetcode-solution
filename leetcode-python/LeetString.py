@@ -98,7 +98,15 @@ class LeetString:
 
     # leetcode2085 统计出现过一次的公共字符串
     def countWords(self, words1: List[str], words2: List[str]) -> int:
-        return len({w for w, c in Counter(words1).items() if c == 1} & {w for w, c in Counter(words2).items() if c == 1})
+        # return len({w for w, c in Counter(words1).items() if c == 1} & {w for w, c in Counter(words2).items() if c == 1})
+        freq1 = Counter(words1)   # words1 中字符串的出现次数
+        freq2 = Counter(words2)   # words2 中字符串的出现次数
+        res = 0   # 出现过一次的公共字符串个数
+        for word1 in freq1.keys():
+            # 遍历 words1 出现的字符并判断是否满足要求
+            if freq1[word1] == 1 and freq2[word1] == 1:
+                res += 1
+        return res
 
     # leetcode2734 执行子串操作后的字典序最小字符串
     def smallestString(self, s: str) -> str:
@@ -134,3 +142,22 @@ class LeetString:
             # 检查是否构成了一个长度为 k 的连续子序列，即 s 的低 k 个比特是否都为1
             if (s & u) == u:
                 return n - i
+
+    # leetcode2108 找出数组中的第一个回文字符串
+    def firstPalindrome(self, words: List[str]) -> str:
+        return next((x for x in words if x == x[::-1] ), "")
+
+    # leetcode2114 句子中的最多单词数
+    def mostWordsFound(self, s: List[str]) -> int:
+        res = 0
+        for x in s:
+            res = max(res, x.count(' ') + 1)
+        return res
+
+    # leetcode2185 统计包含给定前缀的字符串
+    def prefixCount(self, words: List[str], pref: str) -> int:
+        # resolve 20231205
+        # n = len(pref)
+        # return sum((pref == x[:n] for x in words))
+        # ans 20231205
+        return sum(w.startswith(pref) for w in words)

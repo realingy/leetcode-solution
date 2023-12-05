@@ -197,6 +197,7 @@ class LeetString {
   bool isPrefixString(string s, vector<string>& words) {
     string tmp = "";
     int i = 0;
+
     while (i < words.size() && tmp.size() < s.size()) tmp += words[i++];
     return tmp == s;
   }
@@ -216,7 +217,36 @@ class LeetString {
     return s;
   }
 
-};  // namespace myleet
+  // leetcode2108 找出数组中的第一个回文字符串
+  string firstPalindrome(vector<string>& words) {
+    for (string word : words) {
+      auto src = word;
+      reverse(word.begin(), word.end());
+      if (src == word) return src;
+    }
+    return "";
+  }
+
+  // leetcode2114 句子中的最多单词数
+  static int mostWordsFound(vector<string>& s) {
+    int res = 0;
+    for (string x : s) {
+      int c = std::count(x.begin(), x.end(), ' ') + 1;
+      res = max(res, c);
+    }
+    return res;
+  }
+
+  int prefixCount(vector<string>& words, string pref) {
+    int res = 0;
+    // int n = pref.size();
+    for (string x : words) {
+      // res += x.substr(0, n) == pref;
+      res += x.find(pref) == 0;
+    }
+    return res;
+  }
+};
 
 }  // namespace myleet
 
