@@ -1,6 +1,8 @@
 #ifndef __LEETSTRING_H__
 #define __LEETSTRING_H__
 
+#include <algorithm>
+#include <iostream>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -117,6 +119,7 @@ class LeetString {
     }
     return res;
   }
+
   // leetcode1374 生成每种字符都是奇数个的字符串
   string generateTheString(int n) {
     if (!(n % 2))
@@ -124,7 +127,96 @@ class LeetString {
     else
       return string(n, 'a');
   }
-};
+
+  // leetcode1408 数组中的字符串匹配
+  vector<string> stringMatching(vector<string>& words) {
+    vector<string> ans;
+    for (int i = 0; i < words.size(); i++) {
+      for (int j = 0; j < words.size(); j++) {
+        if (i != j && words[j].find(words[i]) != -1) {
+          ans.emplace_back(move(words[i]));
+          break;
+        }
+      }
+    }
+    return ans;
+  }
+
+  // leetcode1528 重新排列字符串
+  string restoreString(string s, vector<int>& indices) {
+    int n = s.size();
+    string res = s;
+    for (int i = 0; i < n; i++) {
+      res[indices[i]] = s[i];
+    }
+    return res;
+  }
+
+  // leetcode1598 文件夹操作日志搜集器
+  int minOperations(vector<string>& logs) {
+    int depth = 0;
+    for (string log : logs) {
+      if ("../" == log)
+        depth = max(depth - 1, 0);
+      else if ("./" != log)
+        depth++;
+    }
+    return depth;
+  }
+
+  // leetcode1629 按键持续时间最长的键
+  char slowestKey(vector<int>& t, string k) {
+    int n = t.size();
+    int max = INT_MIN;
+    int idx = -1;
+    for (int i = n - 1; i >= 0; i--) {
+      if (i > 0) t[i] -= t[i - 1];
+      if (t[i] > max) {
+        max = t[i];
+        idx = i;
+      } else if (t[i] == max && k[i] > k[idx]) {
+        idx = i;
+      }
+    }
+    return k[idx];
+  }
+
+  // leetcode1816 截断句子
+  string truncateSentence(string s, int k) {
+    int i = 0;
+    int n = s.size();
+    while (i < n) {
+      if (s[i] == ' ') k--;
+      if (!k) break;
+      i++;
+    }
+    return s.substr(0, i);
+  }
+
+  // leetcode1961 检查字符串是否为数组前缀
+  bool isPrefixString(string s, vector<string>& words) {
+    string tmp = "";
+    int i = 0;
+    while (i < words.size() && tmp.size() < s.size()) tmp += words[i++];
+    return tmp == s;
+  }
+
+  // leetcode2734 执行子串操作后的字典序最小字符串
+  string smallestString(string s) {
+    int n = s.size();
+    for (int i = 0; i < n; i++) {
+      if (s[i] > 'a') {
+        for (; i < n && s[i] > 'a'; i++) {
+          s[i]--;
+        }
+        return s;
+      }
+    }
+    s[n - 1] = 'z';
+    return s;
+  }
+
+};  // namespace myleet
 
 }  // namespace myleet
 

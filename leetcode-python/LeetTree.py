@@ -48,6 +48,7 @@ class LeetTree:
         if n1.val != n2.val: return False
         return self.check(n1.left, n2.left) and self.check(n1.right, n2.right)
 
+    # leetcode572 另一棵树的子树
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         def dfs(n1: Optional[TreeNode], n2: Optional[TreeNode]) -> bool:
             if n1 is None: return False
