@@ -1,6 +1,8 @@
 #ifndef __LEET_HASH_H__
 #define __LEET_HASH_H__
 
+#include <algorithm>
+#include <iostream>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -58,6 +60,40 @@ class LeetHash {
   // leetcode2933 高访问员工
   static std::vector<std::string> findHighAccessEmployees(
       std::vector<std::vector<std::string>> &access_times);
+  // leetcode2451 差值数组不同的字符串
+  static string oddString(vector<string> &words) {
+    // resolve 20231207 哈希
+    map<vector<int>, vector<string>> count;
+    int n = words[0].size();
+    for (auto &s : words) {
+      vector<int> cut;
+      for (int i = 1; i < n; i++) cut.emplace_back(s[i] - s[i - 1]);
+      count[cut].push_back(s);
+    }
+    for (auto it = count.begin(); it != count.end(); it++)
+      if (it->second.size() == 1) return (it->second)[0];
+    return "";
+  }
+  // leetcode2453 摧毁一系列目标
+  int destroyTargets(vector<int> &nums, int space) {
+    // resolve 20231207 哈希
+    unordered_map<int, int> cnt;
+    for (auto n : nums) {
+      cnt[n % space]++;
+    }
+    int res = nums[0];
+    int mx = INT_MIN;
+    for (auto n : nums) {
+      int c = cnt[n % space];
+      if (c == mx) {
+        res = min(res, n);
+      } else if (c > mx) {
+        mx = c;
+        res = n;
+      }
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet

@@ -161,3 +161,13 @@ class LeetString:
         # return sum((pref == x[:n] for x in words))
         # ans 20231205
         return sum(w.startswith(pref) for w in words)
+
+    # leetcode2452 距离字典两次编辑以内的单词
+    def twoEditWords(self, queries: List[str], dictionary: List[str]) -> List[str]:
+      res = []
+      for q in queries:
+        for d in dictionary:
+          if sum(x != y for x, y in zip(q, d)) <= 2:
+            res.append(q)
+            break
+      return res

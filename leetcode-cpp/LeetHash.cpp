@@ -1,8 +1,5 @@
 #include "LeetHash.h"
 
-#include <algorithm>
-#include <iostream>
-
 namespace myleet {
 
 //

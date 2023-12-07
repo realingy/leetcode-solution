@@ -246,6 +246,29 @@ class LeetString {
     }
     return res;
   }
+
+  // leetcode2452 距离字典两次编辑以内的单词
+  vector<string> twoEditWords(vector<string>& queries,
+                              vector<string>& dictionary) {
+    // resolve 20231207 暴力匹配
+    vector<string> res;
+    for (auto q : queries) {
+      int n = q.size();
+      bool match = false;
+      for (auto d : dictionary) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+          if (q[i] != d[i]) count++;
+        }
+        if (count <= 2) {
+          match = true;
+          break;
+        }
+      }
+      if (true == match) res.emplace_back(q);
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet
