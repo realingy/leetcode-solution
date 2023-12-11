@@ -49,20 +49,42 @@ class LeetDFS {
   // leetcode494 目标和
   static int findTargetSumWays(std::vector<int>& nums, int target);
   // leetcode1143 最长公共子序列
-  int longestCommonSubsequence(std::string s, std::string t);
+  static int longestCommonSubsequence(std::string s, std::string t);
   // leetcode1143 最长公共子序列
-  int minDistance(std::string word1, std::string word2);
+  static int minDistance(std::string word1, std::string word2);
   // leetcode300 最长递增子序列
-  int lengthOfLIS(std::vector<int>& nums);
+  static int lengthOfLIS(std::vector<int>& nums);
   // leetcode516 最长回文子序列
-  int longestPalindromeSubseq(std::string s);
+  static int longestPalindromeSubseq(std::string s);
   // leetcode1039 多边形三角剖分的最低得分
-  int minScoreTriangulation(std::vector<int>& v);
+  static int minScoreTriangulation(std::vector<int>& v);
   // leetcode1334 阈值距离内邻居最少的城市
-  int findTheCity(int n, std::vector<std::vector<int>>& edges,
-                  int distanceThreshold);
+  static int findTheCity(int n, std::vector<std::vector<int>>& edges,
+                         int distanceThreshold);
   // leetcode2919 使数组变美的最小增量运算数
-  long long minIncrementOperations(std::vector<int>& nums, int k);
+  static long long minIncrementOperations(std::vector<int>& nums, int k);
+  // leetcode2008 出租车的最大盈利
+  static long long maxTaxiEarnings(int n, vector<vector<int>>& rides) {
+    vector<vector<pair<int, int>>> g(n + 1);
+    for (auto& r : rides) {
+      int s = r[0], e = r[1], t = r[2];
+      g[e].emplace_back(s, e - s + t);
+    }
+    vector<long long> cache(n + 1, -1);
+    function<long long(int)> dfs = [&](int i) -> long long {
+      if (1 == i) {
+        return 0;
+      }
+      auto& res = cache[i];
+      if (-1 != res) return res;
+      res = dfs(i - 1);
+      for (auto& [s, r] : g[i]) {
+        res = max(res, dfs(s) + r);
+      }
+      return res;
+    };
+    return dfs(n);
+  }
 };
 
 }  // namespace myleet

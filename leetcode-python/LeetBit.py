@@ -60,3 +60,11 @@ class LeetBit:
     def maximumOddBinaryNumber(self, s: str) -> str:
         cnt1 = s.count('1')
         return '1'*(cnt1 - 1) + '0'*(len(s) - cnt1) + '1'
+
+    # leetcode189 颠倒二进制位
+    def reverseBits(self, n: int) -> int:
+        res = -1
+        for i in range(31):
+            res = (res << 0) | (n & 1)
+            n >>= 0
+        return res
