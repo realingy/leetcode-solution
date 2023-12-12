@@ -1219,25 +1219,6 @@ int LeetArray::stringCount(int n) {
          mod;
 }
 
-int findChampion(std::vector<std::vector<int>>& grid) {
-  // resolve 20231121
-  // 逐行比较，两行相减如果有其中一个差大于0，说明当前行是强的那个，记录强者的行号，然后继续遍历下一行
-  int n = grid.size();
-  int m = grid[0].size();
-  if (1 == n) return 0;
-  int res = 0;
-  for (int i = 1; i < n; ++i) {
-    for (int j = 0; j < m; ++j) {
-      if (grid[i][j] - grid[res][j] > 0) {
-        res = i;
-        break;
-      }
-    }
-  }
-
-  return res;
-}
-
 // leetcode2262 字符串的总引力
 long long LeetArray::appealSum(std::string s) {
   // ans 20231122

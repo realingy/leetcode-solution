@@ -85,6 +85,34 @@ class LeetDFS {
     };
     return dfs(n);
   }
+  // leetcode2316 统计无向图中无法互相到达点对数
+  long long countPairs(int n, vector<vector<int>>& edges) {
+    vector<vector<int>> g(n);
+    for (auto& e : edges) {
+      int x = e[0], y = e[1];
+      g[x].emplace_back(y);
+      g[y].emplace_back(x);
+    }
+    vector<int> vis(n);
+    function<int(int)> dfs = [&](int x) -> int {
+      vis[x] = true;
+      int size = 1;
+      for (int y : g[x]) {
+        if (!vis[y]) size += dfs(y);
+      }
+      return size;
+    };
+
+    long long res = 0;
+    for (int i = 0, total = 0; i < n; i++) {
+      if (!vis[i]) {
+        int size = dfs(i);
+        res += (long)size * total;
+        total += size;
+      }
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet

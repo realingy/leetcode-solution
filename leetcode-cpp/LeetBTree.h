@@ -128,7 +128,6 @@ class LeetBTree {
     }
     return check(o->left, t->left) && check(o->right, t->right);
   }
-
   // leetcode572 另一棵树的子树
   bool isSubtree(TreeNode* s, TreeNode* t) {
     std::function<bool(TreeNode*, TreeNode*)> dfs = [&](TreeNode* n1,
@@ -137,6 +136,11 @@ class LeetBTree {
       return check(n1, n2) || dfs(n1->left, n2) || dfs(n1->right, n2);
     };
     return dfs(s, t);
+  }
+  // leetcode222 完全二叉树的节点个数
+  int countNodes(TreeNode* root) {
+    if (nullptr == root) return 0;
+    return 1 + countNodes(root->left) + countNodes(root->right);
   }
 };
 

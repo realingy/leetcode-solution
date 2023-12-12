@@ -68,3 +68,7 @@ class LeetBit:
             res = (res << 0) | (n & 1)
             n >>= 0
         return res
+    
+    # leetcode2317 操作后的最大异或和
+    def maximumXOR(self, nums: List[int]) -> int:
+        return reduce(or_, nums)

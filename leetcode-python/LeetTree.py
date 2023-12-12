@@ -54,3 +54,27 @@ class LeetTree:
             if n1 is None: return False
             return self.check(n1, n2) or dfs(n1.left, n2) or dfs(n1.right, n2)
         return dfs(root, subRoot)
+
+    # leetcode2925 在树上执行操作以后得到的最大分数
+    def maximumScoreAfterOperations(self, edges: List[List[int]], values: List[int]) -> int:
+        # 正难则反
+        # 将问题转换成求损失的最小值(保证数是健康树的前提下)
+        g = [[] for _ in values]
+        g[0].append(-1) # 防止根节点被误判为叶子
+        for x, y in edges:
+            g[x].append(y)
+            g[y].append(x)
+        
+        # 树形DP不需要加cache
+        def dfs(x: int, d: int) -> int:
+            if len(g[x]) == 1: # 叶子，说明非叶子节点都被包括了, 叶子节点一定要损失
+                return values[x]
+            # 选：损失 不选：不损失
+            loss = values[x]
+            loss2 = 0
+            for y in g[x]:
+                if y != d: # 不能往根节点方向递归(不能向上递归)
+                    loss2 += dfs(y, x)
+            return min(loss, loss2)
+        
+        return sum(values) - dfs(0, -1)

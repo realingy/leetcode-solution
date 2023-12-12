@@ -227,6 +227,58 @@ class LeetArray {
     }
     return res;
   }
+  // leetcode2960 统计已测试设备
+  int countTestedDevices(vector<int>& a) {
+    int res = 0;
+    int n = a.size();
+    for (int i = 0; i < n; i++) {
+      if (a[i] > 0) {
+        res++;
+        for (int j = i + 1; j < n; j++) {
+          a[j] -= 1;
+        }
+      }
+    }
+    return res;
+  }
+
+  // leetcode2923 找到冠军I
+  int findChampion(std::vector<std::vector<int>>& grid) {
+    // resolve 20231121
+    // 逐行比较，两行相减如果有其中一个差大于0，说明当前行是强的那个，记录强者的行号，然后继续遍历下一行
+    int n = grid.size();
+    int m = grid[0].size();
+    if (1 == n) return 0;
+    int res = 0;
+    for (int i = 1; i < n; ++i) {
+      for (int j = 0; j < m; ++j) {
+        if (grid[i][j] - grid[res][j] > 0) {
+          res = i;
+          break;
+        }
+      }
+    }
+    return res;
+  }
+
+  // leetcode2924 找到冠军II
+  int findChampion2(int n, vector<vector<int>>& edges) {
+    vector<int> weak(n, 0);
+    int len = edges.size();
+    for (int i = 0; i < len; i++) {
+      weak[edges[i][1]] = 1;
+    }
+    int res = -1;
+    for (int i = 0; i < n; i++) {
+      if (0 == weak[i]) {
+        if (-1 != res) {
+          return -1;
+        }
+        res = i;
+      }
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet

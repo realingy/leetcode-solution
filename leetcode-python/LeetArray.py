@@ -404,7 +404,7 @@ class LeetArray:
             mp[x-1] += 1
         return True
     
-    # 2319. 判断矩阵是否是一个 X 矩阵
+    # leetcode2319 判断矩阵是否是一个X矩阵
     def checkXMatrix(self, grid: List[List[int]]) -> bool:
         n = len(grid)
         for i in range(n):
@@ -414,6 +414,34 @@ class LeetArray:
                 else:
                     if grid[i][j] != 0: return False
         return True
+
+    # leetcode2923 找到冠军I
+    def findChampion(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        if m == 1:
+            return 0
+        n = len(grid[0])
+        res = 0
+        for i in range(1, m):
+            for j in range(0, n):
+                if grid[i][j] - grid[res][j] > 0:
+                    res = i
+                    break
+        return res
+
+    # leetcode2924 找到冠军II
+    def findChampion2(self, n: int, edges: List[List[int]]) -> int:
+        # 找入度为1的节点
+        weak = [False] * n
+        for _,y in edges:
+            weak[y] = True
+        res = -1
+        for i in range(n):
+            if not weak[i]:
+                if res != -1:
+                    return -1
+                res = i
+        return res
 
 
 s = 'abcddf'

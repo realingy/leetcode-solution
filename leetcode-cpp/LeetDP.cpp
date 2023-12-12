@@ -255,6 +255,7 @@ int LeetDP::maxProfit2(std::vector<int>& prices) {
 double LeetDP::myPow(double x, int n) {
   // ans 20231109
   // 递归
+  // x^n = x^(n/2 + n/2 + n%2) = x^(n/2)*x^(n/2)*x^(n%2)
   if (n == 0) return 1;
   if (n == 1) return x;
   if (n == -1) return 1 / x;
