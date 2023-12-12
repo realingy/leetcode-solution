@@ -50,6 +50,33 @@ class LeetList {
   static ListNode* addTwoNumbers(ListNode* l1, ListNode* l2);
   // leetcode2816 翻倍以链表形式表示的数字
   static ListNode* doubleIt(ListNode* head);
+  // leetcode2 两数相加
+  static ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    ListNode *head = nullptr, *tail = nullptr;
+    int carry = 0;
+    while (nullptr != l1 || nullptr != l2) {
+      int n1 = (nullptr != l1) ? l1->val : 0;
+      int n2 = (nullptr != l2) ? l2->val : 0;
+      int n = n1 + n2 + carry;
+      if (nullptr == head) {
+        head = tail = new ListNode(n % 10);
+      } else {
+        tail->next = new ListNode(n % 10);
+        tail = tail->next;
+      }
+      carry = int(n / 10);
+      if (nullptr != l1) {
+        l1 = l1->next;
+      }
+      if (nullptr != l2) {
+        l2 = l2->next;
+      }
+    }
+    if (carry > 0) {
+      tail->next = new ListNode(carry);
+    }
+    return head;
+  }
 };
 
 }  // namespace myleet

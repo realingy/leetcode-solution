@@ -55,9 +55,28 @@ class LeetList:
         l3 = self.addTwo(l, l)
         return self.reverseList(l3)
 
+    # leetcode2 两数相加
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        head = tail = None
+        carry = 0
+        while l1 is not None or l2 is not None:
+            n1 = l1.val if l1 is not None else 0
+            n2 = l2.val if l2 is not None else 0
+            n = n1 + n2 + carry
+            if None == h:
+                head = tail = ListNode(n % 10)
+            else:
+                tail.next = ListNode(n % 10)
+                tail = t.next
+            carry = n // 10
+            if None != l1:
+                l1 = l1.next
+            if None != l2:
+                l2 = l2.next
 
-
-
-
+        if carry > 0:
+            tail.next = ListNode(carry)
+        
+        return head
 
 
