@@ -137,23 +137,19 @@ std::vector<int> LeetHash::nextGreaterElement(std::vector<int> &nums1,
   // O(nums1.size() + nums2.size())
   std::vector<int> res;
   std::unordered_map<int, int> map;
-  std::vector<int> stack;
+  std::vector<int> st;
   int n = (int)nums2.size();
   for (int i = n - 1; i >= 0; i--) {
     int cur = nums2[i];
-    if (!stack.empty()) {
-      while (stack.back() < cur && !stack.empty()) {
-        stack.pop_back();
-      }
+    while (!st.empty() && cur > st.back()) {
+      st.pop_back();
     }
-
-    if (stack.empty()) {
+    if (st.empty()) {
       map[cur] = -1;
     } else {
-      map[cur] = stack.back();
+      map[cur] = st.back();
     }
-
-    stack.emplace_back(cur);
+    st.emplace_back(cur);
   }
 
   for (int n : nums1) {

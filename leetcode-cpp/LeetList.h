@@ -77,6 +77,60 @@ class LeetList {
     }
     return head;
   }
+  // leetcode86 分隔链表
+  static ListNode* partition(ListNode* head, int x) {
+    ListNode *s1 = new ListNode(-1), *s2 = new ListNode(-1);
+    ListNode *n1 = s1, *n2 = s2;
+    while (head) {
+      if (head->val < x) {
+        n1->next = head;
+        n1 = n1->next;
+      } else {
+        n2->next = head;
+        n2 = n2->next;
+      }
+      head = head->next;
+    }
+    n1->next = s2->next;
+    n2->next = nullptr;
+    return s1->next;
+  }
+  // leetcode109 有序链表转换二叉搜索树
+  TreeNode* sortedListToBST(ListNode* head) {
+    // 将链表分成前后两部分,同时将中间一个作为根节点
+    if (nullptr == head) return nullptr;
+    ListNode *pre = nullptr, *slow = head, *fast = head;
+
+    while (fast && fast->next) {
+      fast = fast->next->next;
+      pre = slow;
+      slow = slow->next;
+    }
+    if (nullptr != pre) {
+      pre->next = nullptr;  // 断开链表
+    }
+    TreeNode* root = new TreeNode(slow->val);
+    if (slow == fast) {
+      return root;
+    }
+    root->left = sortedListToBST(head);
+    root->right = sortedListToBST(slow->next);
+    return root;
+  }
+  // leetcode114 二叉树展开为链表
+  void flatten(TreeNode* root) {
+    // 递归
+    if (nullptr == root) return;
+    flatten(root->left);
+    flatten(root->right);
+    if (root->left) {
+      auto l = root->left;
+      while (l->right) l = l->right;
+      l->right = root->right;
+      root->right = root->left;
+      root->left = nullptr;
+    }
+  }
 };
 
 }  // namespace myleet

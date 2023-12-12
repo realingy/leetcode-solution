@@ -27,9 +27,6 @@ class LeetHash {
   static int firstUniqChar(std::string s);
   // leetcode448 找到所有数组中消失的数字
   static std::vector<int> findDisappearedNumbers(std::vector<int> &nums);
-  // leetcode496 下一个更大元素I
-  static std::vector<int> nextGreaterElement(std::vector<int> &nums1,
-                                             std::vector<int> &nums2);
   // leetcode575 分糖果
   static int distributeCandies(std::vector<int> &candyType);
   // leetcode645 错误的集合

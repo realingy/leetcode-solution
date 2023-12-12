@@ -79,4 +79,20 @@ class LeetList:
         
         return head
 
+    # leetcode24 两两交换链表中的节点
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        n0 = dummy = ListNode(next=head)
+        n1 = head
+        while n1 and n1.next:
+            n2 = n1.next
+            n3 = n2.next
+
+            n0.next = n2
+            n2.next = n1
+            n1.next = n3
+
+            n0 = n1
+            n1 = n3
+
+        return dummy.next
 
