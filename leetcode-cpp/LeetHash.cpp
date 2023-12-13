@@ -128,37 +128,6 @@ std::vector<int> LeetHash::findDisappearedNumbers(std::vector<int> &nums) {
 #endif
 }
 
-// leetcode496 下一个更大元素I
-std::vector<int> LeetHash::nextGreaterElement(std::vector<int> &nums1,
-                                              std::vector<int> &nums2) {
-  // ans 20231105
-  // 栈+哈希表
-  // 倒序遍历nums2，得到每一个数字的下一个更大值（使用栈做辅助）,并使用哈希表存储(在数组没有重复数字的前提下)
-  // O(nums1.size() + nums2.size())
-  std::vector<int> res;
-  std::unordered_map<int, int> map;
-  std::vector<int> st;
-  int n = (int)nums2.size();
-  for (int i = n - 1; i >= 0; i--) {
-    int cur = nums2[i];
-    while (!st.empty() && cur > st.back()) {
-      st.pop_back();
-    }
-    if (st.empty()) {
-      map[cur] = -1;
-    } else {
-      map[cur] = st.back();
-    }
-    st.emplace_back(cur);
-  }
-
-  for (int n : nums1) {
-    res.emplace_back(map[n]);
-  }
-
-  return res;
-}
-
 // leetcode575 分糖果
 int LeetHash::distributeCandies(std::vector<int> &candyType) {
   // ans 20231105

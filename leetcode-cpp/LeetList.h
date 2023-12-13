@@ -51,7 +51,7 @@ class LeetList {
   // leetcode2816 翻倍以链表形式表示的数字
   static ListNode* doubleIt(ListNode* head);
   // leetcode2 两数相加
-  static ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+  static ListNode* addTwoNumbersx(ListNode* l1, ListNode* l2) {
     ListNode *head = nullptr, *tail = nullptr;
     int carry = 0;
     while (nullptr != l1 || nullptr != l2) {

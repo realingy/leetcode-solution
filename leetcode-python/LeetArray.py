@@ -324,6 +324,7 @@ class LeetArray:
 
     # leetcode2865 美丽塔I
     def maximumSumOfHeights(self, a: List[int]) -> int:
+        # 暴力
         res = 0
         n = len(a)
         for i, x in enumerate(a):

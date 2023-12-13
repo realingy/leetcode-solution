@@ -269,6 +269,21 @@ class LeetString {
     }
     return res;
   }
+
+  // leetcode2287 重排字符形成目标字符串
+  int rearrangeCharacters(string s, string t) {
+    int cnt1[26] = {0};
+    int cnt2[26] = {0};
+    for (char ch : s) cnt1[ch - 'a']++;
+    for (char ch : t) cnt2[ch - 'a']++;
+    int res = s.size();
+    for (int i = 0; i < 26; i++) {
+      if (cnt2[i]) {
+        res = min(res, cnt1[i] / cnt2[i]);
+      }
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet

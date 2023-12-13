@@ -1,8 +1,5 @@
 #include "LeetDFS.h"
 
-#include <algorithm>
-#include <iostream>
-
 namespace myleet {
 
 void dfs94(TreeNode* root, std::vector<int>& res) {

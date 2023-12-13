@@ -218,7 +218,7 @@ void ProcessHash() {
   if (1) {
     std::vector<int> nums1 = {2, 4};
     std::vector<int> nums2 = {1, 2, 3, 4};
-    std::vector<int> res = LeetHash::nextGreaterElement(nums1, nums2);
+    // std::vector<int> res = LeetHash::nextGreaterElement(nums1, nums2);
   }
 }
 

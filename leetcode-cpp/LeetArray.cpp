@@ -1723,6 +1723,7 @@ int findJudge(int n, vector<vector<int>>& trust) {
 
 // leetcode2865 美丽塔I
 long long LeetArray::maximumSumOfHeights(vector<int>& a) {
+  // 暴力
   long res = LONG_MIN;
   int n = a.size();
   for (int i = 0; i < n; i++) {

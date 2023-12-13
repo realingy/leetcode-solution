@@ -1,8 +1,5 @@
 #include "LeetStack.h"
 
-#include <algorithm>
-#include <iostream>
-
 namespace myleet {
 
 // leetcode1021 删除最外层的括号

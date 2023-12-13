@@ -1,6 +1,8 @@
 #ifndef __LEET_DFS_H__
 #define __LEET_DFS_H__
 
+#include <algorithm>
+#include <iostream>
 #include <map>
 #include <string>
 #include <unordered_map>

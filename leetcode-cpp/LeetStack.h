@@ -1,6 +1,8 @@
 #ifndef __LEET_STACK_H__
 #define __LEET_STACK_H__
 
+#include <algorithm>
+#include <iostream>
 #include <map>
 #include <stack>
 #include <string>
@@ -196,6 +198,88 @@ class LeetStack {
       return res;
     }
   };
+
+  // leetcode1124 表现良好的最长时间段
+  int longestWPI(vector<int>& hours) {
+    int n = hours.size(), res = 0;  //, s[n + 1];
+    stack<int> st;
+    vector<int> s(n + 1);
+    st.push(0);
+    s[0] = 0;
+    for (int j = 1; j <= n; j++) {
+      s[j] = s[j - 1] + (hours[j - 1] > 8 ? 1 : -1);
+      if (s[j] < s[st.top()]) st.push(j);
+    }
+    for (int i = n; i > 0; i--) {
+      while (!st.empty() && s[i] > s[st.top()]) {
+        res = max(res, i - st.top());  // [栈顶, i)
+        st.pop();
+      }
+    }
+    return res;
+  }
+  // leetcode456 一三二模式
+  bool find132pattern(vector<int>& nums) {
+    // 增加一个arr_min数组,保存数组之前的最小值
+    int n = nums.size();
+    if (n < 3) return false;
+    vector<int> arr_min(n);
+    arr_min[0] = nums[0];
+    for (int i = 1; i < n; i++) {
+      arr_min[i] = min(arr_min[i - 1], nums[i]);
+    }
+    vector<int> st;
+    for (int i = n - 1; i >= 0; i--) {
+      int x = nums[i];
+      // 保证 2 > 1
+      while (!st.empty() && st.back() <= arr_min[i]) {
+        st.pop_back();
+      }
+      // 保证 3 > 2
+      if (!st.empty() && x > st.back()) {
+        return true;
+      }
+      st.emplace_back(x);
+    }
+    return false;
+  }
+  // leetcode2866 美丽塔II
+  long long maximumSumOfHeights(vector<int>& a) {
+    // 前后缀 + 单调栈
+    int n = a.size();
+    vector<long long> suf(n + 1, 0);
+    stack<int> st;
+    st.push(n);
+    long long sum = 0;
+    for (int i = n - 1; i >= 0; i--) {
+      int x = a[i];
+      while (st.size() > 1 && x <= a[st.top()]) {
+        int j = st.top();
+        st.pop();
+        sum -= (long long)a[j] * (st.top() - j);
+      }
+      sum += (long long)x * (st.top() - i);
+      suf[i] = sum;
+      st.push(i);
+    }
+
+    st = stack<int>();
+    st.push(-1);
+    long long res = sum;
+    long long pre = 0;
+    for (int i = 0; i < n; i++) {
+      int x = a[i];
+      while (st.size() > 1 && x <= a[st.top()]) {
+        int j = st.top();
+        st.pop();
+        pre -= (long long)a[j] * (j - st.top());
+      }
+      pre += (long long)x * (i - st.top());
+      res = max(res, pre + suf[i + 1]);
+      st.push(i);
+    }
+    return res;
+  }
 };
 
 }  // namespace myleet
