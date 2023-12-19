@@ -115,6 +115,23 @@ class LeetDFS {
     }
     return res;
   }
+  // leetcode2415 反转二叉树的奇数层
+  TreeNode* reverseOddLevels(TreeNode* root) {
+    function<void(TreeNode*, TreeNode*, bool)> dfs =
+        [&](TreeNode* n1, TreeNode* n2, bool re) {
+          if (!n1) return;
+          if (re) {
+            int a = n1->val;
+            n1->val = n2->val;
+            n2->val = a;
+          }
+          re = !re;
+          dfs(n1->left, n2->right, re);
+          dfs(n1->right, n2->left, re);
+        };
+    dfs(root->left, root->right, true);
+    return root;
+  }
 };
 
 }  // namespace myleet

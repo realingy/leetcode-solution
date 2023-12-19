@@ -444,6 +444,70 @@ class LeetArray:
                 res = i
         return res
 
+    # 在闭区间[l, r]中检索第一个不小于t的元素的下标
+    def low_bound(self, nums: List[int], t: int) -> int:
+        n = len(nums)
+        # 闭区间[l, r]
+        l = 0
+        r = n - 1
+        while l <= r: # 这句话的意思是区间不为空
+            mid = (r + l) // 2
+            if nums[mid] < t:
+                # [mid + 1, r]
+                l = mid + 1 #必须是mid+1而不是mid,否则就不是闭区间，而变成了左开右闭区间了(l, r]
+            else:
+                # [l, mid - 1]
+                r = mid - 1
+        return l
+    
+    # 在左闭右开区间[l, r)中检索第一个不小于t的元素的下标
+    def low_bound2(self, nums: List[int], t: int) -> int:
+        n = len(nums)
+        # 左闭右开区间[l, r)
+        l = 0
+        r = n
+        while l < r: # 这句话的意思是区间不为空
+            mid = (r + l) // 2
+            if nums[mid] < t:
+                # [mid + 1, r)
+                l = mid + 1 #必须是mid+1而不是mid,否则左边就不满足闭区间了
+            else:
+                # [l, mid)
+                r = mid
+        return l # return r 也可以，因为此时两者相等
+    
+    # 在左开区间(l, r)中检索第一个不小于t的元素的下标
+    def low_bound3(self, nums: List[int], t: int) -> int:
+        n = len(nums)
+        # 左闭右开区间(l, r)
+        l = -1
+        r = n
+        while l + 1 < r: # 这句话的意思是区间不为空
+            mid = (r + l) // 2
+            if nums[mid] < t:
+                # (mid, r)
+                l = mid #必须是mid+1而不是mid,否则左边就不满足闭区间了
+            else:
+                # (l, mid)
+                r = mid
+        return r
+    
+    # 四种情况：>= 、 >  、 <  、 <=
+    # 上面的三种写法都是>=
+    # > 可以转换成 >= t + 1 (元素都是整数的话)
+    # < 可以转换成 【>= t】 - 1（先找>=的下标然后减1）
+    # <= 可以转换成【>t】-1（先找>t的下标然后减一），继而转换成【>=t+1】-1的情形
+    # 即后面的三种情况都可以转换成>=的情况
+
+    # leetcode34 在排序数组中查找元素的第一个和最后一个位置
+    def searchRange(self, nums: List[int], t: int) -> List[int]:
+        # 即找到>=t和<=t的问题
+        n = len(nums)
+        l = self.low_bound3(nums, t)
+        if l >= n or t != nums[l]:
+            return [-1, -1]
+        r = self.low_bound3(nums, t + 1) - 1
+        return [l, r]
 
 s = 'abcddf'
 la = LeetArray()
