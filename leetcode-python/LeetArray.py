@@ -509,6 +509,43 @@ class LeetArray:
         r = self.low_bound3(nums, t + 1) - 1
         return [l, r]
 
+    def findPeakElement(self, nums: List[int]) -> int:
+        # 开区间(-1, n-1), 相当于闭区间[0, n-2]
+        # 使用染色法，mid元素和后一个元素进行比较，如果大于后一个，则mid+1及后面的下标都是蓝色（r=mid）
+        # 否则，则mid及前面的下标都是红色（l=mid）
+        l = -1
+        r = len(nums) - 1
+        while l + 1 < r:
+            mid = (l + r) // 2
+            if nums[mid] > nums[mid+1]:
+                r = mid
+            else:
+                l = mid
+        return r
+
+    # leetcode153 寻找旋转排序数组中的最小值
+    def findMin(self, nums: List[int]) -> int:
+        l = 0
+        r = len(nums) - 1
+        # 开区间(0,n-1)，相当于闭区间[1,n-2]
+        # 染色法，mid元素和左右两个数比较，
+        # 如果nums[l] > nums[r], 说明最小值在mid和r之间
+        # 如果nums[r] > nums[mid]，说明最小值在l和mid之间
+        
+        # 这个判断确定是正常的旋转矩阵（如果是单调递增的不在考虑中） 
+        if nums[l] > nums[r]:
+            while l + 1 < r:
+                mid = (l + r) // 2
+                if nums[mid] > nums[l]:
+                    l = mid
+                elif nums[mid] < nums[r]:
+                    r = mid
+        return min(nums[l], nums[r])
+    
+    # leetcode154 寻找旋转排序数组中的最小值II
+    def findMin2(self, nums: List[int]) -> int:
+        # 和leetcode153的区别是允许有重复元素
+
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)
