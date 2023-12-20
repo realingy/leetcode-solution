@@ -560,6 +560,9 @@ class LeetArray:
                 l += 1
         return min(res, min(nums[l], nums[r]))
 
+    # leetcode2828 判别首字母缩略词
+    def isAcronym(self, words: List[str], s: str) -> bool:
+        return ''.join([x[0] for x in words]) == s
 
 s = 'abcddf'
 la = LeetArray()

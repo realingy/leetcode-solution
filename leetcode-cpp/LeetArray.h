@@ -53,8 +53,6 @@ class LeetArray {
                                          int radius);
   // leetcode167 两数之和II-输入有序数组
   static std::vector<int> twoSum(std::vector<int>& numbers, int target);
-  // leetcode15 三数之和
-  static std::vector<std::vector<int>> threeSum(std::vector<int>& nums);
   // leetcode11 盛最多水的容器
   static int maxArea(std::vector<int>& height);
   // leetcode42 接雨水
