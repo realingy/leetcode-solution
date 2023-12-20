@@ -545,6 +545,21 @@ class LeetArray:
     # leetcode154 寻找旋转排序数组中的最小值II
     def findMin2(self, nums: List[int]) -> int:
         # 和leetcode153的区别是允许有重复元素
+        l = 0
+        r = len(nums) - 1
+        res = nums[l]
+        while l + 1 < r:
+            mid = (l + r) // 2
+            if nums[mid] > nums[l]:
+                res = min(res, nums[l])
+                l = mid
+            elif nums[mid] < nums[r]:
+                res = min(res, nums[mid])
+                r = mid
+            else:
+                l += 1
+        return min(res, min(nums[l], nums[r]))
+
 
 s = 'abcddf'
 la = LeetArray()
