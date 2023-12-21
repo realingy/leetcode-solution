@@ -522,44 +522,6 @@ std::vector<int> LeetArray::twoSum(std::vector<int>& numbers, int target) {
   return res;
 }
 
-// leetcode15 三数之和
-std::vector<std::vector<int>> LeetArray::threeSum(std::vector<int>& nums) {
-  std::vector<std::vector<int>> res;
-
-  std::sort(nums.begin(), nums.end());
-
-  int n = (int)nums.size();
-  for (int i = 0; i < n - 2; i++) {
-    if (i > 0 && nums[i] == nums[i - 1]) continue;
-    // 优化1，考虑最小三个数和大于0
-    if (nums[i] + nums[i + 1] + nums[i + 2] > 0) break;
-    // 优化2，考虑最小和最大两个数和小于0
-    if (nums[i] + nums[n - 2] + nums[n - 1] < 0) break;
-    int j = i + 1;
-    int k = n - 1;
-    while (j < k) {
-      int sum = nums[i] + nums[j] + nums[k];
-      if (0 == sum) {
-        res.emplace_back(std::vector<int>{nums[i], nums[j], nums[k]});
-        j++;
-        while (j < k && nums[j] == nums[j - 1]) {
-          j++;
-        }
-        k--;
-        while (j < k && nums[k] == nums[k + 1]) {
-          k--;
-        }
-      } else if (sum > 0) {
-        k--;
-      } else if (sum < 0) {
-        j++;
-      }
-    }
-  }
-
-  return res;
-}
-
 // leetcode11 盛最多水的容器
 int LeetArray::maxArea(std::vector<int>& height) {
   // ans 20231108

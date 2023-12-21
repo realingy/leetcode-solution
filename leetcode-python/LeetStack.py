@@ -118,3 +118,72 @@ class LeetStack:
             ans = max(ans, pre + suf[i + 1])
             st.append(i)
         return ans
+
+    # ALG0601 <==> leetcode946
+    # leetcode946 验证栈序列
+    def validateStackSequences(self, s: List[int], t: List[int]) -> bool:
+        n = len(s)
+        st = []
+        i, j = 0, 0
+        while j < n:
+            if len(st) > 0 and st[-1] == t[j]:
+                st.pop()
+                j += 1
+            elif i < n:
+                st.append(s[i])
+                i += 1
+            else:
+                return False
+
+        return True if 0 == len(st) else False
+    
+    # leetcode316 去除重复字母
+    # leetcode1081 不同字符的最小子序列
+    # 1 统计每个字母的出现次数，记到一个哈希表或者数组left中
+    # 2 遍历s，先把 left[s[i]] 减一
+    # 3 如果 s[i] 在 ans 中，直接 continue。为了快速判断 s[i] 是否在 ans 中，可以创建一个哈希表或者布尔数组 inAns
+    # 4 如果 s[i] 不在 ans 中，那么判断 s[i] 是否小于 ans 的最后一个字母（记作 x），如果 s[i]<x 且 left[x]>0，那么可以把 x 从 ans 中去掉，同时标记 inAns[x]=false
+    # 5 反复执行第 4 步，直到 ans 为空，或者 s[i]>x，或者 left[x]=0
+    # 6 把 s[i] 加到 ans 末尾，同时标记 inAns[s[i]]=true。然后继续遍历 s 的下一个字母。
+    # 7 遍历完 s 后，返回 ans
+    def removeDuplicateLetters(self, s: str) -> str:
+        left = Counter(s)
+        res = []
+        in_res = set()
+        for c in s:
+            left[c] -= 1
+            if c in in_res:
+                continue
+            while res and c < res[-1] and left[res[-1]]:
+                in_res.remove(res.pop())
+            res.append(c)
+            in_res.add(c)
+        return ''.join(res)
+
+    # leetcode331 验证二叉树的前序序列化
+    def isValidSerialization(self, a: str) -> bool:
+        st = []
+        for n in a.split(','):
+            st.append(n)
+            while len(st) >= 3 and st[-1] == st[-2] == '#' and st[-3] != '#':
+                st.pop(), st.pop(), st.pop()
+                st.append('#')
+        return len(st) == 1 and st.pop() == '#'
+
+    # leetcode20 合理的括号
+    def isValid(self, s: str) -> bool:
+        st = []
+        for x in s:
+            if '(' == x:
+                st.append(')')
+            elif '[' == x:
+                st.append(']')
+            elif '{' == x:
+                st.append('}')
+            elif len(st) == 0:
+                return False
+            elif st[-1] != x:
+                return False
+            else:
+                st.pop()
+        return len(st) == 0

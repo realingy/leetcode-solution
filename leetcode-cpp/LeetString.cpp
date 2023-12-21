@@ -22,7 +22,7 @@ int LeetString::lengthOfLongestSubstring(std::string s) {
   return res;
 }
 
-// leet20 合理的括号
+// leetcode20 合理的括号
 bool LeetString::isValid(std::string s) {
   if (s.size() % 2) return false;
 
