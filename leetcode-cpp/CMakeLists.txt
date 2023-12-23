@@ -35,6 +35,7 @@ add_executable(${EXENAME}
     LeetBTree.h 
     LeetDFS.cpp 
     LeetDFS.h 
+    LeetHeap.h 
     LeetStack.cpp 
     LeetStack.h 
     LeetArray.cpp 

@@ -564,6 +564,47 @@ class LeetArray:
     def isAcronym(self, words: List[str], s: str) -> bool:
         return ''.join([x[0] for x in words]) == s
 
+    # leetcode11 盛最多水的容器
+    def maxArea(self, height: List[int]) -> int:
+        l = 0
+        r = len(height) - 1
+        res = 0
+        while l < r:
+            area = min(height[l], height[r]) * (r - l)
+            res = max(res, area)
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
+        return res
+    
+    # leetcode1671 得到山形数组的最少删除次数
+    def minimumMountainRemovals(self, nums: List[int]) -> int:
+        n = len(nums)
+        suf = [0] * n
+        g = []
+        for i in range(n-1, 0, -1):
+            x = nums[i]
+            j = bisect_left(g, x)
+            if j == len(g): # 添加到末尾
+                g.append(x)
+            else: # 不添加到末尾
+                g[j] = x
+            suf[i] = j + 1
+        
+        mx = 0
+        g = []
+        for i, x in enumerate(nums):
+            j = bisect_left(g, x)
+            if j == len(g):
+                g.append(x)
+            else:
+                g[j] = x
+            pre = j + 1
+            if pre >= 2 and suf[i] >= 2:
+                mx = max(mx, pre + suf[i] - 1)
+        return n - mx
+
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)
