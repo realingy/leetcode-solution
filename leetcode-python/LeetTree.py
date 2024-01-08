@@ -78,3 +78,26 @@ class LeetTree:
             return min(loss, loss2)
         
         return sum(values) - dfs(0, -1)
+    
+    # leetcode199 二叉树的右视图
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        # 先处理右子树，后处理左子树
+        ans = []
+        def f(node, depth):
+            if node is None:
+                return
+            if depth == len(ans):
+                ans.append(node.val)
+            f(node.right, depth+1)
+            f(node.left, depth+1)
+        f(root, 0)
+        return ans
+
+    # leetcode98 验证二叉搜索树
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def check(node, left, right):
+            if node is None:
+                return True
+            x = node.val
+            return left < x < right and check(node.left, left, x)  and check(node.right, x, right)
+        return check(root, -inf, inf)
