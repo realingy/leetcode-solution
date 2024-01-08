@@ -46,3 +46,40 @@ class LeetTwoPtr:
                 else:
                     k -= 1
         return res
+    
+    # leetcode16 最接近的三数之和
+    def threeSumClosest(self, nums: List[int], t: int) -> int:
+        nums.sort()
+        n = len(nums)
+        min_diff = inf
+        res = inf
+        for i in range(n-2):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            x = nums[i] + nums[i+1] + nums[i+2]
+            if  x > t and x - t < min_diff:
+                res = x
+                break
+            
+            x = nums[i] + nums[-2] + nums[-1]
+            if x < t and t - x < min_diff:
+                min_diff = t - x
+                res = x
+                continue
+
+            j, k = i + 1, n - 1
+            while j < k:
+                x = nums[i] + nums[j] + nums[k]
+                if x == t:
+                    return x
+                elif x < t:
+                    if t - x < min_diff:
+                        min_diff = t - x
+                        res = x
+                    j += 1
+                else:
+                    if x - t < min_diff:
+                        min_diff = x - t
+                        res = x
+                    k -= 1
+        return res
