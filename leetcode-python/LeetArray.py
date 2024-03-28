@@ -605,6 +605,54 @@ class LeetArray:
                 mx = max(mx, pre + suf[i] - 1)
         return n - mx
 
+    # leetcode3075 幸福值最大化的选择方案
+    def maximumHappinessSum(self, h: List[int], k: int) -> int:
+        # 排序，然后最大的值减0（第0个元素），第二大的值要减1（第1个元素），第三大的值要减2（第2个元素）
+        # 直到元素小于要减的数
+        h.sort(reverse=True)
+        res = 0
+        n = len(h)
+        for i, x in enumerate(h[:k]):
+            if x <= i:
+                break
+            res += x - i
+        return res
+    
+    def minimumBoxes(self, apple: List[int], capacity: List[int]) -> int:
+        s = sum(apple)
+        capacity.sort(reverse=True)
+        for i, x in enumerate(capacity):
+            if s <= 0:
+                return i
+            s -= x
+        return len(capacity)
+    
+    # leetcode3076 数组中的最短非公共子字符串
+    def shortestSubstrings(self, arr: List[str]) -> List[str]:
+         def check(i: int, sub: str) -> bool:
+            for j, s in enumerate(arr):
+                if j != i and sub in s:
+                    return False
+            return True
+
+        ans = []
+        for i, s in enumerate(arr):
+            print("s: ", s)
+            m = len(s)
+            res = ""
+            for size in range(1, m + 1):
+                for j in range(size, m + 1):
+                    t = s[j - size: j]
+                    if (not res or t < res) and check(i, t):
+                        res = t
+                if res: break
+            ans.append(res)
+        return ans
+
+
+
+
+
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)
