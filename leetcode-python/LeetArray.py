@@ -650,9 +650,6 @@ class LeetArray:
         return ans
 
 
-
-
-
 s = 'abcddf'
 la = LeetArray()
 len = la.countGoodSubstrings(s)

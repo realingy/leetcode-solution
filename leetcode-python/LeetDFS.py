@@ -143,3 +143,16 @@ class LeetDFS:
                     f[i+1][c] = min(f[i][c], f[i+1][c-x]+1)
         res = f[n][amount]
         return res if res < inf else -1
+
+    # leetcode3000 对角线最长的矩形的面积
+    def areaOfMaxDiagonal(self, dimensions: List[List[int]]) -> int:
+        max_l = 0
+        max_s = 0
+        for x, y in dimensions:
+            l = x*x + y*y
+            if l > max_l:
+                max_l = l
+                max_s = x * y
+            elif l == max_l and x * y > max_s:
+                max_s = x * y
+        return max_s
