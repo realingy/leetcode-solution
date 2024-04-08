@@ -101,3 +101,17 @@ class LeetTree:
             x = node.val
             return left < x < right and check(node.left, left, x)  and check(node.right, x, right)
         return check(root, -inf, inf)
+
+    # leetcode1026 节点与其祖先之间的最大差值
+    def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        ans = 0
+        def dfs(node: Optional[TreeNode], mn: int, mx: int) -> None:
+            if node is None: return
+            mn = min(node.val, mn)
+            mx = max(node.val, mx)
+            nonlocal ans
+            ans = max(ans, node.val - mn, mx - node.val)
+            dfs(node.left, mn, mx)
+            dfs(node.right, mn, mx)
+        dfs(root, root.val, root.val)
+        return ans

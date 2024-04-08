@@ -649,6 +649,35 @@ class LeetArray:
             ans.append(res)
         return ans
 
+    def findChampion(self, grid: List[List[int]]) -> int:
+        # resolve 20240408
+        # 逐行比较，两行相减如果有其中一个差大于0，说明当前行是强的那个，记录强者的行号，然后继续遍历下一行
+        n, m = len(grid), len(grid[0])
+        ans = 0
+        for i in range(1, n):
+            for j in range(0, m):
+                if grid[i][j] > grid[ans][j]:
+                    ans = i
+                    break
+        return ans
+
+    # leetcode2924 找到冠军II(有向图)
+    def findChampionII(self, n: int, edges: List[List[int]]) -> int:
+        # resolve 20240408
+        weak = [False] * n
+        for _,y in edges:
+            weak[y] = True
+        res = -1
+        for i in range(n):
+            if not weak[i]:
+                if res != -1:
+                    return -1
+                res = i
+        return res
+
+
+
+
 
 s = 'abcddf'
 la = LeetArray()

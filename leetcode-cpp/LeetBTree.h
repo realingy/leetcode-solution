@@ -142,6 +142,22 @@ class LeetBTree {
     if (nullptr == root) return 0;
     return 1 + countNodes(root->left) + countNodes(root->right);
   }
+
+  // leetcode1026 节点与其祖先之间的最大差值
+  int maxAncestorDiff(TreeNode* root) {
+    int ans = 0;
+    std::function<void(TreeNode*, int, int)> dfs = [&](TreeNode* node, int mn,
+                                                       int mx) {
+      if (!node) return;
+      mn = std::min(node->val, mn);
+      mx = std::max(node->val, mx);
+      ans = std::max(std::max(node->val - mn, ans), mx - node->val);
+      dfs(node->left, mn, mx);
+      dfs(node->right, mn, mx);
+    };
+    dfs(root, root->val, root->val);
+    return ans;
+  }
 };
 
 }  // namespace myleet
