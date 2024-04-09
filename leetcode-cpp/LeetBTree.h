@@ -158,6 +158,36 @@ class LeetBTree {
     dfs(root, root->val, root->val);
     return ans;
   }
+
+  vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+    vector<vector<int>> g(n);
+    for (auto& e : edges) {
+      g[e[1]].emplace_back(e[0]);
+    }
+
+    vector<vector<int>> ans(n);
+    vector<int> vis(n);
+    std::function<void(int)> dfs = [&](int x) {
+      vis[x] = true;
+      for (int y : g[x]) {
+        if (!vis[y]) {
+          dfs(y);
+        }
+      }
+    };
+
+    for (int i = 0; i < n; i++) {
+      vis = std::vector<int>(n, false);
+      dfs(i);
+      vis[i] = false;
+      for (int j = 0; j < n; j++) {
+        if (vis[j]) {
+          ans[i].push_back(j);
+        }
+      }
+    }
+    return ans;
+  }
 };
 
 }  // namespace myleet
